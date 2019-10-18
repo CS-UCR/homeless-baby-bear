@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: whatimage
+Version: 0.0.3
+Summary: Python library to detect image type from a few bytes
+Home-page: https://github.com/david-poirier-csn/whatimage
+Author: David Poirier
+Author-email: david-poirier-csn@users.noreply.github.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+
+# whatimage
+Python library to detect image type from a few bytes, focussed on webby formats (old and new)
+
+Currently supports:
+- JPEG
+- WEBP
+- GIF
+- PNG
+- HEIC
+- AVIF
+- BMP
+- TIFF
+- PGM/PGM/PPM
+
+
+## Installation
+```
+pip install whatimage
+```
+
+## Usage
+```python
+import whatimage
+
+with open('image.jpg', 'rb') as f:
+    data = f.read()
+fmt = whatimage.identify_image(data)
+print(fmt)
+```
+> 'jpeg'
+
+
+

@@ -1,0 +1,61 @@
+"street","state","city","county","country","postal_code","neighborhood","sublocality","housenumber","postal_town","subpremise","latitude","longitude","location_type","postal_code_suffix","street_number","address"
+"Library Lane","Kentucky","Louisville","Jefferson County","United States","40203","Old Louisville","","","","","38.2428614","-85.7581215","RANGE_INTERPOLATED","","859","859 LIBRARY LANE LOUISVILLE KY 40203 
+"
+"Pasadena Avenue","Michigan","Flint","Genesee County","United States","48504","","","","","","43.0450778","-83.7643557","ROOFTOP","","4287","4287W Pasadena Flurt MI 48504 
+"
+"Pasadena Avenue","Michigan","Flint","Genesee County","United States","48504","","","","","","43.0450778","-83.7643557","ROOFTOP","","4287","4287W Pasadena Flut MI 48504 
+"
+"Library Lane","Kentucky","Louisville","Jefferson County","United States","40203","Old Louisville","","","","","38.2428614","-85.7581215","RANGE_INTERPOLATED","","859","859 LIBRARY LANE LOUISVILLE KY 40203 
+"
+"Serenity Lane","Florida","Melbourne","Brevard County","United States","32934","Park Place","","","","","28.1564752","-80.68275539999999","ROOFTOP","7524","3535","3535 Serenity In Melboure FL 32934 
+"
+"Washington Street","New Jersey","Newark","Essex County","United States","07102","Central Ward","","","","","40.7450346","-74.1702822","ROOFTOP","","1","3146 RICK MURPHY AUDIBLE INC ONE WASHINGTON PARK NEWARK NJ 07102 
+"
+"West 73rd Street","Kansas","Prairie Village","","United States","66208","","","","","","38.9966636","-94.62183859999999","GEOMETRIC_CENTER","","","73 St Praine Village is 66208 
+"
+"Southway Drive","Minnesota","St. Cloud","Stearns County","United States","56301","","","","","","45.514563","-94.16293759999999","ROOFTOP","","3302","3302 Southway Drive St Cloud MN 56301 
+"
+"South Saginaw Street","Michigan","Flint","Genesee County","United States","48507","","","","","","42.95383409999999","-83.65919629999999","ROOFTOP","","5315","5315 S SAGINAW Rd Flint MI 48507 
+"
+"West 73rd Street","Kansas","Prairie Village","","United States","66208","","","","","","38.9966636","-94.62183859999999","GEOMETRIC_CENTER","","","73 St Praine Villagers 66208 
+"
+"","Illinois","Chicago","Cook County","United States","60618","","","","","","41.9464283","-87.70740889999999","APPROXIMATE","","","Chicago IL 60618 
+"
+"Bay City Road","Michigan","Midland","Midland County","United States","48642","","","","","","43.6055479","-84.19194759999999","ROOFTOP","","2909","2909 Bay clold midland Mi 48642 
+"
+"","District of Columbia","Washington","","United States","20229","Northwest Washington","","","","","38.8920996","-77.0319524","GEOMETRIC_CENTER","","","14th Street Constitution Avenue NW Washington DC 20013 
+"
+"","","","","","","","","","","","","","","","","CoBrand Team 10400 
+"
+"Mahaffy Avenue","Michigan","Rochester Hills","Oakland County","United States","48307","","","","","","42.6934683","-83.1324997","ROOFTOP","1507","1385","1385 Mahaffey Rochester Hills MI 48307 
+"
+"Cabot Road","Massachusetts","Medford","Middlesex County","United States","02155","","","","","","42.4071503","-71.07382609999999","ROOFTOP","5141","20","20 cabot Rd Med ford MA 02155 
+"
+"Southwest 21st Street","Minnesota","Grand Rapids","Itasca County","United States","55744","","","","","","47.2102938","-93.531149","GEOMETRIC_CENTER","","","21st St Grand Rapids MN 55744 
+"
+"West Atmore Road","Utah","West Jordan","Salt Lake County","United States","84084","","","","","","40.6353366","-111.9811965","ROOFTOP","1402","3782","3782 W Atmore Rd West Jordan UT 84084 
+"
+"Eastern Avenue","Maryland","Baltimore","","United States","21202","Inner Harbor","","","","","39.2847652","-76.6056145","ROOFTOP","","711","711 EASTERN AVE Dept Floor Suite Room City BALTIMORE State MD ZIP 21202 
+"
+"East Crossing Boulevard","Indiana","Terre Haute","Vigo County","United States","47802","","","","","","39.39985799999999","-87.3946387","ROOFTOP","","1450","1450 E Crossing Blvd Terre Haute IN 47802 
+"
+"6th Street","Illinois","Mendota","LaSalle County","United States","61342","","","","","","41.5475862","-89.11786719999999","GEOMETRIC_CENTER","","","6th Street Mendota IL 61342 
+"
+"Cindy Hollow Road","Tennessee","Estill Springs","Franklin County","United States","37330","","","","","","35.2854592","-86.1473728","ROOFTOP","3729","815","815 Cindy Hollow Rd Estil Spring TN 37330 
+"
+"","California","BEL TIBURON","Marin County","United States","94920","","","","","","37.8839827","-122.4580469","APPROXIMATE","","","Tiburon CA 94920 
+"
+"Cebu Place","California","Carlsbad","San Diego County","United States","92009","","","","","","33.10643700000001","-117.243256","ROOFTOP","5905","2821","2821 CEBU PL CARLSBAD CA 92009 
+"
+"U.S. 19","Florida","Holiday","Pasco County","United States","34691","","","","","","28.1960465","-82.74081199999999","ROOFTOP","","2525","19 HOLIDAY FL 34691 
+"
+"","Minnesota","Motley","Morrison County","United States","56466","","","","","","46.336633","-94.64617679999999","APPROXIMATE","","","Motley mr 56466 
+"
+"West College Street","Tennessee","Murfreesboro","Rutherford County","United States","37129","","","","","","35.8529927","-86.40361519999999","ROOFTOP","","849","849 w college St Murfreesbon TN 37129 
+"
+"Sheldon Road","Michigan","Rochester Hills","Oakland County","United States","48306","Clear Creek","","","","","42.7000249","-83.1206665","GEOMETRIC_CENTER","","6755","6755 Sheldon Rochester Hills MI 48306 
+"
+"","California","BEL TIBURON","Marin County","United States","94920","","","","","","37.8839827","-122.4580469","APPROXIMATE","","","Tiburon CA 94920 
+"
+"U.S. 19","Florida","Holiday","Pasco County","United States","34691","","","","","","28.1960465","-82.74081199999999","ROOFTOP","","2525","19 HOLIDAY FL 34691 
+"
