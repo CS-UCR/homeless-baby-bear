@@ -1,0 +1,194 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #eee;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+button[type=submit] {
+    height: 40px;
+    width: 200px;
+    text-align: center;
+    border-radius: 10px;
+    background: #fff;
+    border: 0px solid black;
+    color: black;
+    letter-spacing:1px;
+    font-size: 20px;
+    transition: all 0.25s ease;
+}
+
+button[type=submit]:hover {
+    cursor: pointer;
+    color:white;
+    background: #9acdff;
+}
+
+th {
+    text-align: left;
+}
+
+#sidebar-toggle {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 40px;
+}
+
+#logo {
+    display: inline-block;
+    height: 70px;
+    width: 130px;
+}
+
+#search-form {
+    display: inline-block;
+    width: 1200px;
+}
+
+#close-menu-icon {
+    font-size: 3rem;
+}
+
+#location {
+    text-align: center;
+}
+
+.algolia-autocomplete {
+    display: inline !important;
+}
+
+.search-container {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    background: #3E5151;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #DECBA4, #3E5151);  
+    background: linear-gradient(to right, #DECBA4, #3E5151); 
+
+}
+
+.side-nav {
+    height: 100%;
+    width: 500px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: -500px;
+    background: #f3f8fb;
+    border-right: 0.5px solid #ccc;
+    opacity: 1;
+    overflow-x: hidden;
+    padding: 10px 0px 10px 0px;
+    transition:  left 0.5s ease-in-out;
+}
+
+.side-nav .options {
+    margin-left: 20px;
+}
+
+/* .side-nav .options > a {
+    border-top: 1px solid #ccc;
+} */
+
+.side-nav a {
+    display: block;
+    text-decoration: none;
+    font-size: 22px;
+    color: #292929;
+    letter-spacing: 1px;
+}
+
+.side-nav a:hover {
+    /* color: #fff; */
+    text-decoration: underline;
+}
+
+.side-nav > * {
+    padding: 10px 10px 10px 30px;
+}
+
+.side-nav .side-nav-title {
+    font-size: 32px;
+}
+
+.side-nav .side-nav-subtitle {
+    font-size: 28px;
+}
+
+.side-nav .side-nav-subtitle:hover,
+.side-nav .side-nav-title:hover {
+    /* color: #ccc; */
+    text-decoration: none;
+    cursor: default;
+}
+
+.side-nav .external-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.options {
+    padding-top: 0px;
+}
+
+.dividing-line {
+    height: 2px;
+    width: 100%;
+    padding: 0;
+    border-radius: 2px;
+    background-color: #ccc;
+}
+
+.external-link-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.myChartDiv {
+    min-height: 500px;
+}
+
+.table {
+    display: table;
+    border-collapse: collapse;
+    border: 2px solid grey;
+    width: 100%;
+    line-height: 1.5rem;
+    background-color: #343a40;
+    font-size: 1rem;
+    font-weight: 300;
+    color: #fff;
+}
+
+.table thead th,
+.table th {
+    border-bottom: 2px solid #454d55;
+}
+
+.table thead th,
+.table td {
+    padding: .75rem;
+}
+
+.table tr{
+    border-bottom: 1px solid #454d55;
+}
+
+
+/* To remove x that appears on the right side in search form */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
