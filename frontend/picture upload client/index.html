@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <title>Picture upload</title>
+</head>
+<body>
+    <img id="logo" src="http://amillionthanks.org/img/amillionthanks_logo.png" alt="A million thanks logo">
+
+    <form id="upload" action="" method="POST" enctype="multipart/form-data">
+
+        <fieldset>
+            <legend>Picture Upload</legend>
+            
+            <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" >
+        
+            <div>
+                <label for="fileselect">Files to upload:</label>
+                <input type="file" id="fileselect" name="fileselect[]" multiple>
+                <div id="filedrag">or drop files here</div>
+            </div>
+            
+            <div id="submitbutton">
+                <button type="submit">Upload Files</button>
+            </div>
+        
+        </fieldset>
+        
+    </form>
+        
+    <div id="messages">
+        <p>Status Messages</p>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
