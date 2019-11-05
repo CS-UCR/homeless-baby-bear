@@ -16,7 +16,7 @@
     <span id="sidebar-btn">
         <a id="sidebar-toggle" href="#" onclick="openSideMenu()">&#9776;</a>
     </span>
-    <form id="search-form">
+    <form id="address-form">
       <input class="" id="address" type="search" placeholder="Location search" aria-label="Search">
     </form>
   </div>
@@ -31,7 +31,18 @@
       <a href="#">Last Month</a>
       <a href="#">Last Year</a>
       <a href="#">Lifetime</a>
-      <a href="#">Custom Range</a>
+      <a href="#">Custom Range <span class="direction-arrow">&#9660;</span></a>
+      <div class="time-pickers">
+        <label for="start">Start date:</label>
+          <!-- set a min and max when connected to database. min is first
+              ever date, max is current date. -->
+        <input type="date" id="start-date" name="trip-start"
+              value="">
+        <label for="start">End date:</label>
+        <input type="date" id="end-date" name="trip-end"
+              value="">
+        <button id="accept-range-btn">Accept</button>
+      </div>
     </div>
     <div class="dividing-line"></div>
     <a href="dashboard/index.html" class="side-nav-subtitle external-link">National stats dashboard <img src="https://img.icons8.com/metro/26/000000/external-link.png" class="external-link-icon"></a>

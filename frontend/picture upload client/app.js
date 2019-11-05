@@ -1,3 +1,5 @@
+const onPicDropDiv = document.querySelector(".on-pic-drop");
+
 // call initialization file
 if (window.File && window.FileList && window.FileReader) {
 	Init();
@@ -51,6 +53,7 @@ function FileSelectHandler(e) {
 		ParseFile(f);
 	}
 
+	onPicDropDiv.style.display = "block";
 }
 
 function ParseFile(file) {
@@ -58,10 +61,22 @@ function ParseFile(file) {
 	output(
 		"<p>File information: <strong>" + file.name +
 		"</strong> type: <strong>" + file.type +
-		"</strong> size: <strong>" + file.size +
-		"</strong> bytes</p>"
+		"</strong> size: <strong>" + formatBytes(file.size) +
+		"</strong></p>"
 	);
 	
+}
+
+function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
 function getID(id) {

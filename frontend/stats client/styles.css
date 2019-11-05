@@ -47,7 +47,7 @@ th {
     width: 130px;
 }
 
-#search-form {
+#address-form {
     display: inline-block;
     width: 1200px;
 }
@@ -141,6 +141,29 @@ th {
 
 .options {
     padding-top: 0px;
+}
+
+.time-pickers {
+    display: none;
+}
+
+.time-pickers label {
+    display: block;
+}
+
+.time-pickers > *{
+    margin-left: 5px;
+    padding: 1px;
+    font-size: 18px;
+}
+
+.direction-arrow {
+    color: inherit;
+    /* font-size: 18px; */
+}
+
+.accept-range-btn {
+
 }
 
 .dividing-line {

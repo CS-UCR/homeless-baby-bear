@@ -1,12 +1,14 @@
 const body = document.querySelector("body");
 const searchContainter = document.querySelector(".search-container");
 const mapDiv = document.querySelector("#map");
-
 let prevWindowHeight = window.innerHeight;
+
+initSearchBar();
 setMapHeight();
-initHeatMap();
+const heatMap = initHeatMap();
 
 // on click functions and event listeners
+searchContainter.addEventListener('resize', reportWindowSize);
 window.addEventListener('resize', reportWindowSize);
 
 function openSideMenu() {
@@ -25,13 +27,29 @@ function reportWindowSize() {
 }
 
 // Algolia search bar init function
-(function() {
+function initSearchBar() {
     let placesAutocomplete = places({
       appId: 'plYR0C6D25C3',
       apiKey: 'cb7d79d87daed4f68068500409865fa1',
       container: document.querySelector('#address')
     });
-})();
+
+    // Go to and zoom in on entered location
+    placesAutocomplete.on('change', function(e) {
+        let addressObject = e.suggestion;
+        heatMap.setCenter(addressObject.latlng);
+
+        if(e.suggestion.type === "city") {
+            heatMap.setZoom(10);
+        }
+        else if(e.suggestion.type === "address") {
+            heatMap.setZoom(15);
+        }
+        else if(e.suggestion.type === "state") {
+            // for states. cant search states right now
+        }
+    });
+};
 
 // Google map functions
 
@@ -56,6 +74,8 @@ function initHeatMap() {
       data: heatmapData
     });
     heatmap.setMap(map);
+
+    return map;
 }
 
 function generateHeatMapData() {
