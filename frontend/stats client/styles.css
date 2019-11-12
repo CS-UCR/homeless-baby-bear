@@ -60,6 +60,7 @@ th {
     text-align: center;
 }
 
+/* Needed for the autocomplete results to pop up */
 .algolia-autocomplete {
     display: inline !important;
 }

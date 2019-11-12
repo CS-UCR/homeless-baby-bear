@@ -83,7 +83,6 @@ function fetchStreetData(locationDetails) {
 }
 
 // chart.js code
-const ctx = document.getElementById("myChart").getContext("2d");
 
 let yearlyDataGraph = {
     type: "line",
@@ -304,9 +303,6 @@ function getLifetimeDates() {
     // todo once server is up.
 }
 
-
-let chart = new Chart(ctx, weeklyDataGraph);
-
 function changeMailCountGraph(option_num) {
     // Destroy old chart every time a new one is created. 
     if(chart) {
@@ -350,3 +346,7 @@ function createLifetimeGraph() {
 function createCustomTimeframeGraph() {
 
 }
+
+// init chart
+const ctx = document.getElementById("myChart").getContext("2d");
+let chart = new Chart(ctx, weeklyDataGraph);
