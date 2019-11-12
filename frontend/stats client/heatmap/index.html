@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="../favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+  <script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArXSxgGfYKbh_pMB5rTXgQ3dqmX7gGADE&libraries=visualization">
+  </script>
+  <link rel="stylesheet" href="styles.css">
+  <title>Mail Sender Heatmap</title>
+</head>
+
+<body>
+  <div class="search-container">
+    <span id="sidebar-btn">
+        <a id="sidebar-toggle" href="#" onclick="openSideMenu()">&#9776;</a>
+    </span>
+    <form id="search-form">
+      <input class="" id="address" type="search" placeholder="Location search" aria-label="Search">
+    </form>
+  </div>
+
+  <div id="side-menu" class="side-nav">
+    <a href="#" onclick="closeSideMenu()" id="close-menu-icon">&times;</a>
+    <img id="logo" src="http://amillionthanks.org/img/amillionthanks_logo.png" alt="A million thanks logo">
+    <div class="dividing-line"></div>
+    <a href="../index.html" class="side-nav-title external-link">Location Stats <img src="https://img.icons8.com/metro/26/000000/external-link.png" class="external-link-icon"></a>
+    <div class="dividing-line"></div>
+    <a href="../dashboard/index.html" class="side-nav-title external-link">National stats dashboard <img src="https://img.icons8.com/metro/26/000000/external-link.png" class="external-link-icon"></a>
+    <div class="dividing-line"></div>
+    <a href="#" class="side-nav-title">Visualizations</a>
+    <div class="options">
+      <a href="index.html">National Heat Map <img src="https://img.icons8.com/metro/26/000000/external-link.png" class="external-link-icon"></a>
+    </div>
+    <div class="dividing-line"></div>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- JS files needed -->
+  <script src="https://cdn.jsdelivr.net/npm/places.js@1.16.6"></script>
+  <script src="heatmap.js"></script>
+</body>
+</html>
