@@ -132,13 +132,12 @@ class App extends Component {
                     onChange={(e) => this.setState({ updateToApply: e.target.value })}
                     placeholder={dat.address}
                   />
-                  <button
-                    onClick={() =>
-                      this.updateDB(dat.id, this.state.updateToApply)
-                    }
-                  >
+                  <button onClick={() => this.updateDB(dat.id, this.state.updateToApply)}>
                     UPDATE
-                  </button>  <br />
+                  </button> 
+                  <button onClick={() => this.deleteFromDB(dat.id)}>
+                    DELETE
+                  </button> <br />
                   <span style={{ color: 'gray' }}> raw_address: </span> {dat.raw_address} <br />
                   <span style={{ color: 'gray' }}> accuracy: </span> {dat.accuracy} <br />
                   <span style={{ color: 'gray' }}> date: </span> {dat.date} <br />
@@ -148,68 +147,12 @@ class App extends Component {
         <div style={{ padding: '10px' }}>
           <input
             type="text"
-            onChange={(e) => this.setState({ picture: e.target.value })}
-            placeholder="add something in the database"
-            style={{ width: '200px' }}
-          />
-          <input
-            type="text"
-            onChange={(e) => this.setState({ address: e.target.value })}
-            placeholder="add something in the database"
-            style={{ width: '200px' }}
-          />
-          <input
-            type="text"
-            onChange={(e) => this.setState({ raw_address: e.target.value })}
-            placeholder="add something in the database"
-            style={{ width: '200px' }}
-          />
-          <input
-            type="text"
-            onChange={(e) => this.setState({ accuracy: e.target.value })}
-            placeholder="add something in the database"
-            style={{ width: '200px' }}
-          />
-          <input
-            type="text"
-            onChange={(e) => this.setState({ date: e.target.value })}
-            placeholder="add something in the database"
-            style={{ width: '200px' }}
-          />
-          <button onClick={() => this.putDataToDB(this.state.picture, this.state.address, this.state.raw_address, this.state.accuracy, this.state.date)}>
-            ADD
-          </button>
-        </div>
-        <div style={{ padding: '10px' }}>
-          <input
-            type="text"
             style={{ width: '200px' }}
             onChange={(e) => this.setState({ idToDelete: e.target.value })}
             placeholder="put id of item to delete here"
           />
           <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
             DELETE
-          </button>
-        </div>
-        <div style={{ padding: '10px' }}>
-          <input
-            type="text"
-            style={{ width: '200px' }}
-            onChange={(e) => this.setState({ idToUpdate: e.target.value })}
-            placeholder="id of item to update here"
-          />
-          <input
-            type="text"
-            style={{ width: '200px' }}
-            onChange={(e) => this.setState({ updateToApply: e.target.value })}
-            placeholder="put new value of the item here"
-          />
-          <button
-            onClick={() =>
-              this.updateDB(this.state.idToUpdate, this.state.updateToApply)
-            }
-          >
-            UPDATE
           </button>
         </div>
       </div>
