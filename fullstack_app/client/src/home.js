@@ -2,7 +2,6 @@
 import React, { Component, useState } from 'react';
 import axios from 'axios';
 
-
 class App extends Component {
   // initialize our state
   state = {
@@ -115,7 +114,6 @@ class App extends Component {
     const { data } = this.state;
     return (
       <div>
-        
         <ul>
           {data.length <= 0
             ? 'NO DB ENTRIES YET'
@@ -144,17 +142,6 @@ class App extends Component {
                 </li>
               ))}
         </ul>
-        <div style={{ padding: '10px' }}>
-          <input
-            type="text"
-            style={{ width: '200px' }}
-            onChange={(e) => this.setState({ idToDelete: e.target.value })}
-            placeholder="put id of item to delete here"
-          />
-          <button onClick={() => this.deleteFromDB(this.state.idToDelete)}>
-            DELETE
-          </button>
-        </div>
       </div>
     );
   }
