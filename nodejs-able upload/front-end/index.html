@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Picture upload</title>
+</head>
+<body>
+    <div class="image-header">
+        <img id="logo" src="https://secureservercdn.net/45.40.150.81/enl.69a.myftpupload.com/wp-content/uploads/2017/12/A-Million-Thanks.png" alt="A million thanks logo">
+        <div class="header-txt">
+            Picture upload
+        </div>
+    </div>
+    <div class="main-container">
+        <form id="upload" action="/" method="post" enctype="multipart/form-data">
+            <fieldset>
+                <legend>Upload here</legend>
+                
+                <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" >
+            
+                <div>
+                    <label for="fileselect">Files to upload:</label>
+                    <input type="file" id="fileselect" name="fileselect[]" multiple>
+                    <div id="filedrag" name="filedrag">
+                        <span>or drop pictures here</span>
+                    </div>
+                </div>
+                
+                <div id="submitbutton">
+                    <button type="submit" >Upload Files</button>
+                </div>
+            </fieldset>
+            <div class="on-pic-drop">
+                <div class="msg-container">
+                    <div id="messages">
+                        <!-- Most likely remove this -->
+                        <!-- <p id="status-msg-title">Status Messages:</p> -->
+                    </div>
+                </div>
+            
+    
+                <div class="button-container">
+                    <button id="upload-btn" type = "submit" value = "upload">Upload</button>
+                    <button id="cancel-btn">Cancel Upload</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <form method="post" enctype="multipart/form-data" action = "/">
+        <input type ="file" name = "filename">
+        <input type = "submit" value = "upload">
+    </form>
+    <script src="front-end.js"></script>
+</body>
+</html>

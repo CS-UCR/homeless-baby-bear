@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-container success-bg">
+        <div class="status-container">
+            <div class="status-txt-container">
+                <span class="symbol success-symbol">&#10003;</span>
+                <h1 class="status-title">Success!</h1>
+                <p class="status-msg">An address was extracted and validated from every picture. A total of # pictures did not have an address detected/valid address.</p>
+                <button class="go-back">Upload more pictures</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-container warning-bg">
+        <div class="status-container">
+            <div class="status-txt-container">
+                <span class="symbol warning-symbol">&#9888;</span>
+                <h1 class="status-title">Warning!</h1>
+                <p class="status-msg">#% of pictures didn't have an address detected/validated. A total of # pictures did not have an address detected/valid address.</p>
+                <button class="go-back">Upload more pictures</button>
+            </div>
+        </div>
+    </div>
+    <div class="main-container failure-bg">
+        <div class="status-container">
+            <div class="status-txt-container">
+                <span class="symbol failure-symbol">&#128683;</span>
+                <h1 class="status-title">Failure</h1>
+                <p class="status-msg">Less than 50% of the pictures had an address extracted and validated. # pictures did not have an address detected/valid address.</p>
+                <button class="go-back">Upload more pictures</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
