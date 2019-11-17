@@ -99,10 +99,6 @@ th {
     margin-left: 20px;
 }
 
-/* .side-nav .options > a {
-    border-top: 1px solid #ccc;
-} */
-
 .side-nav a {
     display: block;
     text-decoration: none;
@@ -112,7 +108,6 @@ th {
 }
 
 .side-nav a:hover {
-    /* color: #fff; */
     text-decoration: underline;
 }
 
@@ -160,7 +155,6 @@ th {
 
 .direction-arrow {
     color: inherit;
-    /* font-size: 18px; */
 }
 
 .accept-range-btn {

@@ -146,7 +146,7 @@ function getLastWeek() {
 }
 
 // chart js code
-const ctx = document.getElementById("national-stats").getContext("2d");
+const ctx = document.getElementById("national-stats-graph").getContext("2d");
 let chart = new Chart(ctx, weeklyDataGraph);
 
 const ctx2 = document.getElementById("states-piechart").getContext("2d");

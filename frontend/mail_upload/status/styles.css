@@ -33,9 +33,7 @@ body {
 
 .status-container {
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
-    /* align-items: center;  */
     /* Increase width with media queries */
     width: 50%;
     height: 80%;
@@ -65,11 +63,6 @@ body {
 .warning-symbol {
     color: black;
 }
-
-
-/* .failure-symbol {
-    color: yellow;
-} */
 
 .status-title {
     font-size: 3rem;
@@ -119,18 +112,7 @@ button:active {
       5px 5px 0 0 #eee;
 }
 
-/* @media screen and (max-width: 1180px) {
-	.status-container {
-		width: 95%
-	}
-}
-
-@media screen and (max-width: 980px) {
-	.status-container {
-		width: 100%;
-	}
-} */
-
+/* todo */
 /* @media (max-width: 575.98px) { 
     .status-container {
         width: 95%;

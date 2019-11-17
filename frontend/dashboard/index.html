@@ -4,7 +4,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" href="../favicon.ico">
+  <link rel="shortcut icon" href="../assets/favicon.ico">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -32,10 +32,16 @@
             </div>
             <span class="sidenav-title">National Dashboard</span>
             <ul class="sidenav-list">
-                <li class="sidenav-list-item">Location Stats</li>
+                <li class="sidenav-list-item">
+                    <a href="../location_stats/index.html">Location Stats</a>
+                </li>
                 <!-- dropdown or like location stats -->
-                <li class="sidenav-list-item">Visualizations</li>
-                <li class="sidenav-list-item">Mail upload</li>
+                <li class="sidenav-list-item">
+                    <a href="../heatmap/index.html">Heatmap</a>
+                </li>
+                <li class="sidenav-list-item">
+                    <a href="../mail_upload/index.html">Mail upload</a>
+                </li>
             </ul>
         </aside>
 
@@ -48,7 +54,7 @@
                     <button>Lifetime</button>
                     <button>Custom Timeframe</button>
                 </div>
-                <canvas id="national-stats"></canvas>
+                <canvas id="national-stats-graph"></canvas>
             </div>
 
             <div class="main-overview">
@@ -124,7 +130,6 @@
                     </tr>
                 </table>
             </div>    
-
         </main>
 
         <footer class="footer">
