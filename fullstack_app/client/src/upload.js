@@ -18,20 +18,21 @@ class Upload extends Component {
         e.preventDefault();
         const formData = new FormData();
         if(this.state.file != null){
-           
+            console.log(formData)
             console.log("file not null")
             console.log(this.state.file)
             formData.append('myImage',this.state.file);
-                const config = {
-                    headers: {
-                        'content-type': 'multipart/form-data'
-                    }
-                };
-                axios.post("http://localhost:3001/api/upload",formData,config)
-                    .then((response) => {
-                        alert("The file is successfully uploaded");
-                    }).catch((error) => {
-                });
+            console.log(formData)
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+            axios.post("http://localhost:3001/api/upload",formData,config)
+                .then((response) => {
+                    alert("The file is successfully uploaded");
+                }).catch((error) => {
+            });
         }else{
             console.log("file is null")
         }

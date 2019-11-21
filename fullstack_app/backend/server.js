@@ -70,9 +70,11 @@ router.get('/getData', (req, res) => {
 });
 
 router.get('/getData_bydate', (req, res) => {
-  const { year, month, day } = req.body;
-  new_Data.find({"date": new Date(Number(year), Number(month), Number(day)) },(err, data) => {
+  const { date } = req.body;
+  console.log("inget")
+  new_Data.find({"date": date },(err, data) => {
     if (err) return res.json({ success: false, error: err });
+    console.log("success");
     return res.json({ success: true, data: data });
   });
 });
@@ -86,6 +88,7 @@ router.post('/updateData', (req, res) => {
     return res.json({ success: true });
   });
 });
+
 router.post('/upload',upload.any(), async (req,res)=>{
   console.log("in post");
   try{
@@ -105,6 +108,7 @@ router.post('/upload',upload.any(), async (req,res)=>{
       res.redirect("/upload");
   }
 });
+
 const image_text = async function(file){
   let idToBeAdded = 0;
   new_Data.find((err, data) => {
@@ -141,6 +145,7 @@ const image_text = async function(file){
       }
     });
 }
+
 // this is our delete method
 // this method removes existing data in our database
 router.delete('/deleteData', (req, res) => {
@@ -173,6 +178,16 @@ router.post('/putData', (req, res) => {
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
+  });
+});
+
+router.get('/getLogin', (req, res) => {
+  const { email, password } = req.body;
+  console.log("inget")
+  new_Data.find({"email": email },(err, data) => {
+    if (err) return res.json({ success: false, error: err });
+    console.log("success");
+    return res.json({ success: true, data: data });
   });
 });
 
