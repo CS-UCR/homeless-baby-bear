@@ -20,17 +20,13 @@ let heatMapData = {
 
 function generateHeatMapData() {
     let heatmapData = [];
-    var data = [];
 
     fetch('http://localhost:3001/api/getData')
     .then((data) => data.json())
     .then((res) => {
-        data = res.data;
         for(let i = 0; i < res.data.length; ++i){
             let latitude = parseFloat(res.data[i].lat);
-            console.log(latitude)
             let longitude = parseFloat(res.data[i].lng);
-            console.log(longitude)
             heatmapData.push(
                 {
                     lat: latitude, lng: longitude
