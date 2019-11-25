@@ -25,6 +25,12 @@ const DataSchema = new Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  lat:{
+    type: String,
+  },
+  lng:{
+    type: String,
   }
 });
 

@@ -134,11 +134,11 @@ const image_text = async function(file){
           var accu = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
           if (accu == "ROOFTOP"){
             formatted_address = res.json.results[0]["formatted_address"];
-            const doc = new new_Data({id: idToBeAdded, picture: '/'+ file, address: formatted_address, raw_address: fullTextAnnotation.text, accuracy: accu});
+            const doc = new new_Data({id: idToBeAdded, picture: '/'+ file, address: formatted_address, raw_address: fullTextAnnotation.text, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
             doc.save();
           }
           else{
-            const raw = new new_Data({id: idToBeAdded, picture: '/'+ file, address: fullTextAnnotation.text, raw_address: fullTextAnnotation.text, accuracy: accu});
+            const raw = new new_Data({id: idToBeAdded, picture: '/'+ file, address: fullTextAnnotation.text, raw_address: fullTextAnnotation.text, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
             raw.save();
           }
           doc.save();

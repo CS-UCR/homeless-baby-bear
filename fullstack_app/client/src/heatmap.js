@@ -17,8 +17,37 @@ let heatMapData = {
 	}
 }
 
+
 function generateHeatMapData() {
     let heatmapData = [];
+    var data = [];
+
+    fetch('http://localhost:3001/api/getData')
+    .then((data) => data.json())
+    .then((res) => {
+        data = res.data;
+        for(let i = 0; i < res.data.length; ++i){
+            let latitude = parseFloat(res.data[i].lat);
+            console.log(latitude)
+            let longitude = parseFloat(res.data[i].lng);
+            console.log(longitude)
+            heatmapData.push(
+                {
+                    lat: latitude, lng: longitude
+                }
+            );
+        }
+        
+
+
+    }
+    
+    
+    
+    );
+    
+
+    /*
 
     for(let i = 0; i < 500; ++i) {
         let latitude = getRandomLatOrLong(30, 50, 3);
@@ -29,7 +58,7 @@ function generateHeatMapData() {
                 lat: latitude, lng: longitude
             }
         );
-    }
+    }*/
     return heatmapData;
 }
     
@@ -61,6 +90,8 @@ class SimpleMap extends Component {
         },
         zoom: 5
     };
+
+    
 
     componentDidMount () {
         // Add scripts after components loaded so that the search bar works
