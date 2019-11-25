@@ -9,7 +9,7 @@ class Upload extends Component {
     constructor(props) {
         super(props);
         this.state ={
-            file: null
+            file: []
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -17,11 +17,15 @@ class Upload extends Component {
     onFormSubmit(e){
         e.preventDefault();
         const formData = new FormData();
-        if(this.state.file != null){
+        if(this.state.file != []){
            
             console.log("file not null")
             console.log(this.state.file)
-            formData.append('myImage',this.state.file);
+            var index = 0;
+            for(index = 0; index< this.state.file.length;index++){
+                console.log(this.state.file[index])
+                formData.append('myImage',this.state.file[index]);   
+            }
                 const config = {
                     headers: {
                         'content-type': 'multipart/form-data'
@@ -40,7 +44,7 @@ class Upload extends Component {
         console.log("has select file")
         console.log("file is")
         console.log(e.target.files)
-        this.setState({file: e.target.files[0]});
+        this.setState({file: e.target.files});
     }
   
 
@@ -63,7 +67,7 @@ class Upload extends Component {
         </div>
     </div>
     <div class="main-container">
-        <input defaultValue={this.state.file} type="file" onChange={this.handleChange} />
+        <input defaultValue={this.state.file} accept="image/png, image/jpg,image/jpeg" type="file" multiple onChange={this.handleChange} />
         <button onClick={this.onFormSubmit}>submit</button>
         <form id="upload" enctype="multipart/form-data" onSubmit={this.onFormSubmit}>
             <fieldset>
