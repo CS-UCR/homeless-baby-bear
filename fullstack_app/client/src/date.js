@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker
 } from "@material-ui/pickers";
 
@@ -13,10 +12,10 @@ export default function MaterialUIPickers(props) {
   // The first commit of Material-UI
   
   const [fromDate, setFromDate] = React.useState(
-    new Date("2014-08-18T21:11:54")
+    new Date("2019-11-01T00:00:00")
   );
   const [toDate, setToDate] = React.useState(
-    new Date("2014-08-18T21:11:54")
+    new Date("2019-11-30T23:59:59")
   );
 
   function handleSubmit(event){
