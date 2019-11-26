@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import ScriptTag from 'react-script-tag';
 import Helmet from 'react-helmet';
-
+import Barcharts from './chartsjs/barcharts'
 
 class SimpleMap extends Component {
   state = {
@@ -16,13 +16,13 @@ class SimpleMap extends Component {
     <div>
         <Helmet>
         <meta charset="utf-8"></meta>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
-  <link rel="shortcut icon" href="../favicon.ico"></link>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
-  <link rel="stylesheet" href="styles_dashboard.css"></link>
-  <script src="https://kit.fontawesome.com/406b77ded1.js"></script>
-  <title>National Dashboard</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
+        <link rel="shortcut icon" href="../favicon.ico"></link>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
+        <link rel="stylesheet" href="styles_dashboard.css"></link>
+        <script src="https://kit.fontawesome.com/406b77ded1.js"></script>
+        <title>National Dashboard</title>
         </Helmet>
         <div class="grid-container">
         <div class="menu-icon">
@@ -58,7 +58,7 @@ class SimpleMap extends Component {
                     <button>Lifetime</button>
                     <button>Custom Timeframe</button>
                 </div>
-                <canvas id="national-stats"></canvas>
+                <Barcharts />
             </div>
 
             <div class="main-overview">

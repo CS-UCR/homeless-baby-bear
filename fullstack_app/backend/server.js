@@ -125,24 +125,35 @@ const image_text = async function(file){
   console.log(fileName);
   const [result] = await client.documentTextDetection(fileName);
   const fullTextAnnotation = result.fullTextAnnotation;
-  googleMapsClient.geocode({
-      address: fullTextAnnotation.text
+  //--------------clean data--------------------
+  var spawn = require("child_process").spawn;
+  var process = spawn('python',["./cleandata-fornodejs.py",fullTextAnnotation.text ]);
+  var goodaddress =fullTextAnnotation.text
+  process.stdout.on('data',function(data){
+    goodaddress=data.toString()
+    console.log(goodaddress)
+    googleMapsClient.geocode({
+      address: goodaddress
     }, function(err, res) {
       if (!err) {
           var formatted_address = "";
           var accu = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
           if (accu == "ROOFTOP"){
             formatted_address = res.json.results[0]["formatted_address"];
-            const doc = new new_Data({id: idToBeAdded, picture: '/'+ file, address: formatted_address, raw_address: fullTextAnnotation.text, accuracy: accu});
+            const doc = new new_Data({id: idToBeAdded, picture: '/'+ file, address: formatted_address, raw_address: goodaddress, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
             doc.save();
           }
           else{
-            const raw = new new_Data({id: idToBeAdded, picture: '/'+ file, address: fullTextAnnotation.text, raw_address: fullTextAnnotation.text, accuracy: accu});
+            const raw = new new_Data({id: idToBeAdded, picture: '/'+ file, address: goodaddress, raw_address: goodaddress, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
             raw.save();
           }
           doc.save();
       }
     });
+  
+  
+  });
+  //-----------------------------------------
 }
 
 // this is our delete method
