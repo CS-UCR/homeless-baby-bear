@@ -60,8 +60,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 
-// this is our get method
-// this method fetches all available data in our database
+// This is our get method
+// This method fetches all available data in our database
+// The following get functions used on home.js
 router.get('/getData', (req, res) => {
   new_Data.find((err, data) => {
     if (err) return res.json({ success: false, error: err });
@@ -69,12 +70,10 @@ router.get('/getData', (req, res) => {
   });
 });
 
-router.get('/getData_bydate', (req, res) => {
-  const { date } = req.body;
-  console.log("inget")
-  new_Data.find({"date": date },(err, data) => {
+router.post('/getData_bydate', (req, res) => {
+  const { fromDate, toDate } = req.body;
+  new_Data.find({ "date": { $gte: fromDate, $lte: toDate } },(err, data) => {
     if (err) return res.json({ success: false, error: err });
-    console.log("success");
     return res.json({ success: true, data: data });
   });
 });
