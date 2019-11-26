@@ -1,1 +1,6 @@
 /node_modules
+
+/client/node_modules
+/fullstack_app/node_modules
+
+.DS_Store
