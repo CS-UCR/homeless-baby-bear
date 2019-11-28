@@ -3,14 +3,17 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import Helmet from 'react-helmet';
-import Barcharts from './chartsjs/barcharts'
+import MailNetchange from './components/mailNetchange';
+import MailCountChart from './components/mailCountContainer';
+import StatePieChart from './chartsjs/statePieChart';
+import TopFive from './components/topFive';
 
 class SimpleMap extends Component {
     state = {
-        percent_number : "+24%",
-        chart_choice: "week"
+        // state not needed for now
     }
 
+    // needed for the javascript in the js file to work. Might remove later
     componentDidMount () {
         let script = document.createElement("script");
         script.src = "app_dashboard.js";
@@ -18,54 +21,7 @@ class SimpleMap extends Component {
         document.body.appendChild(script);
     }
 
-    weekSelected = () => {
-        this.setState({
-            chart_choice: "week"
-        })
-    }
-
-    monthSelected = () => {
-        this.setState({
-            chart_choice: "month"
-        })
-    }
-
-    yearSelected = () => {
-        this.setState({
-            chart_choice: "year"
-        })
-    }
-
-    lifetimeSelected = () => {
-        this.setState({
-            chart_choice: "lifetime"
-        })
-    }
-
   render() {
-    let chart = null;
-
-    if(this.state.chart_choice === "week") {
-        chart = (
-            <Barcharts chartTimeframe={"week"}/>
-        )
-    }
-    else if(this.state.chart_choice === "month") {
-        chart = (
-            <Barcharts chartTimeframe={"month"}/>
-        )
-    }
-    else if(this.state.chart_choice === "year") {
-        chart = (
-            <Barcharts chartTimeframe={"year"}/>
-        )
-    }
-    else if(this.state.chart_choice === "lifetime") {
-        chart = (
-            <Barcharts chartTimeframe={"lifetime"}/>
-        )
-    }
-
     return (
     <div>
         <Helmet>
@@ -78,72 +34,50 @@ class SimpleMap extends Component {
         </Helmet>
         <div className="grid-container">
             <main className="main">
-                <div className="main-header">
-                    <div id="graph-picker" className="time-picker">
-                        <button onClick={this.weekSelected}>Last week</button>
-                        <button onClick={this.monthSelected}>Last month</button>
-                        <button onClick={this.yearSelected}>Last year</button>
-                        <button onClick={this.lifetimeSelected}>Lifetime</button>
-                        {/* Lets not include custom for now */}
-                        {/* <button>Custom Timeframe</button> */}
-                    </div>
-                    {chart}
-                </div>
+                <MailCountChart />
 
                 <div className="main-overview">
+                    {/* Commenting components for now as there is a bug */}
+                    {/* <TopFive description="Cities" />
+                    <TopFive description="Addresses" />
+                    <TopFive description="Dates" /> */}
                     <div className="overviewcard">
-                        Top 5 cities(mail sent): city, mail sent in
+                        Top 5 {this.props.description}
                         <ol>
-                            <li>City, # of mail sent in</li>
-                            <li>City, # of mail sent in</li>
-                            <li>City, # of mail sent in</li>
-                            <li>City, # of mail sent in</li>
-                            <li>City, # of mail sent in</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
                         </ol>
                     </div>
+
                     <div className="overviewcard">
-                        Top 5 addresses. mail sent in
+                        Top 5 {this.props.description}
                         <ol>
-                            <li>Address, # of mail sent in</li>
-                            <li>Address, # of mail sent in</li>
-                            <li>Address, # of mail sent in</li>
-                            <li>Address, # of mail sent in</li>
-                            <li>Address, # of mail sent in</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
                         </ol>
                     </div>
+
                     <div className="overviewcard">
-                        Top 5 dates. mail sent in
+                        Top 5 {this.props.description}
                         <ol>
-                            <li>Dates, # of mail sent in</li>
-                            <li>Dates, # of mail sent in</li>
-                            <li>Dates, # of mail sent in</li>
-                            <li>Dates, # of mail sent in</li>
-                            <li>Dates, # of mail sent in</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
+                            <li>placeholder, 2</li>
                         </ol>
                     </div>
                 </div>
 
                 <div className="main-cards">
-                    <div className="card">
-                        <canvas id="states-piechart"></canvas>
-                    </div>
-                    <div className="card">
-                        Mail count net change.
-                        <div id="net-picker" className="time-picker">
-                            <button>Yesterday</button>
-                            <button>Last week</button>
-                            <button>Last month</button>
-                            <button>Last year</button>
-                        </div>
-                        <span className="net-change-percent">
-                            <span className="sign positive" > {this.state.percent_number} </span>
-                        </span>
-                        <span className="net-change-value">
-                            <span id="net-change-msg">
-                                <span id="net-value" className="positive">+200</span> mail recieved vs. <span id="time-choice">yesterday</span>
-                            </span>
-                        </span>
-                    </div>
+                    <StatePieChart />
+                    <MailNetchange />
                 </div>
 
                 <div className="main-header">

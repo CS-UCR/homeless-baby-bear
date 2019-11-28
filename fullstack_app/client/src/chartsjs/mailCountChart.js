@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Bar, Line, Pie} from 'react-chartjs-2';
+import {Bar, Line} from 'react-chartjs-2';
 
 export class Chart extends Component{
     constructor(props){
@@ -41,7 +41,7 @@ export class Chart extends Component{
         )
     }
 
-    // Helper functions. Same as the ones in the original websites(non-React versions)
+    // ---Time frame helpers
 
     // add the database query to show the total.
     getOptions = () => {
@@ -134,7 +134,7 @@ export class Chart extends Component{
     // Need to get the database start date(the day it was created) and end date(today's date).
     getLifetimeData = () => {
         return {
-            labels: this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019")),
+            labels: this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019")), // first date is start date, second is end date
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
@@ -142,6 +142,8 @@ export class Chart extends Component{
             }]
         }
     }
+
+    // ---Label functions for mail count chart
 
     getLastWeekLabels = () => {
         let dateLabels = [];
