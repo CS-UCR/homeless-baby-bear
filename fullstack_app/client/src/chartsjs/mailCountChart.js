@@ -11,7 +11,7 @@ export class Chart extends Component{
             week: [0,0,0,0,0,0,0],
             month: [0,0,0,0,0,0,0],
             year: [0,0,0,0,0,0,0,0,0,0,0,0],
-            lifetime: [0,0,0,0,0,0,0,0,0,0], 
+            lifetime: [0,0,0,0,0,0,0,0,0,0,0,0], 
             getWeek: false,
             getMonth: false,
             getYear: false,
@@ -100,6 +100,7 @@ export class Chart extends Component{
             fromDate: fromDate,
             toDate: toDate,
         }).then((res) => {
+            console.log(var_name)
             var_name[i] = res.data.data.length;
             //this.setState({ [var_name]: res.data.data })
         });
@@ -167,7 +168,7 @@ export class Chart extends Component{
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
-                data: [0, 100, 184, 293, 400, 567, 630, 710, 885, 943, 1075, 1200]
+                data:this.state.lifetime
             }]
         }
     }
@@ -248,7 +249,7 @@ export class Chart extends Component{
             if(this.state.getYear == false && i != 11){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1), this.state.year,i)
             }else{
-                this.getDataFromDbDate(date,new Date(today.getFullYear()+1,1), this.state.year,i)
+                this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1), this.state.year,i)
                 this.state.getYear = true
             }
         }
@@ -283,6 +284,12 @@ export class Chart extends Component{
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
+            if(this.state.getLifetime == false && i != numLabels - 2){
+                this.getDataFromDbDate(date,new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * (i+1))), this.state.lifetime,i)
+            }else{
+                this.getDataFromDbDate(date, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()), this.state.lifetime,i)
+                this.state.getLifetime = true
+            }
         }
     
         // add endDate label. Got to guarentee the endDate is the last label
@@ -292,6 +299,8 @@ export class Chart extends Component{
         yyyy = date.getFullYear();
         dateString = mm + '/' + dd + '/' + yyyy;
         dateLabels.push(dateString);
+        this.getDataFromDbDate(date, new Date(), this.state.lifetime,numLabels - 1)
+        
     
         return dateLabels
     }
