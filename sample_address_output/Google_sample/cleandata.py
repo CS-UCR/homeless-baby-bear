@@ -1,4 +1,3 @@
-
 import re
 lines = [line.rstrip('\n') for line in open('raw_data.txt')]
 file = open("classify_raw.txt", "w")
