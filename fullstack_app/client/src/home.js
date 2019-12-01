@@ -1,45 +1,8 @@
-<<<<<<< HEAD
 import React, { Component, useState, useContext } from 'react';
-=======
-// /client/App.js
-import React, { Component, useState } from 'react';
->>>>>>> 1b27b4156d015e63b2a4348a9281c1552dca2956
 import axios from 'axios';
 
-
+import Date from './date';
 class App extends Component {
-<<<<<<< HEAD
-    // initialize our state
-    state = {
-        data: [],
-        id: 0,
-        picture: null,
-        address: null,
-        raw_address: null,
-        accuracy: null,
-        date: null,
-        intervalIsSet: false,
-        idToDelete: null,
-        idToUpdate: null,
-        objectToUpdate: null,
-        dateContent : null,
-    };
-
-    getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getData')
-        .then((data) => data.json())
-        .then((res) => this.setState({ data: res.data }));
-    };
-
-    getDataFromDbDate = (fromDate, toDate) => {
-        axios.post('http://localhost:3001/api/getData_bydate', {
-            fromDate: fromDate,
-            toDate: toDate,
-        }).then((res) => {
-            this.setState({ data: res.data.data })
-        });
-    };
-=======
   // initialize our state
   state = {
     data: [],
@@ -108,7 +71,6 @@ class App extends Component {
     });
   };
   
->>>>>>> 1b27b4156d015e63b2a4348a9281c1552dca2956
 
   // our delete method that uses our backend api
   // to remove existing database information
@@ -152,11 +114,7 @@ class App extends Component {
     const { data } = this.state;
     return (
       <div>
-<<<<<<< HEAD
         <Date func={this.getDataFromDbDate}/>
-=======
-        
->>>>>>> 1b27b4156d015e63b2a4348a9281c1552dca2956
         <ul>
           {data.length <= 0
             ? 'NO DB ENTRIES YET'

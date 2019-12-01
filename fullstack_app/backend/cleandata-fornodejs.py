@@ -20,24 +20,24 @@ if "Box" in line:
     print(newline)
 
 
-if "USPS" in line:
+elif "USPS" in line:
     print(line)
 
 
-if "ORIGIN ID" in line:
+elif "ORIGIN ID" in line:
     print(line)
 
 
-if "FedEx" in line:
+elif "FedEx" in line:
     print(line)
 
 
 
-if "A MILLION THANKS" in line:
+elif "A MILLION THANKS" in line:
     print(line)
 
 
-if "BOX" not in line and "USPS" not in line and "ORIGIN ID" not in line and "FedEx" not in line and "A MILLION THANKS" not in line:
+elif "BOX" not in line and "USPS" not in line and "ORIGIN ID" not in line and "FedEx" not in line and "A MILLION THANKS" not in line:
     arr = line.split()
     start = 0
     zipcode_place = len(arr)

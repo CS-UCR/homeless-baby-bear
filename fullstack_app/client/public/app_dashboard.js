@@ -1,36 +1,3 @@
-const menuIcon = document.querySelector(".menu-icon");
-const sidenav = document.querySelector(".sidenav");
-const sidenavClose = document.querySelector(".sidenav-close-icon");
-
-menuIcon.addEventListener("click", function() {
-    sidenav.classList.toggle("active");
-});
-
-sidenavClose.addEventListener("click", function() {
-    sidenav.classList.toggle("active");
-});
-
-(function() {
-    let placesAutocomplete = places({
-      appId: 'plYR0C6D25C3',
-      apiKey: 'cb7d79d87daed4f68068500409865fa1',
-      container: document.querySelector('#address')
-    });
-
-    placesAutocomplete.on('change', function(e) {
-        if(e.suggestion.type === "city") {
-            fetchCityData(e.suggestion);
-        }
-        else if(e.suggestion.type === "address") {
-            fetchStreetData(e.suggestion);
-        }
-        else if(e.suggestion.type === "state") {
-            // for states. cant search states right now
-        }
-        console.log(e.suggestion); // delete 
-    });
-})();
-
 // for state rank represent 90% of the graph with states/ 100% if only one
 // and the remaining 10% with other
 let statesPiechart = {
@@ -144,10 +111,3 @@ function getLastWeek() {
 
     return dateArr;
 }
-
-// chart js code
-const ctx = document.getElementById("national-stats").getContext("2d");
-let chart = new Chart(ctx, weeklyDataGraph);
-
-const ctx2 = document.getElementById("states-piechart").getContext("2d");
-let piechart = new Chart(ctx2, statesPiechart);

@@ -6,6 +6,10 @@ import axios from 'axios';
 import ScriptTag from 'react-script-tag';
 import Helmet from 'react-helmet';
 import GoogleMapReact from 'google-map-react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { mergeClasses } from '@material-ui/styles';
 
 /* global google */
 
@@ -78,6 +82,12 @@ function closeSideMenu() {
     }
 }
 
+const useStyles = makeStyles(theme => ({
+    root: {
+      padding: theme.spacing(3, 2),
+    },
+  }));
+
 class SimpleMap extends Component {
     static defaultProps = {
         center: {
@@ -86,6 +96,7 @@ class SimpleMap extends Component {
         },
         zoom: 5
     };
+    classes = useStyles;
 
     
 
@@ -105,6 +116,7 @@ class SimpleMap extends Component {
 
     render() {
         return (
+            
             <div>
                 <Helmet>
                     <meta charset="utf-8"></meta>
@@ -114,6 +126,7 @@ class SimpleMap extends Component {
                     <link rel="stylesheet" href="styles.css"></link>
                     <title>Mail Sender Heatmap</title>
                 </Helmet>
+                <Paper className={this.classes.root} >
                 <div className="search-container">
                     <span id="sidebar-btn">
                         <a id="sidebar-toggle" href="#" onClick={openSideMenu}>&#9776;</a>
@@ -166,6 +179,7 @@ class SimpleMap extends Component {
                         >
                     </GoogleMapReact>
                 </div>
+                </Paper>
             </div>
         )
     }

@@ -47,7 +47,7 @@ body {
 .search-container {
     display: flex;
     position: fixed;
-    top: 0;
+    top: 1;
     left: 0;
     right: 0;
     z-index: 1;
@@ -65,7 +65,7 @@ body {
     width: 500px;
     position: fixed;
     z-index: 1;
-    top: 0;
+    top: 1;
     left: -500px;
     background: #f3f8fb;
     border-right: 0.5px solid #ccc;
