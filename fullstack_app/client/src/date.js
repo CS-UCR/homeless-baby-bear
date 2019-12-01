@@ -23,6 +23,7 @@ export default function MaterialUIPickers(props) {
   };
 
   const handleDateChange_from = date => {
+    console.log(date)
     setFromDate(date);
   };
 
