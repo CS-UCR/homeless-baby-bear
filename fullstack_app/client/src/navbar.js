@@ -22,7 +22,6 @@ import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import TodayIcon from '@material-ui/icons/Today';
 import StorageIcon from '@material-ui/icons/Storage';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Date from './date'
 
 import {
   Link
@@ -121,7 +120,6 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap>
             A Million Thanks
           </Typography>
-          <Date />
         </Toolbar>
       </AppBar>
       <Drawer

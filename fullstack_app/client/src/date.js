@@ -7,7 +7,8 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 
-export default function MaterialUIPickers() {
+
+export default function MaterialUIPickers(props) {
   // The first commit of Material-UI
   
   const [fromDate, setFromDate] = React.useState(
@@ -16,6 +17,10 @@ export default function MaterialUIPickers() {
   const [toDate, setToDate] = React.useState(
     new Date("2019-11-30T23:59:59")
   );
+
+  function handleSubmit(event){
+    event.preventDefault();
+  };
 
   const handleDateChange_from = date => {
     setFromDate(date);
@@ -26,7 +31,7 @@ export default function MaterialUIPickers() {
   };
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} value={{from : fromDate, to: toDate}}>
       <Grid container justify="space-around">
         <KeyboardDatePicker
           disableToolbar
@@ -54,6 +59,7 @@ export default function MaterialUIPickers() {
             "aria-label": "change date"
           }}
         />
+        <button onClick={(e) => props.func(fromDate, toDate)}>search</button>
       </Grid>
     </MuiPickersUtilsProvider>
   );
