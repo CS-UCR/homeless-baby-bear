@@ -77,6 +77,22 @@ export class Chart extends Component{
             }
         };
     }
+<<<<<<< HEAD
+    
+    getDataFromDbDate =  (fromDate, toDate, var_name, i) => {
+
+        axios.post('http://localhost:3001/api/getData_bydate', {
+            fromDate: fromDate,
+            toDate: toDate,
+        }).then((res) => {
+           // console.log(var_name)
+             var_name[i] = res.data.data.length;
+            return res.data.data.length;
+            //this.setState({ [var_name]: res.data.data })
+        });
+    };
+=======
+>>>>>>> 257706cce3da40629e76062bec403d1fdf5f0414
 
     getLastWeekData = () => {
         // we must query the database for 'data' in the datasets object
