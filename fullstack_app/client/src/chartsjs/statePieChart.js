@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {Pie} from 'react-chartjs-2';
 import Chart from "react-apexcharts";
 
-class Donut extends Component {
+class PieChart extends Component {
 
     constructor(props) {
       super(props);
@@ -18,13 +18,17 @@ class Donut extends Component {
   
       return (
         <div className="donut">
-          <Chart options={this.state.options} series={this.state.series} type="donut" width="380" />
+          <Chart 
+            options={this.state.options} 
+            series={this.state.series} 
+            type="pie" 
+            width="380" />
         </div>
       );
     }
   }
   
-  export default Donut;
+  export default PieChart;
 /*
 export class Donut extends Component {
     constructor(props) {
