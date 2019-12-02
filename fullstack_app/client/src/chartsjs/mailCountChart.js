@@ -11,14 +11,14 @@ export class Chart extends Component{
             monthlables: [],
             yearlables: [],
             lifetimelables: [],
-            week: [],
-            month: [],
-            year: [],
-            lifetime: [], 
             getWeek: false,
             getMonth: false,
             getYear: false,
             getLifetime:false,
+            week: [],
+            month: [],
+            year: [],
+            lifetime: [], 
 
             // Can't really do the charts with state props. Leaving this for now. 
         }
@@ -26,23 +26,16 @@ export class Chart extends Component{
 
     render() {
         let chart = null;
-        if(this.state.getWeek === false){
             this.getLastWeekLabels()
             this.getLast30DaysLabels()
             this.getLastYearLabels()
             this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019"))
-            chart = <Bar 
-            data={this.getLastWeekData}
-            options={this.getOptions()} />
-        }else{
-            this.getLast30DaysLabels()
-            this.getLastYearLabels()
-            this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019"))
-            console.log(this.state)
+
             if(this.props.chartTimeframe === "week") {
-                chart = <Bar 
-                    data={this.getLastWeekData}
-                    options={this.getOptions()} />
+                if(this.state.week.length > 0 )
+                    chart = <Bar 
+                        data={this.getLastWeekData}
+                        options={this.getOptions()} />
             }
             else if(this.props.chartTimeframe === "month") {
                 chart = <Line 
@@ -59,13 +52,9 @@ export class Chart extends Component{
                     data={this.getLifetimeData}
                     options={this.getOptions()} />
             }
-
-
-        }
-
         return (
             <div className="chart">
-                {chart}
+                {this.state.week.length > 0? chart: <div>Please Select by clicking the button</div>}
             </div>
         )
     }
@@ -199,6 +188,7 @@ export class Chart extends Component{
 
     getLastWeekLabels =() => {
         let dateLabels = [];
+        let dateData = [];
         let today = new Date();
         let date = null;
         let dd = "";
@@ -215,15 +205,15 @@ export class Chart extends Component{
             dateLabels.push(dateString);
             if(this.state.getWeek == false && i != 6){
                 
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
+                dateData.push(this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i))
             }else{
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
+                dateData.push(this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i))
                 this.state.getWeek = true
             }
         }
-
-            this.state.weeklables = dateLabels
-
+        
+        this.state.weeklables = dateLabels
+        return dateData
         //return dateLabels;
     }
 
@@ -330,8 +320,10 @@ export class Chart extends Component{
 }
 
 // Prop passed in through the dashboard component
+/*
 Chart.propTypes = {
     chartTimeframe: PropTypes.string.isRequired
 };
 
+*/
 export default Chart;
