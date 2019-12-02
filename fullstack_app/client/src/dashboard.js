@@ -14,6 +14,7 @@ class SimpleMap extends Component {
         super(props);
         this.state = {
             allData: [],
+            dateData: [],
             date: new Date(),
             weeklables: [],
             monthlables: [],
@@ -194,6 +195,10 @@ class SimpleMap extends Component {
         this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
         this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
         this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
+        const mapper = this.state.allData.map(data => data.date)
+        for(let i = 0; i < mapper.length; i++){
+        }
+        this.state.allData.sort()
         if(this.state.getdata_num == false){
             this.getLastWeekLabels()
             this.getLast30DaysLabels()
