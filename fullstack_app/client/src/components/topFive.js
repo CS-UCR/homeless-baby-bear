@@ -5,7 +5,7 @@ export class topFive extends Component {
     render() {
         let topFive = {};
 
-        if(this.props.description === "City") {
+        if(this.props.description === "Cities") {
             topFive = this.getTopFiveCities();
         }
 
@@ -17,6 +17,15 @@ export class topFive extends Component {
             topFive = this.getTopFiveDates();
         }
         
+        // Need this if statement in case topFive hasn't been assigned data yet.
+        // Otherwise, React will return an error and page can't load
+        if(!topFive.value && !topFive.mailCount) {
+            return (
+                <div className="overviewcard">
+                    Loading..
+                </div>
+            )
+        }
         return (
             <div className="overviewcard">
                 Top 5 {this.props.description}
@@ -37,8 +46,8 @@ export class topFive extends Component {
     // Note: I feel like there could be a better name for value
 
     getTopFiveCities = () => {
-        // search the database here
-        console.log("h",);
+        // search the database for the cities here
+        
         // placeholder
         return {
             value: ["Riverside", "Los Angeles", "Austin", "Glendale", "Burbank"],
@@ -47,7 +56,7 @@ export class topFive extends Component {
     }
 
     getTopFiveAddreses = () => {
-        // search the database here
+        // search the database for the addresses here
 
         // placeholder
         return {
@@ -57,7 +66,7 @@ export class topFive extends Component {
     }
 
     getTopFiveDates = () => {
-        // search the database here
+        // search the database for the dates here
 
         // placeholder
         return {
