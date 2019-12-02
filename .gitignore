@@ -3,3 +3,4 @@ fullstack_app/.DS_Store
 fullstack_app/backend/node_modules/
 fullstack_app/client/node_modules/
 fullstack_app/node_modules/
+frontend/.DS_Store
