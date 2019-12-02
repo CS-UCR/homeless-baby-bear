@@ -24,7 +24,7 @@ let heatMapData = {
 
 function generateHeatMapData() {
     let heatmapData = [];
-
+    
     fetch('http://localhost:3001/api/getData')
     .then((data) => data.json())
     .then((res) => {
@@ -37,18 +37,13 @@ function generateHeatMapData() {
                 }
             );
         }
-        
-
-
+        console.log(heatmapData)
     }
-    
-    
-    
     );
     
-
+    return heatmapData;
+    
     /*
-
     for(let i = 0; i < 500; ++i) {
         let latitude = getRandomLatOrLong(30, 50, 3);
         let longitude = getRandomLatOrLong(-123, -70, 3);
@@ -59,7 +54,6 @@ function generateHeatMapData() {
             }
         );
     }*/
-    return heatmapData;
 }
     
 function getRandomLatOrLong(from, to, fixed) {

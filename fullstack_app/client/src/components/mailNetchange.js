@@ -3,8 +3,13 @@ import React, { Component } from 'react'
 // The main purpose of the component is to compare the last week, month, and year with the week, month, and year before it.
 
 export class Netchange extends Component {
-    state = {
-        chart_choice: "week"
+    constructor(props){
+        super(props);
+        this.state = {
+            chart_choice: "week",
+            percent: 25,
+            number: 200
+        }
     }
 
     weekSelected = () => {
@@ -40,6 +45,7 @@ export class Netchange extends Component {
                         <button onClick={this.monthSelected}>Last month</button>
                         <button onClick={this.yearSelected}>Last year</button>
                     </div>
+                    <h2>It is {this.props.state.date.toLocaleTimeString()}.</h2>
                     <span className="net-change-percent">
                         <span className="sign positive" > {this.calculateNetChange().percentage} </span>
                     </span>
@@ -55,8 +61,8 @@ export class Netchange extends Component {
     // make queries here probably
     calculateNetChange = () => {
         return {
-            percentage: "24%",
-            mailCount: 200
+            percentage: (parseInt((parseInt(this.props.state[this.state.chart_choice+"_num"]))*100/(parseInt(this.props.state["lifetime_num"]))))+"%",
+            mailCount: this.props.state[this.state.chart_choice+"_num"]
         }
     }
 }
