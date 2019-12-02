@@ -7,41 +7,60 @@ export class Chart extends Component{
     constructor(props){
         super(props);
         this.state = {
-            today: new Date(),
-            week: [0,0,0,0,0,0,0],
-            month: [0,0,0,0,0,0,0],
-            year: [0,0,0,0,0,0,0,0,0,0,0,0],
-            lifetime: [0,0,0,0,0,0,0,0,0,0,0,0], 
+            weeklables: [],
+            monthlables: [],
+            yearlables: [],
+            lifetimelables: [],
+            week: [],
+            month: [],
+            year: [],
+            lifetime: [], 
             getWeek: false,
             getMonth: false,
             getYear: false,
             getLifetime:false,
+
             // Can't really do the charts with state props. Leaving this for now. 
         }
     }
 
     render() {
         let chart = null;
-
-        if(this.props.chartTimeframe === "week") {
+        if(this.state.getWeek === false){
+            this.getLastWeekLabels()
+            this.getLast30DaysLabels()
+            this.getLastYearLabels()
+            this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019"))
             chart = <Bar 
-                data={this.getLastWeekData}
-                options={this.getOptions()} />
-        }
-        else if(this.props.chartTimeframe === "month") {
-            chart = <Line 
-                data={this.getLast30DaysData}
-                options={this.getOptions()} />
-        }
-        else if(this.props.chartTimeframe === "year") {
-            chart = <Line 
-                data={this.getLastYearData}
-                options={this.getOptions()} />
-        }
-        else if(this.props.chartTimeframe === "lifetime") {
-            chart = <Line 
-                data={this.getLifetimeData}
-                options={this.getOptions()} />
+            data={this.getLastWeekData}
+            options={this.getOptions()} />
+        }else{
+            this.getLast30DaysLabels()
+            this.getLastYearLabels()
+            this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019"))
+            console.log(this.state)
+            if(this.props.chartTimeframe === "week") {
+                chart = <Bar 
+                    data={this.getLastWeekData}
+                    options={this.getOptions()} />
+            }
+            else if(this.props.chartTimeframe === "month") {
+                chart = <Line 
+                    data={this.getLast30DaysData}
+                    options={this.getOptions()} />
+            }
+            else if(this.props.chartTimeframe === "year") {
+                chart = <Line 
+                    data={this.getLastYearData}
+                    options={this.getOptions()} />
+            }
+            else if(this.props.chartTimeframe === "lifetime") {
+                chart = <Line 
+                    data={this.getLifetimeData}
+                    options={this.getOptions()} />
+            }
+
+
         }
 
         return (
@@ -95,13 +114,15 @@ export class Chart extends Component{
             }
         };
     }
-    getDataFromDbDate = (fromDate, toDate, var_name, i) => {
+    getDataFromDbDate =  (fromDate, toDate, var_name, i) => {
+
         axios.post('http://localhost:3001/api/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
         }).then((res) => {
-            console.log(var_name)
-            var_name[i] = res.data.data.length;
+           // console.log(var_name)
+             var_name[i] = res.data.data.length;
+            return res.data.data.length;
             //this.setState({ [var_name]: res.data.data })
         });
     };
@@ -110,7 +131,7 @@ export class Chart extends Component{
     getLastWeekData = () => {
         // we must query the database for 'data' in the datasets object
         return {
-            labels: this.getLastWeekLabels(),
+            labels: this.state.weeklables,
             datasets: [{
 
               data: this.state.week,
@@ -140,7 +161,7 @@ export class Chart extends Component{
 
     getLast30DaysData = () => {
         return {
-            labels: this.getLast30DaysLabels(),
+            labels: this.state.monthlables,
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
@@ -150,8 +171,9 @@ export class Chart extends Component{
     }
 
     getLastYearData = () => {
+
         return {
-            labels: this.getLastYearLabels(),
+            labels: this.state.yearlables,
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
@@ -164,7 +186,7 @@ export class Chart extends Component{
     // Need to get the database start date(the day it was created) and end date(today's date).
     getLifetimeData = () => {
         return {
-            labels: this.getCGLabels(new Date("August 19, 2018"), new Date("August 19, 2019")), // first date is start date, second is end date
+            labels: this.state.lifetimelables, // first date is start date, second is end date
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
@@ -175,7 +197,7 @@ export class Chart extends Component{
 
     // ---Label functions for mail count chart
 
-    getLastWeekLabels = () => {
+    getLastWeekLabels =() => {
         let dateLabels = [];
         let today = new Date();
         let date = null;
@@ -192,19 +214,22 @@ export class Chart extends Component{
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
             if(this.state.getWeek == false && i != 6){
-                console.log(date)
+                
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
                 this.state.getWeek = true
             }
         }
-    
-        return dateLabels;
+
+            this.state.weeklables = dateLabels
+
+        //return dateLabels;
     }
 
     getLast30DaysLabels = () => {
         let dateLabels = [];
+
         let today = new Date();
         let date = null;
         let mm = "";
@@ -220,15 +245,14 @@ export class Chart extends Component{
             dateString = mm + '/' + dd + '/' + yyyy;
             
             dateLabels.push(dateString);
-            if(this.state.getMonth == false && i != 6){
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5), this.state.month,i)
+            if(this.state.getMonth == false && i < 6){
+                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
             }else{
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5), this.state.month,i)
+                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
                 this.state.getMonth = true
             }
         }
-    
-        return dateLabels;
+        this.state.monthlables = dateLabels;
     }
 
     getLastYearLabels = () => {
@@ -241,20 +265,19 @@ export class Chart extends Component{
     
         for(let i = 0; i < 12; ++i) {
             date = new Date(today.getFullYear(), today.getMonth() - 11 + i);
-            console.log(date)
             mm = String(date.getMonth() + 1).padStart(2, '0');
             yyyy = date.getFullYear();
             dateString = mm + '/' + yyyy;
             dateLabels.push(dateString);
             if(this.state.getYear == false && i != 11){
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1), this.state.year,i)
+                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1),this.state.year ,i)
             }else{
-                this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1), this.state.year,i)
+                this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1),this.state.year ,i)
                 this.state.getYear = true
             }
         }
-    
-        return dateLabels;
+       // this.state.year = datedata
+        this.state.yearlables =  dateLabels;
     }
 
     getCGLabels = (startDate, endDate) => {
@@ -285,9 +308,9 @@ export class Chart extends Component{
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
             if(this.state.getLifetime == false && i != numLabels - 2){
-                this.getDataFromDbDate(date,new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * (i+1))), this.state.lifetime,i)
+                this.getDataFromDbDate(date,new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * (i+1))), this.state.lifetime ,i)
             }else{
-                this.getDataFromDbDate(date, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()), this.state.lifetime,i)
+                this.getDataFromDbDate(date, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()),this.state.lifetime ,i)
                 this.state.getLifetime = true
             }
         }
@@ -299,10 +322,10 @@ export class Chart extends Component{
         yyyy = date.getFullYear();
         dateString = mm + '/' + dd + '/' + yyyy;
         dateLabels.push(dateString);
-        this.getDataFromDbDate(date, new Date(), this.state.lifetime,numLabels - 1)
+        this.getDataFromDbDate(date, new Date(),this.state.lifetime ,numLabels - 1)
         
-    
-        return dateLabels
+        //this.state.lifetime = datedata
+       this.state.lifetimelables = dateLabels
     }
 }
 
