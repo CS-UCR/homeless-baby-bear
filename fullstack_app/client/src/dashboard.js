@@ -7,6 +7,7 @@ import MailNetchange from './components/mailNetchange';
 import MailCountChart from './components/mailCountContainer';
 import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
+import StateMailCountTable from './components/stateMailCountTable';
 
 class SimpleMap extends Component {
     state = {
@@ -37,42 +38,9 @@ class SimpleMap extends Component {
                 <MailCountChart />
 
                 <div className="main-overview">
-                    {/* Commenting components for now as there is a bug */}
-                    {/* <TopFive description="Cities" />
+                    <TopFive description="Cities" />
                     <TopFive description="Addresses" />
-                    <TopFive description="Dates" /> */}
-                    <div className="overviewcard">
-                        Top 5 {this.props.description}
-                        <ol>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                        </ol>
-                    </div>
-
-                    <div className="overviewcard">
-                        Top 5 {this.props.description}
-                        <ol>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                        </ol>
-                    </div>
-
-                    <div className="overviewcard">
-                        Top 5 {this.props.description}
-                        <ol>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                            <li>placeholder, 2</li>
-                        </ol>
-                    </div>
+                    <TopFive description="Dates" />
                 </div>
 
                 <div className="main-cards">
@@ -80,34 +48,9 @@ class SimpleMap extends Component {
                     <MailNetchange />
                 </div>
 
-                <div className="main-header">
-                    table with state and the total number of mail from them
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>State</th>
-                                <th>Mail count</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>California</td>
-                                <td>10</td>
-                            </tr>
-                            <tr>
-                                <td>Nevada</td>
-                                <td>5</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>    
+                <StateMailCountTable />
 
             </main>
-
-            <footer className="footer">
-                <div className="footer-copyright">&copy; AMT</div>
-                <div className="footer-signature">Made by team homeless baby bear</div>
-            </footer>
         </div>  
     </div>
 
