@@ -13,7 +13,6 @@ body {
     font-size: 16px;
     line-height: 1.4;
     color: #202020;
-    /* overflow-x: hidden; */
 }
 
 table {
@@ -30,41 +29,16 @@ td, th {
 
 .grid-container {
     display: block;
-    /* grid-template-columns: 1fr;  */
     grid-template-rows: 50px 1fr 50px;
     grid-template-areas:
-      'header'
-      'main'
-      'footer';
+      'main';
     height: 100vh;
     max-width: 100vw;
 }
 
 /* Give every child element its grid name */
-.header {
-    grid-area: header;
-    background-color: #648ca6;
-    display: flex;
-    /* position: fixed;
-    top: 0;
-    left: 0;
-    right: 0; */
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 20px;
-}
-
-#address-form {
-    display: inline-block;
-    width: 1500px;
-}
-
-/* Needed for the autocomplete results to pop up */
-.algolia-autocomplete {
-    display: inline !important;
-}
-
 .main {
+    padding: 25px 0px;
     grid-area: main;
     background-color: #e2e4ed;
 }
@@ -75,11 +49,9 @@ td, th {
     align-items: center;
     margin: 20px;
     padding: 20px;
-    /* width: 100%; */
-    /* height: 150px; Force our height since we don't have actual content yet */
     background-color: white;
     color: #202020;
-    box-shadow:8px 8px 5px 2px rgba(21, 21, 21, 0.5);
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
 .chart {
@@ -100,17 +72,17 @@ td, th {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(265px, 1fr)); /* Where the magic happens */
     /* grid-auto-rows: 120px; */
-    grid-gap: 20px;
-    margin: 20px;
+    /* grid-gap: 20px; */
+    margin: 30px;
 }
   
 .overviewcard {
     /* Hard coding width so they fit */
-    width: 85%;
+    width: 90%;
     display: block;
     padding: 20px;
     background-color: white;
-    box-shadow:8px 8px 5px 2px rgba(21, 21, 21, 0.5);
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
 .main-cards {
@@ -129,7 +101,7 @@ td, th {
     -webkit-column-break-inside: avoid;
     padding: 24px;
     box-sizing: border-box;
-    box-shadow:8px 8px 5px 2px rgba(21, 21, 21, 0.5);
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 
 .card:first-child {
@@ -158,14 +130,8 @@ td, th {
     font-size: 32px;
 }
 
-.footer {
-    grid-area: footer;
-    background-color: #648ca6;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    background-color: #648ca6;
+#state-count-container {
+    margin-bottom: 0;
 }
 
 /* Non-mobile styles, 750px breakpoint */
