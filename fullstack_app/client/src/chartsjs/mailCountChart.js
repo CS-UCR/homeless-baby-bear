@@ -6,6 +6,9 @@ export class Chart extends Component{
     constructor(props){
         super(props);
         this.state = {
+            month: props.state.month,
+            year: props.state.year,
+            lifetime: props.state.lifetime
             // Can't really do the charts with state props. Leaving this for now. 
         }
     }
@@ -109,7 +112,7 @@ export class Chart extends Component{
     }
 
     getLast30DaysData = () => {
-        const monthdata = this.props.state.month
+        const monthdata = this.state.month.slice(0, 7)
         return {
             labels: this.props.state.monthlables,
             datasets: [{
@@ -121,12 +124,13 @@ export class Chart extends Component{
     }
 
     getLastYearData = () => {
+        const yeardata = this.state.year.slice(0, 12)
         return {
             labels: this.props.state.yearlables,
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
-                data: this.props.state.year
+                data: yeardata
             }]
         }
     }
@@ -134,12 +138,13 @@ export class Chart extends Component{
     // getCGLabels are currently hard coded.
     // Need to get the database start date(the day it was created) and end date(today's date).
     getLifetimeData = () => {
+        const lifetimedata = this.state.lifetime.slice(0, 12)
         return {
             labels: this.props.state.lifetimelables,
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
-                data: this.props.state.lifetime
+                data: lifetimedata
             }]
         }
     }
