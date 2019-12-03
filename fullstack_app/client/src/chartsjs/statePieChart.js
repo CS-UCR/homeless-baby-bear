@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Pie} from 'react-chartjs-2';
 import Chart from "react-apexcharts";
+import TopFive from "../components/topFive";
 
 class PieChart extends Component {
 
@@ -9,20 +10,20 @@ class PieChart extends Component {
   
       this.state = {
         options: {},
-        series: [44, 55, 41, 17, 15],
-        labels: ['A', 'B', 'C', 'D', 'E']
+        series: [44, 55, 41],
+        labels: ['A', 'B', 'C']
       }
     }
   
     render() {
-  
       return (
-        <div className="donut">
+        <div className="card">
+          Top states piechart
           <Chart 
             options={this.state.options} 
             series={this.state.series} 
             type="pie" 
-            width="380" />
+            width="500" />
         </div>
       );
     }
