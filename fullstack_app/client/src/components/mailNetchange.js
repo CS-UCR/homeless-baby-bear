@@ -46,7 +46,6 @@ export class Netchange extends Component {
                         <button onClick={this.yearSelected}>Last year</button>
                     </div>
                     {/* Can remove this h2 */}
-                    <h2>It is {this.props.state.date.toLocaleTimeString()}.</h2>
                     <span className="net-change-percent">
                         <span className="sign positive" > {this.calculateNetChange().percentage} </span>
                     </span>
