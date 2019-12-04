@@ -17,7 +17,7 @@ class Upload extends Component {
     onFormSubmit(e){
         e.preventDefault();
         const formData = new FormData();
-        if(this.state.file != []){
+        if(this.state.file !== []){
            
             console.log("file not null")
             console.log(this.state.file)
