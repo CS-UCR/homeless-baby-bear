@@ -62,20 +62,6 @@ class App extends Component {
         objectToUpdate: null,
         dateContent : null,
     };
-    componentDidMount () {
-      this.timerID = setInterval(
-          () => this.tick(),
-          500
-        );
-  }
-  componentWillUnmount() {
-      clearInterval(this.timerID);
-    }
-  tick() {
-      this.setState({
-        date: new Date()
-      });
-    }
     getDataFromDb = () => {
         fetch('http://localhost:3001/api/getData')
         .then((data) => data.json())
@@ -117,6 +103,7 @@ class App extends Component {
     axios.post('http://localhost:3001/api/updateAddress', {
         update: { _id: _id, address: updateToApply},
     });
+    this.getDataFromDb()
   };
 
   // here is our UI
@@ -193,8 +180,11 @@ class App extends Component {
                       DELETE
                     </Button>
                     </Typography>
+                    
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      Name: {dat.name}
+                      Name: <TextField type="text"
+                      style={{ width: '400px' }}
+                      defaultValue = {dat.name}/>
                     </Typography> 
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Accuracy: {dat.accuracy}
