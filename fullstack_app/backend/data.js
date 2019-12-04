@@ -10,9 +10,16 @@ const DataSchema = new Schema({
     require: true,
     get: v => `${root}${v}`
   },
-  raw_address:{
+  city:{
     type: String,
     require: true
+  },
+  state:{
+    type: String,
+    require: true
+  },
+  name:{
+    type: String
   },
   address: {
     type: String,

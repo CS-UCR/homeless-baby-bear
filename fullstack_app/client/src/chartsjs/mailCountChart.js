@@ -6,6 +6,9 @@ export class Chart extends Component{
     constructor(props){
         super(props);
         this.state = {
+            month: props.state.month,
+            year: props.state.year,
+            lifetime: props.state.lifetime
             // Can't really do the charts with state props. Leaving this for now. 
         }
     }
@@ -85,19 +88,19 @@ export class Chart extends Component{
             datasets: [{
               data: this.props.state.week,
               backgroundColor: [
-                "rgba(255, 99, 132, 0.5)",
-                "rgba(54, 162, 235, 0.5)",
-                "rgba(255, 206, 86, 0.5)",
-                "rgba(75, 192, 192, 0.5)",
-                "rgba(153, 102, 255, 0.5)",
-                "rgba(255, 159, 64, 0.5)",
-                "rgba(105, 205, 0, 0.5)"
+                "rgba(255, 235, 59, 0.6)",
+                "rgba(121, 85, 72, 0.6)",
+                "rgba(233, 30, 99, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(105, 205, 0, 0.6)"
           
               ],
               borderColor: [
-                "rgba(255,99,132,1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
+                "rgba(255, 235, 59, 1)",
+                "rgba(121, 85, 72, 1)",
+                "rgba(233, 30, 99, 1)",
                 "rgba(75, 192, 192, 1)",
                 "rgba(153, 102, 255, 1)",
                 "rgba(255, 159, 64, 1)",
@@ -109,23 +112,24 @@ export class Chart extends Component{
     }
 
     getLast30DaysData = () => {
-        const monthdata = this.props.state.month
+        const monthdata = this.state.month.slice(0, 7)
         return {
             labels: this.props.state.monthlables,
             datasets: [{
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#00ed84",
+                borderColor: "#00ed84",
                 data: monthdata
             }]
         };
     }
 
     getLastYearData = () => {
+        const yeardata = this.state.year.slice(0, 12)
         return {
             labels: this.props.state.yearlables,
             datasets: [{
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#00ed84",
+                borderColor: "#00ed84",
                 data: this.props.state.year
             }]
         }
@@ -134,12 +138,13 @@ export class Chart extends Component{
     // getCGLabels are currently hard coded.
     // Need to get the database start date(the day it was created) and end date(today's date).
     getLifetimeData = () => {
+        const lifetimedata = this.state.lifetime.slice(0, 12)
         return {
             labels: this.props.state.lifetimelables,
             datasets: [{
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
-                data: this.props.state.lifetime
+                data: lifetimedata
             }]
         }
     }

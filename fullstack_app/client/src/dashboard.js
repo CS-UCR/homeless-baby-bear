@@ -5,9 +5,10 @@ import axios from 'axios';
 import Helmet from 'react-helmet';
 import MailNetchange from './components/mailNetchange';
 import MailCountChart from './components/mailCountContainer';
-import StatePieChart from './chartsjs/statePieChart';
+//import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
+
 
 class SimpleMap extends Component {
     constructor(props){
@@ -44,6 +45,7 @@ class SimpleMap extends Component {
         axios.post('http://localhost:3001/api/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
+            location_type: "ALL"
         }).then((res) => {
            // console.log(var_name)
              var_name[i] = res.data.data.length;
@@ -210,25 +212,6 @@ class SimpleMap extends Component {
     }
 
     // needed for the javascript in the js file to work. Might remove later
-    componentDidMount () {
-        let script = document.createElement("script");
-        script.src = "app_dashboard.js";
-        script.async = true;
-        document.body.appendChild(script);
-        this.timerID = setInterval(
-            () => this.tick(),
-            500
-          );
-    }
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-      }
-    tick() {
-        this.setValue()
-        this.setState({
-          date: new Date()
-        });
-      }
 
   render() {
     return (
@@ -252,7 +235,7 @@ class SimpleMap extends Component {
                 </div>
 
                 <div className="main-cards">
-                    <StatePieChart />
+                    {/*<StatePieChart />*/}
                     <MailNetchange state={this.state}/>
                 </div>
 
