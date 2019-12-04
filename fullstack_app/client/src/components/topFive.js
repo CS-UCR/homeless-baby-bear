@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 export class topFive extends Component {
+    constructor(props){
+        super(props)
+    }
     render() {
         let topFive = {};
 
@@ -70,8 +73,8 @@ export class topFive extends Component {
 
         // placeholder
         return {
-            value: ["10/21/19", "10/01/19", "11/21/19", "09/21/19", "12/21/19"],
-            mailCount: [100, 50, 30, 20, 10]
+            value: this.props.state.date_rank_lable,
+            mailCount: this.props.state.date_rank_data
         };
     }
 }

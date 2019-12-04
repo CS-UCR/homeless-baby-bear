@@ -5,9 +5,10 @@ import axios from 'axios';
 import Helmet from 'react-helmet';
 import MailNetchange from './components/mailNetchange';
 import MailCountChart from './components/mailCountContainer';
-//import StatePieChart from './chartsjs/statePieChart';
+import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
+import { element } from 'prop-types';
 
 
 class SimpleMap extends Component {
@@ -35,6 +36,8 @@ class SimpleMap extends Component {
             year_num: 0,
             getdata_num: false,
             lifetime_num: 0,
+            date_rank_lable: [],
+            date_rank_data: []
     
         }
 
@@ -50,7 +53,7 @@ class SimpleMap extends Component {
            // console.log(var_name)
              var_name[i] = res.data.data.length;
              if(var_name === this.state.lifetime){
-                 this.state.allData.concat(res.data.data)
+                this.state.allData = this.state.allData.concat(res.data.data)
              }
             //this.setState({ [var_name]: res.data.data })
         });
@@ -193,20 +196,34 @@ class SimpleMap extends Component {
     }
 
     setValue=()=>{
-        this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
-        this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
-        this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
-        this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
-        const mapper = this.state.allData.map(data => data.date)
-        for(let i = 0; i < mapper.length; i++){
+        if(this.state.getdata_num === true){
+            this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
+            this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
+            this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
+            this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
+            if(this.state.date_rank_lable.length == 0 || this.state.date_rank_lable[0] == undefined){
+                var mapper = this.state.allData.map(data => data.date.substring(0,10))
+                mapper.sort()
+                var name_array = [mapper[0]]
+                var number_array = [1]
+                for(let i = 1; i < mapper.length; i++){
+                    if(mapper[i] != mapper[i-1])
+                    {  
+                        name_array.push(mapper[i])
+                        number_array.push(1)
+                    }else{
+                        number_array[number_array.length-1] += 1
+                    }
+                }
+                this.setState({date_rank_lable: name_array, date_rank_data: number_array})
+            }
         }
-        this.state.allData.sort()
         if(this.state.getdata_num === false){
             this.getLastWeekLabels()
             this.getLast30DaysLabels()
             this.getLastYearLabels()
             this.getCGLabels(new Date("August 19, 2018"), new Date())
-            this.state.getdata_num = true
+            this.setState({getdata_num: true})
         }
 
     }
@@ -244,11 +261,11 @@ class SimpleMap extends Component {
                 <div className="main-overview">
                     <TopFive description="Cities" />
                     <TopFive description="Addresses" />
-                    <TopFive description="Dates" />
+                    <TopFive description="Dates" state={this.state}/>
                 </div>
 
                 <div className="main-cards">
-                    {/*<StatePieChart />*/}
+                    <StatePieChart />
                     <MailNetchange state={this.state}/>
                 </div>
 
