@@ -12,16 +12,16 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
-import Background from './background3.png';
+//import Background from './background3.png';
 
-
+/*
 var sectionStyle = {
   width: "100%",
   height: "10000px",
   position: "absolute",
   backgroundImage: `url(${Background})` 
 };
-
+*/
 /*
 const useStyles = makeStyles(theme => ({
   card: {
@@ -124,7 +124,7 @@ class App extends Component {
     
     const { data } = this.state;
     return (
-      <div style={sectionStyle}>
+      <div /*style={sectionStyle}*/>
         <Date func={this.getDataFromDbDate}/>
         <Container>
           {data.length <= 0
@@ -139,23 +139,28 @@ class App extends Component {
                     maxWidth: 700, 
                   }} 
                   key={data.picture}>
-                  <CardMedia image="../letter4.jpg">
+                  <CardMedia 
+                    //style={{ 
+                    //  width: "100%",
+                    //  height: "100%"
+                    //}}
+                    image="../letter5.png">
                   <CardContent>
                   {/*<CardMedia paddingTop="56.25%" height="0" image="../center.jpg">*/}
-                    <Typography align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                       id: {dat.id}
                     </Typography >
-                    <Typography align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       picture: 
                       <img 
                         src={"/uploads" + dat.picture} 
                         alt = {dat.id} width = "300"
                       />
                     </Typography>
-                    <Typography align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       address: {dat.address}
                     </Typography> 
-                    <Typography align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <TextField
                       type="text"
                       style={{ width: '400px' }}
@@ -176,13 +181,13 @@ class App extends Component {
                       DELETE
                     </Button>
                     </Typography>
-                    <Typography align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Raw_address: {dat.raw_address}
                     </Typography> 
-                    <Typography align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Accuracy: {dat.accuracy}
                     </Typography> 
-                    <Typography align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Date: {dat.date}
                     </Typography> 
                     {/*</CardMedia>*/}
