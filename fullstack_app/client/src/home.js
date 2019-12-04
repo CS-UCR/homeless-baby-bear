@@ -131,24 +131,31 @@ class App extends Component {
                   style={{ 
                     padding: '2px', 
                     maxWidth: 700, 
+                    minWidth: 700
                   }} 
                   key={data.picture}>
                   <CardMedia 
-                    //style={{ 
-                    //  width: "100%",
-                    //  height: "100%"
-                    //}}
+                    style={{ 
+                      width: 700,
+                      height: 500
+                    }}
                     image="../letter5.png">
                   <CardContent>
+                    
                   {/*<CardMedia paddingTop="56.25%" height="0" image="../center.jpg">*/}
+                  <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                      
+                    </Typography >
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                       id: {dat.id}
                     </Typography >
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       picture: 
+                    </Typography>
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <img 
                         src={"/uploads" + dat.picture} 
-                        alt = {dat.id} width = "300"
+                        alt = {dat.id} width = "280"
                       />
                     </Typography>
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
