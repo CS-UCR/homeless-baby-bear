@@ -39,12 +39,13 @@ export class Netchange extends Component {
     render() {
         return (
             <div className="card">
-                Mail count net change.
+                <span className="card-title">Mail count net change</span>
                     <div id="net-picker" className="time-picker">
                         <button onClick={this.weekSelected}>Last week</button>
                         <button onClick={this.monthSelected}>Last month</button>
                         <button onClick={this.yearSelected}>Last year</button>
                     </div>
+                    {/* Can remove this h2 */}
                     <h2>It is {this.props.state.date.toLocaleTimeString()}.</h2>
                     <span className="net-change-percent">
                         <span className="sign positive" > {this.calculateNetChange().percentage} </span>
