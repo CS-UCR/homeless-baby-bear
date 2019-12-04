@@ -82,7 +82,7 @@ router.post('/getData_bydate', async (req, res) => {
 
 // this is our update method
 // this method overwrites existing data in our database
-router.post('/updateData', (req, res) => {
+router.post('/updateAddress', (req, res) => {
     const {_id, address} = req.body.update;
     console.log(address)
     googleMapsClient.geocode({address: address}, function(err, res) {
@@ -117,6 +117,14 @@ router.post('/updateData', (req, res) => {
         }
     });
     return res.json({ success: true });
+});
+
+router.post('/updateData', (req, res) => {
+    const { id, update } = req.body;
+    new_Data.findByIdAndUpdate(id, update, (err) => {
+        if (err) return res.json({ success: false, error: err });
+        return res.json({ success: true });	
+    });	
 });
 
 router.post('/upload',upload.any(), async (req,res)=>{

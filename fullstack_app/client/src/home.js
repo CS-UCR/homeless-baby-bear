@@ -114,7 +114,7 @@ class App extends Component {
   // to overwrite existing data base information
   updateDB = (updateToApply, _id) => {
       console.log(_id)
-    axios.post('http://localhost:3001/api/updateData', {
+    axios.post('http://localhost:3001/api/updateAddress', {
         update: { _id: _id, address: updateToApply},
     });
   };
