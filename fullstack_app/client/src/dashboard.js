@@ -8,7 +8,7 @@ import MailCountChart from './components/mailCountContainer';
 import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
-import { element } from 'prop-types';
+import { element, number } from 'prop-types';
 
 
 class SimpleMap extends Component {
@@ -37,7 +37,15 @@ class SimpleMap extends Component {
             getdata_num: false,
             lifetime_num: 0,
             date_rank_lable: [],
-            date_rank_data: []
+            date_rank_data: [],
+            city_rank_lable: [],
+            city_rank_data: [],
+            address_rank_lable: [],
+            address_rank_data: [],
+            state_rank_lable: [],
+            state_rank_data: [],
+
+
     
         }
 
@@ -195,27 +203,41 @@ class SimpleMap extends Component {
 
     }
 
+    map_reduce=(mapper, labels, datas)=>{
+        mapper.sort()
+        var name_array = []
+        var number_array = []
+        var array = [{label: mapper[0], data: 1}]
+        for(let i = 1; i < mapper.length; i++){
+            if(mapper[i] != mapper[i-1])
+            {  
+                array.push({label: mapper[i], data: 1})
+            }else{
+                array[array.length-1].data += 1
+            }
+        }
+        array.sort(function(a, b){return a.data -b.data}).reverse()
+        for(let i = 0; i < array.length; i++){
+            name_array.push(array[i].label)
+            number_array.push(array[i].data)
+        }
+        this.setState({[labels]: name_array, [datas]: number_array})
+    }
     setValue=()=>{
         if(this.state.getdata_num === true){
-            this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
-            this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
-            this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
-            this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
             if(this.state.date_rank_lable.length == 0 || this.state.date_rank_lable[0] == undefined){
-                var mapper = this.state.allData.map(data => data.date.substring(0,10))
-                mapper.sort()
-                var name_array = [mapper[0]]
-                var number_array = [1]
-                for(let i = 1; i < mapper.length; i++){
-                    if(mapper[i] != mapper[i-1])
-                    {  
-                        name_array.push(mapper[i])
-                        number_array.push(1)
-                    }else{
-                        number_array[number_array.length-1] += 1
-                    }
-                }
-                this.setState({date_rank_lable: name_array, date_rank_data: number_array})
+                this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
+                this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
+                this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
+                this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
+                var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
+                var mapper_city = this.state.allData.map(data => data.city)
+                var mapper_address = this.state.allData.map(data => data.address)
+                var mapper_state = this.state.allData.map(data => data.state)
+                this.map_reduce(mapper_date, "date_rank_lable", "date_rank_data")
+                this.map_reduce(mapper_city, "city_rank_lable", "city_rank_data")
+                this.map_reduce(mapper_address, "address_rank_lable", "address_rank_data")
+                this.map_reduce(mapper_state, "state_rank_lable", "state_rank_data")
             }
         }
         if(this.state.getdata_num === false){
@@ -259,13 +281,13 @@ class SimpleMap extends Component {
                 <MailCountChart state={this.state}/>
 
                 <div className="main-overview">
-                    <TopFive description="Cities" />
-                    <TopFive description="Addresses" />
+                    <TopFive description="Cities" state={this.state} />
+                    <TopFive description="Addresses" state={this.state}/>
                     <TopFive description="Dates" state={this.state}/>
                 </div>
 
                 <div className="main-cards">
-                    <StatePieChart />
+                    <StatePieChart state={this.state}/>
                     <MailNetchange state={this.state}/>
                 </div>
 
