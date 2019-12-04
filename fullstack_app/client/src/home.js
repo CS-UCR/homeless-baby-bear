@@ -99,12 +99,10 @@ class App extends Component {
 
   // our update method that uses our backend api
   // to overwrite existing data base information
-  updateDB = (updateToApply, id, picture, _id) => {
+  updateDB = (updateToApply, _id) => {
+      console.log(_id)
     axios.post('http://localhost:3001/api/updateData', {
-      update: { id: id, address: updateToApply, picture: picture },
-    });
-    axios.delete('http://localhost:3001/api/deleteData', {
-        data: { id: _id },
+        update: { _id: _id, address: updateToApply},
     });
   };
 
@@ -172,7 +170,7 @@ class App extends Component {
                     <Button 
                       color="primary"
                       variant="contained"
-                      onClick={() => this.updateDB(this.state.updateToApply, dat.id, dat.picture, dat._id)}>
+                      onClick={() => this.updateDB(this.state.updateToApply, dat._id)}>
                       UPDATE
                     </Button> 
                     <Button 
