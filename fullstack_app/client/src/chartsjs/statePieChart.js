@@ -2,6 +2,27 @@ import React, { Component } from 'react'
 import {Pie} from 'react-chartjs-2';
 import Chart from "react-apexcharts";
 
+const data = {
+	labels: [
+		'Red',
+		'Blue',
+		'Yellow'
+	],
+	datasets: [{
+		data: [300, 50, 100],
+		backgroundColor: [
+		'#FF6384',
+		'#36A2EB',
+		'#FFCE56'
+		],
+		hoverBackgroundColor: [
+		'#FF6384',
+		'#36A2EB',
+		'#FFCE56'
+		]
+	}]
+};
+
 class Donut extends Component {
 
     constructor(props) {
@@ -17,9 +38,10 @@ class Donut extends Component {
     render() {
   
       return (
-        <div className="donut">
-          <Chart options={this.state.options} series={this.state.series} type="donut" width="380" />
-        </div>
+        <div>
+        <h2>Pie Example</h2>
+        <Pie data={data} />
+      </div>
       );
     }
   }
