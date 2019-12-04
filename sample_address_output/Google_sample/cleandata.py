@@ -7,21 +7,31 @@ for line in lines:
     if "Box" in line:
         file.write("\n")
         word_list = line.split()
+        count = 0
+        line = ""
+        for element in word_list:
+            line += element  + " "
+            if element.isdigit():
+                count += 1
+            if count == 2:
+                break
+        word_list = line.split()
         pos = word_list.index("Box")
-        word_list.pop(pos)
         # remove "P O BOX" or "PO BOX"
         if word_list[pos-1] == "PO":
-            word_list.pop(pos-1)
+            word_list[pos-1] = "P.O."
         elif word_list[pos-1] == "O":
-            word_list.pop(pos-1)
+            word_list[pos-1] = "P.0."
             if word_list[pos-2] == "P":
-                word_list.pop(pos-2)
+                word_list[pos-1] = ""
+                word_list[pos-2] = "P.O."
         line = ""
         for element in word_list:
             line += element  + " "
         # remove email
         if "com" in line:
             line = line[line.find("com")+4:]
+        line = "Box, " + line
         file.write(line + "\n")
 
 file.write("-------------------USPS-----------------"+"\n")
