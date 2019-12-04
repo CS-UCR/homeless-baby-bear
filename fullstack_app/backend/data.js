@@ -14,6 +14,10 @@ const DataSchema = new Schema({
     type: String,
     require: true
   },
+  state:{
+    type: String,
+    require: true
+  },
   name:{
     type: String
   },

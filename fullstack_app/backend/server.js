@@ -111,18 +111,13 @@ router.post('/upload',upload.any(), async (req,res)=>{
 const image_text = async function(file){
   let idToBeAdded = 0;
   new_Data.find((err, data) => {
-    console.log("in find function");
     let currentIds = data.map((data) => data.id);
-    console.log(currentIds)
     while (currentIds.includes(idToBeAdded)) {
       ++idToBeAdded;
     }
   });
-  console.log(idToBeAdded);
-  console.log("in function");
-  console.log(__dirname);
+
   const fileName = path.join(__dirname,'../client/public/uploads/'+file);
-  console.log(fileName);
   const [result] = await client.documentTextDetection(fileName);
   const fullTextAnnotation = result.fullTextAnnotation;
   //--------------clean data--------------------
@@ -131,20 +126,29 @@ const image_text = async function(file){
   var goodaddress =fullTextAnnotation.text
   process.stdout.on('data',function(data){
     goodaddress=data.toString()
-    console.log(goodaddress)
     googleMapsClient.geocode({
       address: goodaddress
     }, function(err, res) {
       if (!err) {
           var formatted_address = "";
+          address_components = res.json.results[0]["address_components"]
+          let city = ""
+          let state = ""
+          for(let i= 0; i < address_components.length; i ++)
+          {
+            if( address_components[i]["types"][0] =='administrative_area_level_1')
+              state = address_components[i]["long_name"]
+            if(address_components[i]["types"][0] ==  'locality')
+              city = address_components[i]["long_name"]
+          }
           var accu = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
           if (accu == "ROOFTOP"){
             formatted_address = res.json.results[0]["formatted_address"];
-            const doc = new new_Data({id: idToBeAdded, picture: '/'+ file, address: formatted_address, raw_address: goodaddress, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
+            const doc = new new_Data({id: idToBeAdded,city: city, state: state, picture: '/'+ file, address: formatted_address, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
             doc.save();
           }
           else{
-            const raw = new new_Data({id: idToBeAdded, picture: '/'+ file, address: goodaddress, raw_address: goodaddress, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
+            const raw = new new_Data({id: idToBeAdded,city: city, state: state,  picture: '/'+ file, address: goodaddress, accuracy: accu,lat:res.json.results[0]["geometry"]["location"].lat, lng:res.json.results[0]["geometry"]["location"].lng});
             raw.save();
           }
           doc.save();
