@@ -98,6 +98,7 @@ export default function MaterialUIPickers(props) {
                 <option value={"RANGE_INTERPOLATED"}>Range Interpolated</option>
                 <option value={"APPROXIMATE"}>Approcimate</option>
                 <option value={"UNKNOWN"}>Unknown</option>
+                <option value={"P.O. Box"}>P.O. Box</option>
             </NativeSelect>
         </FormControl>
         <button onClick={(e) => props.func(fromDate, toDate, location_type.type)}>search</button>

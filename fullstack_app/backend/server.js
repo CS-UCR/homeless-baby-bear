@@ -83,11 +83,9 @@ router.post('/getData_bydate', async (req, res) => {
 // this is our update method
 // this method overwrites existing data in our database
 router.post('/updateData', (req, res) => {
-    const { id, update } = req.body;
-    new_Data.findByIdAndUpdate(id, update, (err) => {
-        if (err) return res.json({ success: false, error: err });
-        return res.json({ success: true });
-    });
+    const { id, address, picture } = req.body.update;
+    geocodingAndSave(id, address, picture);
+    return res.json({ success: true });
 });
 
 router.post('/upload',upload.any(), async (req,res)=>{
@@ -96,7 +94,7 @@ router.post('/upload',upload.any(), async (req,res)=>{
         console.log("in try");
         console.log(req.files.length);
             for (i = 0, len = req.files.length; i < len; i++) {
-                image_text(req.files[i]["filename"]);
+                image_to_text(req.files[i]["filename"]);
             }
         return res.json({ success: true });
         
@@ -110,7 +108,7 @@ router.post('/upload',upload.any(), async (req,res)=>{
     }
 });
 
-const image_text = async function(file){
+const image_to_text = async function(file){
     // generate next avaible id
     let idToBeAdded = 0;
     new_Data.find((err, data) => {
@@ -120,45 +118,61 @@ const image_text = async function(file){
         }
     });
     // using google handwring api to capture words
-    const fileName = path.join(__dirname,'../client/public/uploads/'+file);
-    const [result] = await client.documentTextDetection(fileName);
+    const filePath = path.join(__dirname,'../client/public/uploads/'+file);
+    const [result] = await client.documentTextDetection(filePath);
     const fullTextAnnotation = result.fullTextAnnotation;
+    console.log(fullTextAnnotation.text)
     //--------------clean data--------------------
     var spawn = require("child_process").spawn;
     var process = spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
     var goodaddress =fullTextAnnotation.text
-    process.stdout.on('data',function(data){
-        goodaddress=data.toString()
-        googleMapsClient.geocode({address: goodaddress}, function(err, res) {
-            if (!err) {
-                var formatted_address = "";
-                address_components = res.json.results[0]["address_components"]
-                let city = ""
-                let state = ""
-                for(let i= 0; i < address_components.length; i ++)
-                {
-                    if( address_components[i]["types"][0] =='administrative_area_level_1')
-                    state = address_components[i]["long_name"]
-                    if(address_components[i]["types"][0] ==  'locality')
-                    city = address_components[i]["long_name"]
-                }
-                var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
-                if (accuracy == "ROOFTOP"){
-                    formatted_address = res.json.results[0]["formatted_address"];
-                    const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, 
-                        address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
-                        lng: res.json.results[0]["geometry"]["location"].lng});
-                    doc.save();
-                }
-                else{
-                    const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, 
-                        address: goodaddress, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
-                        lng: res.json.results[0]["geometry"]["location"].lng});
-                    raw.save();
-                }
-                doc.save();
+    process.stdout.on('data',function(data){geocodingAndSave(idToBeAdded, data.toString(), file)});
+}
+
+const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
+    console.log("first step")
+    console.log(cleaned_address)
+    googleMapsClient.geocode({address: cleaned_address}, function(err, res) {
+        if (!err) {
+            var formatted_address = "";
+            address_components = res.json.results[0]["address_components"]
+            let city = ""
+            let state = ""
+            console.log("second step")
+            for(let i= 0; i < address_components.length; i ++)
+            {
+                if( address_components[i]["types"][0] =='administrative_area_level_1')
+                state = address_components[i]["long_name"]
+                if(address_components[i]["types"][0] ==  'locality')
+                city = address_components[i]["long_name"]
             }
-        });
+            var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
+            console.log("??? step")
+            if (accuracy == "ROOFTOP"){
+                formatted_address = res.json.results[0]["formatted_address"];
+                const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, 
+                    address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
+                    lng: res.json.results[0]["geometry"]["location"].lng});
+                console.log("last step")
+                console.log(doc)
+                doc.save();
+            }else if (cleaned_address.includes("Box")){
+                var word_list = cleaned_address.split(", ")
+                const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file,
+                    address: cleaned_address.replace(/\n/g, ''), accuracy: "P.O. Box", lat: res.json.results[0]["geometry"]["location"].lat, 
+                    lng: res.json.results[0]["geometry"]["location"].lng});
+                    console.log("last step")
+                    console.log(box)
+                    box.save();
+            }else{
+                const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, 
+                    address: cleaned_address.replace(/\n/g, ''), accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
+                    lng: res.json.results[0]["geometry"]["location"].lng});
+                console.log("last step")
+                console.log(raw)
+                raw.save();
+            }
+        }
     });
 }
 
@@ -166,6 +180,7 @@ const image_text = async function(file){
 // this method removes existing data in our database
 router.delete('/deleteData', (req, res) => {
     const { id } = req.body;
+    console.log(id)
     new_Data.findByIdAndRemove(id, (err) => {
         if (err) return res.send(err);
         return res.json({ success: true });
