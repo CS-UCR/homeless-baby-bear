@@ -51,6 +51,8 @@ class App extends Component {
     state = {
         data: [],
         id: 0,
+        name_var: "",
+        name_helper: "",
         picture: null,
         address: null,
         raw_address: null,
@@ -99,13 +101,19 @@ class App extends Component {
   // our update method that uses our backend api
   // to overwrite existing data base information
   updateDB = (updateToApply, _id) => {
-      console.log(_id)
     axios.post('http://localhost:3001/api/updateAddress', {
         update: { _id: _id, address: updateToApply},
     });
     this.getDataFromDb()
   };
-
+  updateName = (name_var, _id) => {
+    axios.post('http://localhost:3001/api/updateData', {
+      id: _id,
+      update: { name: name_var },
+}).then((res) => {
+  this.setState({ name_helper: "update_success!"})
+});
+};
   // here is our UI
   // it is easy to understand their functions when you
   // see them render into our screen
@@ -170,12 +178,15 @@ class App extends Component {
                     <Button 
                       color="primary"
                       variant="contained"
+
+                      style={{margin: '2px', width: '25px'}}
                       onClick={() => this.updateDB(this.state.updateToApply, dat._id)}>
                       UPDATE
                     </Button> 
                     <Button 
                       color="secondary"
                       variant="contained"
+                      style={{margin: '2px', width: '25px'}}
                       onClick={() => this.deleteFromDB(dat.id)}>
                       DELETE
                     </Button>
@@ -183,8 +194,19 @@ class App extends Component {
                     
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Name: <TextField type="text"
-                      style={{ width: '400px' }}
-                      defaultValue = {dat.name}/>
+                      style={{ width: '200px' }}
+                      defaultValue = {dat.name}
+                      helperText={this.state.name_helper}
+                      onChange={(e) => this.setState({ name_var: e.target.value, name_helper: "" })}
+                      />
+                      <Button 
+                      color="primary"
+                      variant="contained"
+                      style={{margin: '2px', width: '25px'}}
+                      
+                      onClick={() => this.updateName(this.state.name_var, dat._id)}>
+                      UPDATE
+                    </Button> 
                     </Typography> 
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Accuracy: {dat.accuracy}
