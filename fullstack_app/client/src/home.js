@@ -62,7 +62,20 @@ class App extends Component {
         objectToUpdate: null,
         dateContent : null,
     };
-
+    componentDidMount () {
+      this.timerID = setInterval(
+          () => this.tick(),
+          500
+        );
+  }
+  componentWillUnmount() {
+      clearInterval(this.timerID);
+    }
+  tick() {
+      this.setState({
+        date: new Date()
+      });
+    }
     getDataFromDb = () => {
         fetch('http://localhost:3001/api/getData')
         .then((data) => data.json())
@@ -146,12 +159,12 @@ class App extends Component {
                   <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                       
                     </Typography >
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                    {/*<Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                       id: {dat.id}
-                    </Typography >
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Typography >*/}
+                    {/*<Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       picture: 
-                    </Typography>
+                </Typography>*/}
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <img 
                         src={"/uploads" + dat.picture} 
@@ -183,7 +196,7 @@ class App extends Component {
                     </Button>
                     </Typography>
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      Raw_address: {dat.raw_address}
+                      Name: {dat.name}
                     </Typography> 
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Accuracy: {dat.accuracy}
