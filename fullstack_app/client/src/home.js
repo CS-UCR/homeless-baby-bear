@@ -25,10 +25,11 @@ class App extends Component {
         .then((res) => this.setState({ data: res.data }));
     };
 
-    getDataFromDbDate = (fromDate, toDate) => {
+    getDataFromDbDate = (fromDate, toDate, locaction_type) => {
         axios.post('http://localhost:3001/api/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
+            location_type: locaction_type
         }).then((res) => {
             this.setState({ data: res.data.data })
         });
