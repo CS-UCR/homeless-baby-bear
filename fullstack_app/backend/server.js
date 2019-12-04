@@ -175,6 +175,31 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
     console.log(cleaned_address)
     googleMapsClient.geocode({address: cleaned_address}, function(err, res) {
         if (!err) {
+            var name = ""
+            console.log("flag 1")
+            if (cleaned_address.includes("Box")) {
+                console.log("flag 2")
+                name = cleaned_address.split("P.O.")[0]
+            } else {
+                console.log("flag 3")
+                var word_list = cleaned_address.split(" ")
+                console.log("flag 4")
+                console.log(word_list)
+                for (let i = 0; i < word_list.length; i++) {
+                    console.log("flag 5")
+                    console.log(word_list[i])
+                    console.log(parseInt(word_list[i]))
+                    console.log(isNaN(parseInt(word_list[i])))
+                    if (!isNaN(parseInt(word_list[i]))) {
+                        console.log("flag 5.1")
+                        name = cleaned_address.split(" " + word_list[i])[0]
+                        break
+                    }
+                    console.log("flag 5.2")
+                }
+            }
+            console.log('name')
+            console.log(name)
             var formatted_address = "";
             address_components = res.json.results[0]["address_components"]
             let city = ""
@@ -183,30 +208,29 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
             for(let i= 0; i < address_components.length; i ++)
             {
                 if( address_components[i]["types"][0] =='administrative_area_level_1')
-                state = address_components[i]["long_name"]
+                    state = address_components[i]["long_name"]
                 if(address_components[i]["types"][0] ==  'locality')
-                city = address_components[i]["long_name"]
+                    city = address_components[i]["long_name"]
             }
             var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
             console.log("??? step")
             if (accuracy == "ROOFTOP"){
                 formatted_address = res.json.results[0]["formatted_address"];
-                const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, 
+                const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, name: name,
                     address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
                 console.log("last step")
                 console.log(doc)
                 doc.save();
             }else if (cleaned_address.includes("Box")){
-                var word_list = cleaned_address.split(", ")
-                const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file,
+                const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: "P.O. Box", lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
                     console.log("last step")
                     console.log(box)
                     box.save();
             }else{
-                const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, 
+                const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
                 console.log("last step")
