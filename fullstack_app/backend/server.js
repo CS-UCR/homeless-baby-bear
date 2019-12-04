@@ -94,11 +94,14 @@ router.post('/upload',upload.any(), async (req,res)=>{
     console.log("in post");
     try{
         console.log("in try");
-        console.log(req.files.length);
+        let total= req.files.length;
+
             for (i = 0, len = req.files.length; i < len; i++) {
-                image_text(req.files[i]["filename"]);
+                
+                image_text(req.files[i]["filename"])
             }
-        return res.json({ success: true });
+
+        return res.json({ success: true});
         
     }catch(err){
         console.log("in err")
@@ -156,7 +159,7 @@ const image_text = async function(file){
                         lng: res.json.results[0]["geometry"]["location"].lng});
                     raw.save();
                 }
-                doc.save();
+            }else{
             }
         });
     });
