@@ -53,8 +53,8 @@ export class topFive extends Component {
         
         // placeholder
         return {
-            value: ["Riverside", "Los Angeles", "Austin", "Glendale", "Burbank"],
-            mailCount: [100, 50, 30, 20, 10]
+            value: this.props.state.city_rank_lable,
+            mailCount: this.props.state.city_rank_data
         };
     }
 
@@ -63,8 +63,8 @@ export class topFive extends Component {
 
         // placeholder
         return {
-            value: ["1800 Broad St.", "234 Semapa Dr.", "134 Auo Dr.", "1 Main St.", "34st Ior Pkwy"],
-            mailCount: [100, 50, 30, 20, 10]
+            value: this.props.state.address_rank_lable,
+            mailCount: this.props.state.address_rank_data
         };
     }
 

@@ -90,7 +90,16 @@ class PieChart extends Component {
         <div className="card">
           <Pie
             options={this.state.options} 
-            data={this.state.data} 
+            data={{
+                datasets: [{
+                    // here the data could be the total amount of mail
+                    data: this.props.state.state_rank_data,
+                    backgroundColor: ["#1496BB", "#0d3c55", "#c02e1d", "#d94e1f", "#f16c20", "#ebc844", "#a2b86c", "#5ca793", "#0f5b78"]
+                }],
+            
+                // State names go here. They appear with the data values when you hover over
+                labels:  this.props.state.state_rank_lable
+            }}
             />
         </div>
       );

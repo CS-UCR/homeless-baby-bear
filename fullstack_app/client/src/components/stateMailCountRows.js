@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 
 export class stateMailCountRows extends Component {
+    constructor(props){
+        super(props);
+    }
     render() {
-        let rows = this.getRows().map(
+        let rows = this.props.state.states_array.map(
             (row) => 
             <tr>
-                <td>{row.state}</td>
-                <td>{row.mailCount}</td>
+                <td>{row.label}</td>
+                <td>{row.data}</td>
             </tr>
         )
 
