@@ -5,7 +5,7 @@ import axios from 'axios';
 import Helmet from 'react-helmet';
 import MailNetchange from './components/mailNetchange';
 import MailCountChart from './components/mailCountContainer';
-import StatePieChart from './chartsjs/statePieChart';
+//import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
 
@@ -252,7 +252,7 @@ class SimpleMap extends Component {
                 </div>
 
                 <div className="main-cards">
-                    <StatePieChart />
+                    {/*<StatePieChart />*/}
                     <MailNetchange state={this.state}/>
                 </div>
 
