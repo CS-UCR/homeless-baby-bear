@@ -150,17 +150,6 @@ export default function PersistentDrawerLeft() {
         <Divider />
 
         <List>
-          {['Last Week', 'Last Month', 'Last Year', 'Lifetime'].map((text, index) => (
-            <Link to="/timeperiod">
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <CalendarTodayIcon /> : <TodayIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-            </Link>
-          ))}
-        </List>
-        <Divider />
-        <List>
           {['National stats dashboard'].map((text, index) => (
              <Link to="/">
             <ListItem button key={text}>

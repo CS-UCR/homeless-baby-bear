@@ -9,6 +9,7 @@ import MailCountChart from './components/mailCountContainer';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
 
+
 class SimpleMap extends Component {
     constructor(props){
         super(props);
@@ -210,25 +211,6 @@ class SimpleMap extends Component {
     }
 
     // needed for the javascript in the js file to work. Might remove later
-    componentDidMount () {
-        let script = document.createElement("script");
-        script.src = "app_dashboard.js";
-        script.async = true;
-        document.body.appendChild(script);
-        this.timerID = setInterval(
-            () => this.tick(),
-            500
-          );
-    }
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-      }
-    tick() {
-        this.setValue()
-        this.setState({
-          date: new Date()
-        });
-      }
 
   render() {
     return (
