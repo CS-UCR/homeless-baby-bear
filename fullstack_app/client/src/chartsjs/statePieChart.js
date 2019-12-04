@@ -86,7 +86,6 @@ class PieChart extends Component {
     }
   
     render() {
-        console.log(this.props.state.state_rank_lable)
       return (
         <div className="card">
           <Pie

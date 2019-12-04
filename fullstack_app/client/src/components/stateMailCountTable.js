@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import StateMailCountRows from './stateMailCountRows';
 
 export class stateMailCountTable extends Component {
+    constructor(props){
+        super(props);
+    }
     render() {
         return (
             <div className="main-header" id="state-count-container">
@@ -13,7 +16,7 @@ export class stateMailCountTable extends Component {
                             <th>Mail count</th>
                         </tr>
                     </thead>
-                    <StateMailCountRows />
+                    <StateMailCountRows state={this.props.state}/>
                 </table>
             </div>
         )

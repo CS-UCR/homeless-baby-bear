@@ -44,7 +44,7 @@ class SimpleMap extends Component {
             address_rank_data: [],
             state_rank_lable: [],
             state_rank_data: [],
-
+            states_array: []
 
     
         }
@@ -221,6 +221,10 @@ class SimpleMap extends Component {
             name_array.push(array[i].label)
             number_array.push(array[i].data)
         }
+        if(labels == "state_rank_lable")
+        {
+            this.setState({states_array: array})
+        }
         this.setState({[labels]: name_array, [datas]: number_array})
     }
     setValue=()=>{
@@ -291,7 +295,7 @@ class SimpleMap extends Component {
                     <MailNetchange state={this.state}/>
                 </div>
 
-                <StateMailCountTable />
+                <StateMailCountTable state={this.state}/>
 
             </main>
         </div>  
