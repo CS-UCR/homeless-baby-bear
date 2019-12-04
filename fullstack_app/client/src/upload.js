@@ -17,7 +17,7 @@ function ShowFiles(props){
             <div>
             {props.file.map((file,index)=>(
                     <div>
-                        <p>{file[0].name}<IconButton aria-label="delete" onClick={props.delete(index)}><DeleteIcon /></IconButton></p>
+                        <p>{file.name}<IconButton aria-label="delete" onClick={props.delete(index)}><DeleteIcon /></IconButton></p>
                     </div>  
                 ))}</div>
                 :<div></div>
@@ -38,6 +38,9 @@ class Upload extends Component {
     }
     deletFile = (index)=>{
         this.state.file.splice(index,1)
+    }
+    clear=()=>{
+        this.state.file =[]
     }
     onFormSubmit(e){
         e.preventDefault();
@@ -113,7 +116,7 @@ class Upload extends Component {
                 <div>
                     <label for="fileselect">Files to upload:</label>
 
-                    <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles => this.state.file.concat(acceptedFiles)}>
+                    <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles =>{if(this.state.file.length== 0){this.state.file= acceptedFiles}else{console.log(this.state.file);this.state.file =this.state.file.concat(acceptedFiles)}}}>
                     {({getRootProps, getInputProps}) => (
                         <section>
                         <div {...getRootProps()}>
@@ -131,6 +134,8 @@ class Upload extends Component {
     </div>
                 <ShowFiles file={this.state.file} date={this.state.date} delete={()=>this.deletFile}/>
                 <button onClick={this.onFormSubmit}>submit</button>
+                
+                <button onClick={this.clear}>clear</button>
         <ScriptTag isHydrating={true} type="text/javascript" src="front-end.js" />
     </div>
 
