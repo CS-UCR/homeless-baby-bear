@@ -6,9 +6,24 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from "@material-ui/pickers";
-
+// ----------Native Select-----------
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import { makeStyles } from '@material-ui/core/styles';
+import NativeSelect from '@material-ui/core/NativeSelect';
+// ----------------------------------
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(2),
+    minWidth: 175,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 export default function MaterialUIPickers(props) {
+    const classes = useStyles();
   // The first commit of Material-UI
   
   const [fromDate, setFromDate] = React.useState(
@@ -18,12 +33,7 @@ export default function MaterialUIPickers(props) {
     new Date("2019-11-30T23:59:59")
   );
 
-  function handleSubmit(event){
-    event.preventDefault();
-  };
-
   const handleDateChange_from = date => {
-    console.log(date)
     setFromDate(date);
   };
 
@@ -31,8 +41,20 @@ export default function MaterialUIPickers(props) {
     setToDate(date);
   };
 
+// ----------Native Select-----------
+  const [location_type, setloccationType] = React.useState({
+    type: 'ALL',
+  });
+  const handleChange_status = name => event => {
+    setloccationType({
+      ...location_type,
+      [name]: event.target.value,
+    });
+  };
+// ----------------------------------
+
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} value={{from : fromDate, to: toDate}}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} value={{from : fromDate, to: toDate, location_type: location_type.type}}>
       <Grid container justify="space-around">
         <KeyboardDatePicker
           disableToolbar
@@ -60,7 +82,25 @@ export default function MaterialUIPickers(props) {
             "aria-label": "change date"
           }}
         />
-        <button onClick={(e) => props.func(fromDate, toDate)}>search</button>
+        <FormControl className={classes.formControl}>
+            <InputLabel id="location-select-label">Location Type</InputLabel>
+            <NativeSelect
+                value={location_type.type}
+                onChange={handleChange_status('type')}
+                inputProps={{
+                  name: 'type',
+                  id: 'location-native-label-placeholder',
+                }}
+                >
+                <option value={"ALL"}>All types</option>
+                <option value={"ROOFTOP"}>Rooftop</option>
+                <option value={"GEOMETRIC_CENTER"}>Geometric Center</option>
+                <option value={"RANGE_INTERPOLATED"}>Range Interpolated</option>
+                <option value={"APPROXIMATE"}>Approcimate</option>
+                <option value={"UNKNOWN"}>Unknown</option>
+            </NativeSelect>
+        </FormControl>
+        <button onClick={(e) => props.func(fromDate, toDate, location_type.type)}>search</button>
       </Grid>
     </MuiPickersUtilsProvider>
   );

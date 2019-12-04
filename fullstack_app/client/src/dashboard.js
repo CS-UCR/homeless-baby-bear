@@ -44,6 +44,7 @@ class SimpleMap extends Component {
         axios.post('http://localhost:3001/api/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
+            location_type: "ALL"
         }).then((res) => {
            // console.log(var_name)
              var_name[i] = res.data.data.length;

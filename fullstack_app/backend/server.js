@@ -70,12 +70,14 @@ router.get('/getData', (req, res) => {
   });
 });
 
-router.post('/getData_bydate', (req, res) => {
-  const { fromDate, toDate } = req.body;
-  new_Data.find({ "date": { $gte: fromDate, $lte: toDate } },(err, data) => {
-    if (err) return res.json({ success: false, error: err });
+router.post('/getData_bydate', async (req, res) => {
+    const { fromDate, toDate, location_type} = req.body;
+    if (location_type === "ALL") {
+        var data = await new_Data.find({ "date": { $gte: fromDate, $lte: toDate}}).exec();
+    } else {
+        var data = await new_Data.find({ "date": { $gte: fromDate, $lte: toDate}, "accuracy": location_type} ).exec();
+    }
     return res.json({ success: true, data: data });
-  });
 });
 
 // this is our update method
@@ -192,16 +194,6 @@ router.post('/putData', (req, res) => {
   data.save((err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
-  });
-});
-
-router.get('/getLogin', (req, res) => {
-  const { email, password } = req.body;
-  console.log("inget")
-  new_Data.find({"email": email },(err, data) => {
-    if (err) return res.json({ success: false, error: err });
-    console.log("success");
-    return res.json({ success: true, data: data });
   });
 });
 
