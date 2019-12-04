@@ -10,6 +10,8 @@ import { timingSafeEqual } from 'crypto';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import Button from '@material-ui/core/Button';
 function ShowFiles(props){
     return (
         <div>
@@ -114,7 +116,6 @@ class Upload extends Component {
                 <legend>Upload here</legend>
             
                 <div>
-                    <label for="fileselect">Files to upload:</label>
 
                     <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles =>{if(this.state.file.length== 0){this.state.file= acceptedFiles}else{console.log(this.state.file);this.state.file =this.state.file.concat(acceptedFiles)}}}>
                     {({getRootProps, getInputProps}) => (
@@ -133,9 +134,13 @@ class Upload extends Component {
 
     </div>
                 <ShowFiles file={this.state.file} date={this.state.date} delete={()=>this.deletFile}/>
-                <button onClick={this.onFormSubmit}>submit</button>
-                
-                <button onClick={this.clear}>clear</button>
+                <Button variant="contained" onClick={this.onFormSubmit} style={{margin: '10px'}}color="primary">
+                    Submit
+                </Button>
+                <Button variant="contained" onClick={this.clear} style={{margin: '10px'}} color="secondary">
+                    Reset
+                </Button>
+
         <ScriptTag isHydrating={true} type="text/javascript" src="front-end.js" />
     </div>
 
