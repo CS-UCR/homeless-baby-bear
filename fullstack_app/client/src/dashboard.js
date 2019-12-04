@@ -49,7 +49,7 @@ class SimpleMap extends Component {
         }).then((res) => {
            // console.log(var_name)
              var_name[i] = res.data.data.length;
-             if(var_name == this.state.lifetime){
+             if(var_name === this.state.lifetime){
                  this.state.allData.concat(res.data.data)
              }
             //this.setState({ [var_name]: res.data.data })
@@ -76,7 +76,7 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getWeek == false && i != 6){
+            if(this.state.getWeek === false && i !== 6){
                 
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
             }else{
@@ -107,7 +107,7 @@ class SimpleMap extends Component {
             dateString = mm + '/' + dd + '/' + yyyy;
             
             dateLabels.push(dateString);
-            if(this.state.getMonth == false && i < 6){
+            if(this.state.getMonth === false && i < 6){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
@@ -131,7 +131,7 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getYear == false && i != 11){
+            if(this.state.getYear === false && i !== 11){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1),this.state.year ,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1),this.state.year ,i)
@@ -170,7 +170,7 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getLifetime == false && i != numLabels - 2){
+            if(this.state.getLifetime === false && i !== numLabels - 2){
                 this.getDataFromDbDate(date,new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * (i+1))), this.state.lifetime ,i)
             }else{
                 this.getDataFromDbDate(date, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()),this.state.lifetime ,i)
@@ -201,7 +201,7 @@ class SimpleMap extends Component {
         for(let i = 0; i < mapper.length; i++){
         }
         this.state.allData.sort()
-        if(this.state.getdata_num == false){
+        if(this.state.getdata_num === false){
             this.getLastWeekLabels()
             this.getLast30DaysLabels()
             this.getLastYearLabels()
@@ -211,16 +211,7 @@ class SimpleMap extends Component {
 
     }
 
-    
-
-    // needed for the javascript in the js file to work. Might remove later
-
     componentDidMount () {
-        /*
-        let script = document.createElement("script");
-        script.src = "app_dashboard.js";
-        script.async = true;
-        document.body.appendChild(script);*/
         this.timerID = setInterval(
             () => this.tick(),
             500
