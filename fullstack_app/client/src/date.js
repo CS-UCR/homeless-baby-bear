@@ -2,6 +2,8 @@ import "date-fns";
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
+import Button from '@material-ui/core/Button';
+import SearchIcon from '@material-ui/icons/Search';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
@@ -101,7 +103,13 @@ export default function MaterialUIPickers(props) {
                 <option value={"P.O. Box"}>P.O. Box</option>
             </NativeSelect>
         </FormControl>
-        <button onClick={(e) => props.func(fromDate, toDate, location_type.type)}>search</button>
+        <Button 
+          color="primary"
+          className={classes.button}
+          startIcon={<SearchIcon/>}
+          onClick={(e) => props.func(fromDate, toDate, location_type.type)}>
+          Search
+        </Button>
       </Grid>
     </MuiPickersUtilsProvider>
   );

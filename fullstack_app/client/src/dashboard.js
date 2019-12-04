@@ -5,9 +5,11 @@ import axios from 'axios';
 import Helmet from 'react-helmet';
 import MailNetchange from './components/mailNetchange';
 import MailCountChart from './components/mailCountContainer';
-//import StatePieChart from './chartsjs/statePieChart';
+import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
+import { element } from 'prop-types';
+
 
 class SimpleMap extends Component {
     constructor(props){
@@ -34,6 +36,8 @@ class SimpleMap extends Component {
             year_num: 0,
             getdata_num: false,
             lifetime_num: 0,
+            date_rank_lable: [],
+            date_rank_data: []
     
         }
 
@@ -48,8 +52,8 @@ class SimpleMap extends Component {
         }).then((res) => {
            // console.log(var_name)
              var_name[i] = res.data.data.length;
-             if(var_name == this.state.lifetime){
-                 this.state.allData.concat(res.data.data)
+             if(var_name === this.state.lifetime){
+                this.state.allData = this.state.allData.concat(res.data.data)
              }
             //this.setState({ [var_name]: res.data.data })
         });
@@ -75,7 +79,7 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getWeek == false && i != 6){
+            if(this.state.getWeek === false && i !== 6){
                 
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
             }else{
@@ -106,7 +110,7 @@ class SimpleMap extends Component {
             dateString = mm + '/' + dd + '/' + yyyy;
             
             dateLabels.push(dateString);
-            if(this.state.getMonth == false && i < 6){
+            if(this.state.getMonth === false && i < 6){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
@@ -130,7 +134,7 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getYear == false && i != 11){
+            if(this.state.getYear === false && i !== 11){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1),this.state.year ,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1),this.state.year ,i)
@@ -169,7 +173,7 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getLifetime == false && i != numLabels - 2){
+            if(this.state.getLifetime === false && i !== numLabels - 2){
                 this.getDataFromDbDate(date,new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * (i+1))), this.state.lifetime ,i)
             }else{
                 this.getDataFromDbDate(date, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()),this.state.lifetime ,i)
@@ -192,30 +196,39 @@ class SimpleMap extends Component {
     }
 
     setValue=()=>{
-        this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
-        this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
-        this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
-        this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
-        const mapper = this.state.allData.map(data => data.date)
-        for(let i = 0; i < mapper.length; i++){
+        if(this.state.getdata_num === true){
+            this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
+            this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
+            this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
+            this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
+            if(this.state.date_rank_lable.length == 0 || this.state.date_rank_lable[0] == undefined){
+                var mapper = this.state.allData.map(data => data.date.substring(0,10))
+                mapper.sort()
+                var name_array = [mapper[0]]
+                var number_array = [1]
+                for(let i = 1; i < mapper.length; i++){
+                    if(mapper[i] != mapper[i-1])
+                    {  
+                        name_array.push(mapper[i])
+                        number_array.push(1)
+                    }else{
+                        number_array[number_array.length-1] += 1
+                    }
+                }
+                this.setState({date_rank_lable: name_array, date_rank_data: number_array})
+            }
         }
-        this.state.allData.sort()
-        if(this.state.getdata_num == false){
+        if(this.state.getdata_num === false){
             this.getLastWeekLabels()
             this.getLast30DaysLabels()
             this.getLastYearLabels()
             this.getCGLabels(new Date("August 19, 2018"), new Date())
-            this.state.getdata_num = true
+            this.setState({getdata_num: true})
         }
 
     }
 
-    // needed for the javascript in the js file to work. Might remove later
     componentDidMount () {
-        let script = document.createElement("script");
-        script.src = "app_dashboard.js";
-        script.async = true;
-        document.body.appendChild(script);
         this.timerID = setInterval(
             () => this.tick(),
             500
@@ -230,7 +243,6 @@ class SimpleMap extends Component {
           date: new Date()
         });
       }
-
   render() {
     return (
     <div>
@@ -249,11 +261,11 @@ class SimpleMap extends Component {
                 <div className="main-overview">
                     <TopFive description="Cities" />
                     <TopFive description="Addresses" />
-                    <TopFive description="Dates" />
+                    <TopFive description="Dates" state={this.state}/>
                 </div>
 
                 <div className="main-cards">
-                    {/*<StatePieChart />*/}
+                    <StatePieChart />
                     <MailNetchange state={this.state}/>
                 </div>
 
