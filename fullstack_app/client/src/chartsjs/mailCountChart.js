@@ -130,7 +130,7 @@ export class Chart extends Component{
             datasets: [{
                 backgroundColor: "#00ed84",
                 borderColor: "#00ed84",
-                data: this.props.state.year
+                data: yeardata
             }]
         }
     }
