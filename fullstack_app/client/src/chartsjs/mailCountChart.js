@@ -142,15 +142,9 @@ export class Chart extends Component{
         return {
             labels: this.props.state.lifetimelables,
             datasets: [{
-<<<<<<< HEAD
-                backgroundColor: "#00ed84",
-                borderColor: "#00ed84",
-                data: this.props.state.lifetime
-=======
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
                 data: lifetimedata
->>>>>>> 0df73be28e2262ee527cf8a2ccffa5cbcb72376d
             }]
         }
     }
