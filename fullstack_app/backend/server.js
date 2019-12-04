@@ -83,8 +83,39 @@ router.post('/getData_bydate', async (req, res) => {
 // this is our update method
 // this method overwrites existing data in our database
 router.post('/updateData', (req, res) => {
-    const { id, address, picture } = req.body.update;
-    geocodingAndSave(id, address, picture);
+    const {_id, address} = req.body.update;
+    console.log(address)
+    googleMapsClient.geocode({address: address}, function(err, res) {
+        if (!err) {
+            var formatted_address = "";
+            address_components = res.json.results[0]["address_components"]
+            let city = ""
+            let state = ""
+            for(let i= 0; i < address_components.length; i ++)
+            {
+                if( address_components[i]["types"][0] =='administrative_area_level_1')
+                state = address_components[i]["long_name"]
+                if(address_components[i]["types"][0] ==  'locality')
+                city = address_components[i]["long_name"]
+            }
+            var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
+            var update = {}
+            if (accuracy == "ROOFTOP"){
+                formatted_address = res.json.results[0]["formatted_address"];
+                update = {city: city, state: state, address: formatted_address, accuracy: accuracy, 
+                    lat: res.json.results[0]["geometry"]["location"].lat, lng: res.json.results[0]["geometry"]["location"].lng};
+            }else if (address.includes("Box")){
+                var word_list = address.split(", ")
+                update = {city: city, state: state, address: address.replace(/\n/g, ''), accuracy: "P.O. Box", 
+                    lat: res.json.results[0]["geometry"]["location"].lat, lng: res.json.results[0]["geometry"]["location"].lng};
+            }else{
+                update = {city: city, state: state, address: address.replace(/\n/g, ''), accuracy: accuracy, 
+                    lat: res.json.results[0]["geometry"]["location"].lat, lng: res.json.results[0]["geometry"]["location"].lng};
+            }
+            new_Data.findByIdAndUpdate(_id, update, (err) => {
+            });
+        }
+    });
     return res.json({ success: true });
 });
 

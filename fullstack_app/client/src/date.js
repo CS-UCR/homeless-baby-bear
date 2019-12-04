@@ -29,10 +29,14 @@ export default function MaterialUIPickers(props) {
   // The first commit of Material-UI
   
   const [fromDate, setFromDate] = React.useState(
-    new Date("2019-11-01T00:00:00")
+    new Date("2019-12-01T00:00:00")
   );
   const [toDate, setToDate] = React.useState(
+<<<<<<< HEAD
     new Date()
+=======
+    new Date("2019-12-30T23:59:59")
+>>>>>>> d2a7a723632be79481dbfb6ac204d4afaeb3d07f
   );
 
   const handleDateChange_from = date => {
