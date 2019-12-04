@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { mergeClasses } from '@material-ui/styles';
+import AlgoliaPlaces from 'algolia-places-react';
 
 /* global google */
 
@@ -20,7 +21,6 @@ let heatMapData = {
         opacity: 0.6
 	}
 }
-
 
 function generateHeatMapData() {
     let heatmapData = [];
@@ -64,18 +64,6 @@ function getWeight() {
     return Math.floor((Math.random() * 10) + 1);
 }
 
-function openSideMenu() {
-    if(document.getElementById("side-menu")) {
-        document.getElementById("side-menu").style.left = "0px";
-    }
-}
-
-function closeSideMenu() {
-    if(document.getElementById("side-menu")) {
-        document.getElementById("side-menu").style.left= "-500px";
-    }
-}
-
 const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.spacing(3, 2),
@@ -83,29 +71,39 @@ const useStyles = makeStyles(theme => ({
   }));
 
 class SimpleMap extends Component {
-    static defaultProps = {
-        center: {
-          lat: 39.5,
-          lng: -98.35
-        },
-        zoom: 5
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            center: {
+                lat: 39.5,
+                lng: -98.35
+              },
+              zoom: 5
+        }
+
+    }
     classes = useStyles;
 
-    
-
-    componentDidMount () {
-        // Add scripts after components loaded so that the search bar works
-        let script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/places.js@1.16.6";
-        script.async = true;
-        document.body.appendChild(script);
-
-        // keeping here for the search bar. don't delete
-        // script = document.createElement("script");
-        // script.src = "heatmap.js";
-        // script.async = true;
-        // document.body.appendChild(script);
+    // zoom in on that location
+    locationEntered = (locationType, coordinates) => {
+        if(locationType === "city") {
+            this.setState({
+                zoom: 10,
+                center: {
+                    lat: coordinates.lat,
+                    lng: coordinates.lng
+                }
+            })
+        }
+        else if(locationType === "address") {
+            this.setState({
+                zoom: 15,
+                center: {
+                    lat: coordinates.lat,
+                    lng: coordinates.lng
+                }
+            })
+        }
     }
 
     render() {
@@ -122,51 +120,32 @@ class SimpleMap extends Component {
                 </Helmet>
                 <Paper className={this.classes.root} >
                 <div className="search-container">
-                    <span id="sidebar-btn">
-                        <a id="sidebar-toggle" href="#" onClick={openSideMenu}>&#9776;</a>
-                    </span>
-                    <form id="search-form">
-                        <input className="" id="address" type="search" placeholder="Location search" aria-label="Search"></input>
-                    </form>
-                </div>
-
-                <div id={"side-menu"} className="side-nav">
-                    <a href="#" onClick={closeSideMenu} id="close-menu-icon">&times;</a>
-                    <img id="logo" src="" alt="A million thanks logo"></img>
-                    <div className="dividing-line"></div>
-                        <a href="#" className="side-nav-title">Choose graph timeframe</a>
-                        <div className="options" id="timeframe-options">
-                            <a href="#">Last Week</a>
-                            <a href="#">Last Month</a>
-                            <a href="#">Last Year</a>
-                            <a href="#">Lifetime</a>
-                            <a href="#">Custom Range <span className="direction-arrow">&#9660;</span></a>
-                            <div className="time-pickers">
-                                <label htmlFor="start">Start date:</label>
-                                <input type="date" id="start-date" name="trip-start" value="2019-12-25" min="2019-12-25" max="2019-12-25"></input>
-                                <label htmlFor="start">End date:</label>
-                                <input type="date" id="end-date" name="trip-end" value="2019-12-25" max="2019-12-25"></input>
-                                <button id="accept-range-btn">Accept</button>
-                            </div>
-                        </div>
-                    <div className="dividing-line"></div>
-                        <a href="../dashboard/index.html" className="side-nav-subtitle external-link">National stats dashboard <img src="https://img.icons8.com/metro/26/000000/external-link.png" className="external-link-icon"></img></a>
-                    <div className="dividing-line"></div>
-                        <a href="#" className="side-nav-subtitle">Visualizations</a>
-                        <div className="options">
-                            <a href="../heatmap/index.html"> National Heat Map <img src="https://img.icons8.com/metro/26/000000/external-link.png" className="external-link-icon"></img></a>
-                        </div>
-                    <div className="dividing-line"></div>
-                        <a href="../mail_upload/index.html" className="side-nav-subtitle external-link"> Mail Upload <img src="https://img.icons8.com/metro/26/000000/external-link.png" className="external-link-icon"></img></a>
-                    <div className="dividing-line"></div>
+                    <div id="search-form">            
+                        <AlgoliaPlaces
+                            placeholder='Write an address or city here'
+                        
+                            options={{
+                                appId: 'plYR0C6D25C3',
+                                apiKey: 'cb7d79d87daed4f68068500409865fa1',
+                                language: 'en'
+                                // Other options from https://community.algolia.com/places/documentation.html#options
+                            }}
+                        
+                            onChange={
+                                ({ query, rawAnswer, suggestion, suggestionIndex }) => {
+                                    this.locationEntered(suggestion.type, suggestion.latlng);
+                                    console.log('Fired when suggestion selected in the dropdown or hint was validated.')}
+                            }
+                        />
+                    </div>
                 </div>
 
                 {/* Heat map code */}
                 <div style={{ height: '100vh', width: '100%' }}>
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: "AIzaSyArXSxgGfYKbh_pMB5rTXgQ3dqmX7gGADE"}}
-                        defaultCenter={this.props.center}
-                        defaultZoom={this.props.zoom}
+                        center={this.state.center}
+                        zoom={this.state.zoom}
                         heatmapLibrary={true} 
                         heatmap={heatMapData}
                         options={{mapTypeId: 'hybrid'}}
