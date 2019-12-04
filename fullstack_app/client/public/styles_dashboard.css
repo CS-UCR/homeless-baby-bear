@@ -40,7 +40,7 @@ td, th {
 .main {
     padding: 25px 0px;
     grid-area: main;
-    background-color: #e2e4ed;
+    background-color: #cac6c6;
 }
 
 .main-header {
@@ -59,12 +59,40 @@ td, th {
     width: 90%;
 }
 
-.time-picker {
+.time-picker > button{
+    display: inline-block;
+    border: none;
+    border-radius: 3px;
+    padding: 1rem 2rem;
+    margin: 0px 5px;
+    text-decoration: none;
+    background: #0069ed;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
 
+.time-picker > button:hover,
+.time-picker > button:focus {
+    background: #0053ba;
+}
+
+.time-picker > button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+.time-picker > button:active {
+    transform: scale(0.99);
 }
 
 #national-stats {
-    /* background: white; */
     height: 500px !important;
 }
 
@@ -83,6 +111,10 @@ td, th {
     padding: 20px;
     background-color: white;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+.overviewcard-title {
+    font-size: 18px;
 }
 
 .main-cards {
@@ -112,6 +144,10 @@ td, th {
     height: 485px;
 }
 
+.card-title {
+    font-size: 24px;
+}
+
 .positive {
     color: #4CAF50;
 }
@@ -121,7 +157,7 @@ td, th {
 }
 
 .net-change-percent {
-    margin-top: 100px;
+    margin-top: 50px;
     font-weight: bold;
     font-size: 84px;
 }

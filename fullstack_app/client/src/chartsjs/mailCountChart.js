@@ -85,19 +85,19 @@ export class Chart extends Component{
             datasets: [{
               data: this.props.state.week,
               backgroundColor: [
-                "rgba(255, 99, 132, 0.5)",
-                "rgba(54, 162, 235, 0.5)",
-                "rgba(255, 206, 86, 0.5)",
-                "rgba(75, 192, 192, 0.5)",
-                "rgba(153, 102, 255, 0.5)",
-                "rgba(255, 159, 64, 0.5)",
-                "rgba(105, 205, 0, 0.5)"
+                "rgba(255, 235, 59, 0.6)",
+                "rgba(121, 85, 72, 0.6)",
+                "rgba(233, 30, 99, 0.6)",
+                "rgba(75, 192, 192, 0.6)",
+                "rgba(153, 102, 255, 0.6)",
+                "rgba(255, 159, 64, 0.6)",
+                "rgba(105, 205, 0, 0.6)"
           
               ],
               borderColor: [
-                "rgba(255,99,132,1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
+                "rgba(255, 235, 59, 1)",
+                "rgba(121, 85, 72, 1)",
+                "rgba(233, 30, 99, 1)",
                 "rgba(75, 192, 192, 1)",
                 "rgba(153, 102, 255, 1)",
                 "rgba(255, 159, 64, 1)",
@@ -113,8 +113,8 @@ export class Chart extends Component{
         return {
             labels: this.props.state.monthlables,
             datasets: [{
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#00ed84",
+                borderColor: "#00ed84",
                 data: monthdata
             }]
         };
@@ -124,8 +124,8 @@ export class Chart extends Component{
         return {
             labels: this.props.state.yearlables,
             datasets: [{
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#00ed84",
+                borderColor: "#00ed84",
                 data: this.props.state.year
             }]
         }
@@ -137,8 +137,8 @@ export class Chart extends Component{
         return {
             labels: this.props.state.lifetimelables,
             datasets: [{
-                backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "#00ed84",
+                borderColor: "#00ed84",
                 data: this.props.state.lifetime
             }]
         }
