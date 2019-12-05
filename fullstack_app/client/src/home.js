@@ -88,20 +88,10 @@ class App extends Component {
   // our delete method that uses our backend api
   // to remove existing database information
   deleteFromDB = (idTodelete) => {
-    parseInt(idTodelete);
-    console.log(this.state.fromDate)
-    console.log(this.state.toDate)
-    console.log(this.state.location_type)
-    let objIdToDelete = null;
-    this.state.data.forEach((dat) => {
-      if (dat.id === idTodelete) {
-        objIdToDelete = dat._id;
-      }
-    });
 
     axios.delete('http://localhost:3001/api/deleteData', {
       data: {
-        id: objIdToDelete,
+        id: idTodelete,
       },
     }).then((res)=>{
 
@@ -217,7 +207,7 @@ tick() {
                       color="secondary"
                       variant="contained"
                       style={{margin: '2px', width: '25px'}}
-                      onClick={() => this.deleteFromDB(dat.id)}>
+                      onClick={() => this.deleteFromDB(dat._id)}>
                       DELETE
                     </Button>
                     </Typography>
