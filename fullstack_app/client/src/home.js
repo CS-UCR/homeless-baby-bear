@@ -175,7 +175,12 @@ tick() {
                     }}
                     image="../letter5.png">
                   <CardContent>
-                    
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      
+                    </Typography>
+                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      
+                    </Typography>
                   {/*<CardMedia paddingTop="56.25%" height="0" image="../center.jpg">*/}
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <img 
@@ -198,7 +203,6 @@ tick() {
                     <Button 
                       color="primary"
                       variant="contained"
-
                       style={{margin: '2px', width: '25px'}}
                       onClick={() => this.updateDB(this.state.updateToApply, dat._id, index)}>
                       UPDATE
@@ -228,6 +232,7 @@ tick() {
                       UPDATE
                     </Button> 
                     </Typography> 
+
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       Accuracy: {dat.accuracy}
                     </Typography> 
