@@ -51,12 +51,12 @@ class App extends Component {
     state = {
         data: [],
         id: 0,
-        name_var: "",
+        updateToApply: [],
+        name_var: [],
         address_helper: [],
         name_helper: [],
         picture: null,
-        address: null,
-        raw_address: null,
+        address: [],
         accuracy: null,
         date: null,
         intervalIsSet: false,
@@ -87,14 +87,17 @@ class App extends Component {
 
   // our delete method that uses our backend api
   // to remove existing database information
-  deleteFromDB = (idTodelete) => {
+  deleteFromDB = (idTodelete, index) => {
 
     axios.delete('http://localhost:3001/api/deleteData', {
       data: {
         id: idTodelete,
       },
     }).then((res)=>{
-
+      this.state.updateToApply.splice(index, 1)
+      this.state.name_var.splice(index, 1)
+      this.state.name_helper.splice(index, 1)
+      this.state.address_helper.splice(index, 1)
       this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
     })
   };
@@ -121,10 +124,21 @@ class App extends Component {
   // it is easy to understand their functions when you
   // see them render into our screen
   changeNameHelper = (index)=>{
-      console.log(this.state.name_helper[index])
+      
       var name_helper =  this.state.name_helper;
       name_helper[index] = ''
       return name_helper
+  }
+  changeAddress = (value,index) =>{
+    var new__ = this.state.updateToApply
+    new__[index] = value
+    return new__
+  }
+
+  changeName = (value,index) =>{
+    var new__ = this.state.name_var
+    new__[index] = value
+    return new__
   }
   changeAddressHelper = (index)=>{
     var address_helper =  this.state.address_helper;
@@ -192,7 +206,7 @@ tick() {
                       style={{ width: '400px' }}
                       defaultValue = {dat.address}
                       helperText={this.state.address_helper[index]}
-                      onChange={(e) => this.setState({ updateToApply: e.target.value, address_helper: this.changeAddressHelper(index) })}
+                      onChange={(e) => this.setState({ updateToApply: this.changeAddress(e.target.value, index), address_helper: this.changeAddressHelper(index) })}
                       placeholder={dat.address}
                     />
                     <Button 
@@ -207,7 +221,7 @@ tick() {
                       color="secondary"
                       variant="contained"
                       style={{margin: '2px', width: '25px'}}
-                      onClick={() => this.deleteFromDB(dat._id)}>
+                      onClick={() => this.deleteFromDB(dat._id,index)}>
                       DELETE
                     </Button>
                     </Typography>
@@ -217,7 +231,7 @@ tick() {
                       style={{ width: '200px' }}
                       defaultValue = {dat.name}
                       helperText={this.state.name_helper[index]}
-                      onChange={(e) => this.setState({ name_var: e.target.value , name_helper: this.changeNameHelper(index)})}
+                      onChange={(e) => this.setState({ name_var: this.changeName(e.target.value, index) , name_helper: this.changeNameHelper(index)})}
                       />
                       <Button 
                       color="primary"

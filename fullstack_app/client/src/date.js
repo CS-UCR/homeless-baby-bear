@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function disableDays(date) {
-  return date > new Date();
+  let today = new Date();
+  return date > new Date(today.getFullYear(), today.getMonth(), today.getDay()+2);
 }
 
 export default function MaterialUIPickers(props) {
