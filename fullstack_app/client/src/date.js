@@ -24,6 +24,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+function disableDays(date) {
+  return date > new Date();
+}
+
 export default function MaterialUIPickers(props) {
     const classes = useStyles();
   // The first commit of Material-UI
@@ -80,6 +84,7 @@ export default function MaterialUIPickers(props) {
           label="To Date"
           value={toDate}
           onChange={handleDateChange_to}
+          shouldDisableDate={disableDays} 
           KeyboardButtonProps={{
             "aria-label": "change date"
           }}

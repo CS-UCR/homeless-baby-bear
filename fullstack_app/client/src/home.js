@@ -52,7 +52,8 @@ class App extends Component {
         data: [],
         id: 0,
         name_var: "",
-        name_helper: "",
+        address_helper: [],
+        name_helper: [],
         picture: null,
         address: null,
         raw_address: null,
@@ -63,6 +64,9 @@ class App extends Component {
         idToUpdate: null,
         objectToUpdate: null,
         dateContent : null,
+        fromDate: null,
+        toDate: null,
+        location_type: null,
     };
     getDataFromDb = () => {
         fetch('http://localhost:3001/api/getData')
@@ -70,11 +74,12 @@ class App extends Component {
         .then((res) => this.setState({ data: res.data }));
     };
 
-    getDataFromDbDate = (fromDate, toDate, locaction_type) => {
+    getDataFromDbDate = (fromDate, toDate, location_type) => {
+      this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
         axios.post('http://localhost:3001/api/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
-            location_type: locaction_type
+            location_type: location_type
         }).then((res) => {
             this.setState({ data: res.data.data })
         });
@@ -84,6 +89,9 @@ class App extends Component {
   // to remove existing database information
   deleteFromDB = (idTodelete) => {
     parseInt(idTodelete);
+    console.log(this.state.fromDate)
+    console.log(this.state.toDate)
+    console.log(this.state.location_type)
     let objIdToDelete = null;
     this.state.data.forEach((dat) => {
       if (dat.id === idTodelete) {
@@ -95,29 +103,59 @@ class App extends Component {
       data: {
         id: objIdToDelete,
       },
-    });
+    }).then((res)=>{
+
+      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+    })
   };
 
   // our update method that uses our backend api
   // to overwrite existing data base information
-  updateDB = (updateToApply, _id) => {
+  updateDB = (updateToApply, _id,index) => {
     axios.post('http://localhost:3001/api/updateAddress', {
         update: { _id: _id, address: updateToApply},
-    });
-    this.getDataFromDb()
+    }).then((res)=>{
+      this.state.address_helper[index] = "Update Success!"
+      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+    })
   };
-  updateName = (name_var, _id) => {
+  updateName = (name_var, _id, index) => {
     axios.post('http://localhost:3001/api/updateData', {
       id: _id,
       update: { name: name_var },
 }).then((res) => {
-  this.setState({ name_helper: "update_success!"})
+  this.state.name_helper[index] = "Update Success!"
 });
 };
   // here is our UI
   // it is easy to understand their functions when you
   // see them render into our screen
+  changeNameHelper = (index)=>{
+      console.log(this.state.name_helper[index])
+      var name_helper =  this.state.name_helper;
+      name_helper[index] = ''
+      return name_helper
+  }
+  changeAddressHelper = (index)=>{
+    var address_helper =  this.state.address_helper;
+    address_helper[index] = ''
+    return address_helper
+}
 
+  componentDidMount () {
+    this.timerID = setInterval(
+        () => this.tick(),
+        500
+      );
+}
+componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+tick() {
+    this.setState({
+      name_helper : this.state.name_helper
+    });
+  }
   
   
   render() {
@@ -131,7 +169,7 @@ class App extends Component {
             ? <Typography variant="h4" align="center">
                 NO DB ENTRIES YET
               </Typography>
-            : data.map((dat) => (
+            : data.map((dat, index) => (
               <div align="center">
                 <Card 
                   style={{ 
@@ -149,15 +187,6 @@ class App extends Component {
                   <CardContent>
                     
                   {/*<CardMedia paddingTop="56.25%" height="0" image="../center.jpg">*/}
-                  <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                      
-                    </Typography >
-                    {/*<Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                      id: {dat.id}
-                  </Typography >*/}
-                    {/*<Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      picture: 
-                </Typography>*/}
                     <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       <img 
                         src={"/uploads" + dat.picture} 
@@ -172,7 +201,8 @@ class App extends Component {
                       type="text"
                       style={{ width: '400px' }}
                       defaultValue = {dat.address}
-                      onChange={(e) => this.setState({ updateToApply: e.target.value })}
+                      helperText={this.state.address_helper[index]}
+                      onChange={(e) => this.setState({ updateToApply: e.target.value, address_helper: this.changeAddressHelper(index) })}
                       placeholder={dat.address}
                     />
                     <Button 
@@ -180,7 +210,7 @@ class App extends Component {
                       variant="contained"
 
                       style={{margin: '2px', width: '25px'}}
-                      onClick={() => this.updateDB(this.state.updateToApply, dat._id)}>
+                      onClick={() => this.updateDB(this.state.updateToApply, dat._id, index)}>
                       UPDATE
                     </Button> 
                     <Button 
@@ -196,15 +226,15 @@ class App extends Component {
                       Name: <TextField type="text"
                       style={{ width: '200px' }}
                       defaultValue = {dat.name}
-                      helperText={this.state.name_helper}
-                      onChange={(e) => this.setState({ name_var: e.target.value, name_helper: "" })}
+                      helperText={this.state.name_helper[index]}
+                      onChange={(e) => this.setState({ name_var: e.target.value , name_helper: this.changeNameHelper(index)})}
                       />
                       <Button 
                       color="primary"
                       variant="contained"
                       style={{margin: '2px', width: '25px'}}
                       
-                      onClick={() => this.updateName(this.state.name_var, dat._id)}>
+                      onClick={() => this.updateName(this.state.name_var, dat._id, index)}>
                       UPDATE
                     </Button> 
                     </Typography> 
