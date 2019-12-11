@@ -19,7 +19,8 @@ export class locStats extends Component {
             week:[],
             month:[],
             year:[],
-            lifetime:[]
+            lifetime:[],
+            getlables: false
         }
 
     }
@@ -36,12 +37,20 @@ export class locStats extends Component {
            // console.log(var_name)
              if(res.data.success)
              {
-                this.setState({data: res.data.data})
+                 console.log(res.data.data.length)
+                 this.setState({data: res.data.data})
+                 this.getLabels()
              }
             //this.setState({ [var_name]: res.data.data })
         });
     };
 //---------------------laybels
+    getLabels=()=>{
+        this.getLastWeekLabels()
+        this.getLast30DaysLabels()
+        this.getLastYearLabels()
+        this.getCGLabels(new Date("August 19, 2018"), new Date())
+    }
     getLastWeekLabels (){
         let dateLabels = [];
         let today = new Date();
@@ -50,6 +59,7 @@ export class locStats extends Component {
         let mm = "";
         let yyyy = "";
         let dateString = "";
+        let dates = [];
         
         for(let i = 0; i < 7; ++i) {
             date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6 + i);
@@ -58,9 +68,19 @@ export class locStats extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
+            dateString =  yyyy+ '-' + mm + '-' + dd;
+            dates.push(dateString)
+            this.state.week[i] = 0
+            if(i > 0){
+                for(let j = 0; j < this.state.data.length; j++){
+                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date <dates[i]){
+                        this.state.week[i-1] +=1
+                    }
+                }
+            }
+            
         }
-        
-        this.state.weeklabels = dateLabels
+        this.setState({ weeklabels:dateLabels})
         //return dateLabels;
     }
 
@@ -73,6 +93,7 @@ export class locStats extends Component {
         let dd = "";
         let yyyy = "";
         let dateString = "";
+        let dates = []
     
         for(let i = 0; i < 7; ++i) {
             date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i));
@@ -80,10 +101,19 @@ export class locStats extends Component {
             mm = String(date.getMonth() + 1).padStart(2, '0');
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
-            
+            dates.push(yyyy+'-'+mm+'-'+dd)
             dateLabels.push(dateString);
+
+            this.state.month[i] = 0
+            if(i > 0){
+                for(let j = 0; j < this.state.data.length; j++){
+                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                        this.state.month[i-1] +=1
+                    }
+                }
+            }
         }
-        this.state.monthlabels = dateLabels;
+        this.setState({ monthlabels:dateLabels})
     }
 
     getLastYearLabels = () => {
@@ -93,6 +123,7 @@ export class locStats extends Component {
         let mm = "";
         let yyyy = "";
         let dateString = "";
+        let dates = []
     
         for(let i = 0; i < 12; ++i) {
             date = new Date(today.getFullYear(), today.getMonth() - 11 + i);
@@ -100,6 +131,16 @@ export class locStats extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + yyyy;
             dateLabels.push(dateString);
+            dates.push(yyyy+'-'+mm)
+
+            this.state.year[i]=0
+            if(i > 0){
+                for(let j = 0; j < this.state.data.length; j++){
+                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                        this.state.year[i-1] +=1
+                    }
+                }
+            }
         }
        // this.state.year = datedata
         this.state.yearlabels =  dateLabels;
@@ -125,6 +166,7 @@ export class locStats extends Component {
         let mm = "";
         let yyyy = "";
         let dateString = "";
+        let dates = []
     
         for(let i = 0; i < numLabels - 1; ++i) {
             date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * i));
@@ -132,7 +174,17 @@ export class locStats extends Component {
             mm = String(date.getMonth() + 1).padStart(2, '0');
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
+            dates.push(yyyy+'-'+mm+'-'+dd)
             dateLabels.push(dateString);
+
+            this.state.lifetime[i]=0
+            if(i > 0){
+                for(let j = 0; j < this.state.data.length; j++){
+                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                        this.state.lifetime[i-1] +=1
+                    }
+                }
+            }
         }
     
         // add endDate label. Got to guarentee the endDate is the last label
@@ -141,7 +193,15 @@ export class locStats extends Component {
         mm = String(date.getMonth() + 1).padStart(2, '0');
         yyyy = date.getFullYear();
         dateString = mm + '/' + dd + '/' + yyyy;
+        dates.push(yyyy+'-'+mm+'-'+dd)
         dateLabels.push(dateString);
+
+        this.state.lifetime[ numLabels - 1]=0
+            for(let j = 0; j < this.state.data.length; j++){
+                if(this.state.data[j].date >= dates[ numLabels - 1-1] && this.state.data[j].date < dates[ numLabels - 1]){
+                    this.state.lifetime[ numLabels - 1] +=1
+                }
+            }
         
         //this.state.lifetime = datedata
        this.state.lifetimelabels = dateLabels
@@ -164,10 +224,8 @@ export class locStats extends Component {
         }
     }
 
+
     render() {
-        this.getLastWeekLabels()
-        this.getLast30DaysLabels()
-        this.getLastYearLabels()
         return (
             <div>
                 <Helmet>

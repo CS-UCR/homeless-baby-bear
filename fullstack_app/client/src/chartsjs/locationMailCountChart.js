@@ -17,6 +17,7 @@ export class Chart extends Component{
         let chart = null;
 
         if(this.props.chartTimeframe === "week") {
+            console.log("in week")
             chart = <Bar 
                 data={this.getLastWeekData}
                 options={this.getOptions()} />
@@ -82,9 +83,12 @@ export class Chart extends Component{
     }
 
     getLastWeekData = () => {
+        console.log("week")
+        console.log(this.props.state.week)
+        console.log(this.props.state.weeklabels)
         // we must query the database for 'data' in the datasets object
         return {
-            labels: this.props.state.weeklables,
+            labels: this.props.state.weeklabels,
             datasets: [{
               data: this.props.state.week,
               backgroundColor: [
@@ -114,7 +118,7 @@ export class Chart extends Component{
     getLast30DaysData = () => {
         const monthdata = this.state.month.slice(0, 7)
         return {
-            labels: this.props.state.monthlables,
+            labels: this.props.state.monthlabels,
             datasets: [{
                 backgroundColor: "#00ed84",
                 borderColor: "#00ed84",
@@ -126,7 +130,7 @@ export class Chart extends Component{
     getLastYearData = () => {
         const yeardata = this.state.year.slice(0, 12)
         return {
-            labels: this.props.state.yearlables,
+            labels: this.props.state.yearlabels,
             datasets: [{
                 backgroundColor: "#00ed84",
                 borderColor: "#00ed84",
@@ -140,7 +144,7 @@ export class Chart extends Component{
     getLifetimeData = () => {
         const lifetimedata = this.state.lifetime.slice(0, 12)
         return {
-            labels: this.props.state.lifetimelables,
+            labels: this.props.state.lifetimelabels,
             datasets: [{
                 backgroundColor: "#00ed84",
                 borderColor: "#00ed84",
