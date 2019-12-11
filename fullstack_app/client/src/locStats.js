@@ -213,6 +213,7 @@ export class locStats extends Component {
             this.setState({
                 location: location.name + ", " + location.administrative // City, State
             })
+            this.getDataFromDbDate(location.query)
             // query the database for the city
         }
         else if(location.type === "address") {
