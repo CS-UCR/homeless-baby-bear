@@ -11,10 +11,20 @@ export class locStats extends Component {
         super(props);
         this.state = {
             location: "", // maybe have a default location
-            data: []
+            data: [],
+            state: "week",
+            weeklabels:[],
+            monthlabels:[],
+            lifetimelables:[],
+            week:[],
+            month:[],
+            year:[],
+            lifetime:[]
         }
 
     }
+
+
 
     getDataFromDbDate =  (query) => {
         console.log(query)
@@ -31,7 +41,113 @@ export class locStats extends Component {
             //this.setState({ [var_name]: res.data.data })
         });
     };
+//---------------------laybels
+    getLastWeekLabels (){
+        let dateLabels = [];
+        let today = new Date();
+        let date = null;
+        let dd = "";
+        let mm = "";
+        let yyyy = "";
+        let dateString = "";
+        
+        for(let i = 0; i < 7; ++i) {
+            date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6 + i);
+            dd = String(date.getDate()).padStart(2, '0');
+            mm = String(date.getMonth() + 1).padStart(2, '0');
+            yyyy = date.getFullYear();
+            dateString = mm + '/' + dd + '/' + yyyy;
+            dateLabels.push(dateString);
+        }
+        
+        this.state.weeklabels = dateLabels
+        //return dateLabels;
+    }
 
+    getLast30DaysLabels = () => {
+        let dateLabels = [];
+
+        let today = new Date();
+        let date = null;
+        let mm = "";
+        let dd = "";
+        let yyyy = "";
+        let dateString = "";
+    
+        for(let i = 0; i < 7; ++i) {
+            date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i));
+            dd = String(date.getDate()).padStart(2, '0');
+            mm = String(date.getMonth() + 1).padStart(2, '0');
+            yyyy = date.getFullYear();
+            dateString = mm + '/' + dd + '/' + yyyy;
+            
+            dateLabels.push(dateString);
+        }
+        this.state.monthlabels = dateLabels;
+    }
+
+    getLastYearLabels = () => {
+        let dateLabels = [];
+        let today = new Date();
+        let date = null;
+        let mm = "";
+        let yyyy = "";
+        let dateString = "";
+    
+        for(let i = 0; i < 12; ++i) {
+            date = new Date(today.getFullYear(), today.getMonth() - 11 + i);
+            mm = String(date.getMonth() + 1).padStart(2, '0');
+            yyyy = date.getFullYear();
+            dateString = mm + '/' + yyyy;
+            dateLabels.push(dateString);
+        }
+       // this.state.year = datedata
+        this.state.yearlabels =  dateLabels;
+       
+    }
+
+    getCGLabels = (startDate, endDate) => {
+        const oneDay = 1000 * 3600 * 24;
+        const dayDifference = (endDate - startDate) / oneDay;
+    
+        if(dayDifference <= 7) {
+            return this.cgLabelGenerator(dayDifference, startDate, endDate, dayDifference);
+        }
+        else {
+            return this.cgLabelGenerator(10, startDate, endDate, dayDifference);
+        }
+    }
+    
+    cgLabelGenerator = (numLabels, startDate, endDate, dayDifference) => {
+        let dateLabels = [];
+        let date = null;
+        let dd = "";
+        let mm = "";
+        let yyyy = "";
+        let dateString = "";
+    
+        for(let i = 0; i < numLabels - 1; ++i) {
+            date = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * i));
+            dd = String(date.getDate()).padStart(2, '0');
+            mm = String(date.getMonth() + 1).padStart(2, '0');
+            yyyy = date.getFullYear();
+            dateString = mm + '/' + dd + '/' + yyyy;
+            dateLabels.push(dateString);
+        }
+    
+        // add endDate label. Got to guarentee the endDate is the last label
+        date = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+        dd = String(date.getDate()).padStart(2, '0');
+        mm = String(date.getMonth() + 1).padStart(2, '0');
+        yyyy = date.getFullYear();
+        dateString = mm + '/' + dd + '/' + yyyy;
+        dateLabels.push(dateString);
+        
+        //this.state.lifetime = datedata
+       this.state.lifetimelabels = dateLabels
+
+    }
+    //--------------------------------------------
     locationEntered = (location) => {
         if(location.type === "city") {
             this.setState({
@@ -49,6 +165,9 @@ export class locStats extends Component {
     }
 
     render() {
+        this.getLastWeekLabels()
+        this.getLast30DaysLabels()
+        this.getLastYearLabels()
         return (
             <div>
                 <Helmet>
@@ -86,7 +205,7 @@ export class locStats extends Component {
 
                     <div className="stats-container">
                         <h1 id="location">{this.state.location}</h1>
-                        <MailCountChartContainer state={"week"}/>
+                        <MailCountChartContainer data={this.state.data} state={this.state}/>
                         <AddressesTable data={this.state.data} />
                     </div>
                 </div>

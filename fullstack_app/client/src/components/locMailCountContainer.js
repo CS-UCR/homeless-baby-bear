@@ -32,9 +32,6 @@ export class mailCountChart extends Component {
 
     // rendering a new chart based on the button pressed.
     render() {
-        let mailCountChart = (
-            <MailCountChart state={this.props.state} chartTimeframe={this.state.chart_choice} type="mail-count"/>
-        );
         return (
             <div className="main-header">
                 <div id="graph-picker" className="time-picker">
@@ -45,7 +42,7 @@ export class mailCountChart extends Component {
                     {/* Lets not include custom for now */}
                     {/* <button>Custom Timeframe</button> */}
                 </div>
-                {mailCountChart}
+                <MailCountChart state={this.props.state} chartTimeframe={this.state.chart_choice} type="mail-count"/>
             </div>
         )
     }

@@ -96,7 +96,7 @@ class SimpleMap extends Component {
             }
         }
         
-        this.state.weeklables = dateLabels
+        this.state.weeklabels = dateLabels
         //return dateLabels;
     }
 
@@ -125,7 +125,7 @@ class SimpleMap extends Component {
                 this.state.getMonth = true
             }
         }
-        this.state.monthlables = dateLabels;
+        this.state.monthlabels = dateLabels;
     }
 
     getLastYearLabels = () => {
@@ -150,7 +150,7 @@ class SimpleMap extends Component {
             }
         }
        // this.state.year = datedata
-        this.state.yearlables =  dateLabels;
+        this.state.yearlabels =  dateLabels;
        
     }
 
@@ -199,7 +199,7 @@ class SimpleMap extends Component {
         this.getDataFromDbDate(date, new Date(),this.state.lifetime ,numLabels - 1)
         
         //this.state.lifetime = datedata
-       this.state.lifetimelables = dateLabels
+       this.state.lifetimelabels = dateLabels
 
     }
 
