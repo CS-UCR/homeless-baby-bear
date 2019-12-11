@@ -283,7 +283,7 @@ router.post("/search", async (request, response) => {
     var new_data = await new_Data.find().exec();
     for (word = 0; word < word_list.length; word++) {
         for (index = 0; index < new_data.length; index++) {
-            if (new_data[index].title.toLowerCase().includes(word_list[word].toLowerCase())){
+            if (new_data[index].address.toLowerCase().includes(word_list[word].toLowerCase())){
                 if (data.includes(new_data[index]) !== true)
                     data.push(new_data[index]);
             }
