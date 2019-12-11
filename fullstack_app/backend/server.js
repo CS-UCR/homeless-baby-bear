@@ -275,6 +275,24 @@ router.post('/putData', (req, res) => {
     });
 });
 
+// search bar actions
+router.post("/search", async (request, response) => {
+    const { query } = request.body;
+    word_list = query.split(" ");
+    data = [];
+    var new_data = await new_Data.find().exec();
+    for (word = 0; word < word_list.length; word++) {
+        for (index = 0; index < new_data.length; index++) {
+            if (new_data[index].address.toLowerCase().includes(word_list[word].toLowerCase())){
+                if (data.includes(new_data[index]) !== true)
+                    data.push(new_data[index]);
+            }
+        }
+    }
+    if (data === []) return response.json({ success: false});
+    return response.json({ success: true, data: data });
+});
+
 // append /api for our http requests
 app.use('/api', router);
 
