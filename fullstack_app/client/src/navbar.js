@@ -170,6 +170,17 @@ export default function PersistentDrawerLeft() {
             </Link>
           ))}
         </List>
+        <Divider />
+        <List>
+          {['Location Statistics'].map((text, index) => (
+            <Link to="/locationStats">
+            <ListItem button key={text}>
+              <ListItemIcon>{<RoomIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+            </Link>
+          ))}
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {

@@ -7,6 +7,7 @@ import Heapmap from './heatmap';
 import Upload from './upload';
 import Dashboard from './dashboard';
 import Date from './date';
+import LocationStats from './locStats';
 
 class App extends Component {
   render() {
@@ -27,6 +28,11 @@ class App extends Component {
           <Route exact={true} path='/heatmap' render={() => (
             <div className="App">
               <Heapmap />
+            </div>
+          )}/>
+          <Route exact={true} path='/locationStats' render={() => (
+            <div className="App">
+              <LocationStats />
             </div>
           )}/>
           <Route exact={true} path='/' render={() => (
