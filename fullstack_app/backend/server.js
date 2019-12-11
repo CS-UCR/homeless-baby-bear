@@ -279,15 +279,21 @@ router.post('/putData', (req, res) => {
 router.post("/search", async (request, response) => {
     const { query } = request.body;
     word_list = query.split(" ");
-    data = [];
+    var data = [];
     var new_data = await new_Data.find().exec();
-    for (word = 0; word < word_list.length; word++) {
-        for (index = 0; index < new_data.length; index++) {
+    var count = 0;
+    var weight = 0;
+    var weights = []
+    for (index = 0; index < new_data.length; index++) {
+        weight = 0;
+        for (word = 0; word < word_list.length; word++) {
             if (new_data[index].address.toLowerCase().includes(word_list[word].toLowerCase())){
-                if (data.includes(new_data[index]) !== true)
-                    data.push(new_data[index]);
+                weight += 1;
             }
         }
+        if (weight == word_list.length)
+            if (data.includes(new_data[index]) !== true)
+                data.push(new_data[index]);
     }
     if (data === []) return response.json({ success: false});
     return response.json({ success: true, data: data });
