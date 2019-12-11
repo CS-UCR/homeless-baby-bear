@@ -251,7 +251,6 @@ class SimpleMap extends Component {
             this.getCGLabels(new Date("August 19, 2018"), new Date())
             this.setState({getdata_num: true})
         }
-
     }
 
     componentDidMount () {

@@ -4,15 +4,33 @@ import AlgoliaPlaces from 'algolia-places-react';
 import {Bar, Line} from 'react-chartjs-2';
 import MailCountChartContainer from './components/locMailCountContainer';
 import AddressesTable from './components/addressesTable';
+import axios from 'axios'
 
 export class locStats extends Component {
     constructor(props){
         super(props);
         this.state = {
-            location: "" // maybe have a default location
+            location: "", // maybe have a default location
+            data: []
         }
 
     }
+
+    getDataFromDbDate =  (query) => {
+        console.log(query)
+
+        axios.post('http://localhost:3001/api/search', {
+            query: query
+        }).then((res) => {
+            console.log(res.data)
+           // console.log(var_name)
+             if(res.data.success)
+             {
+                this.setState({data: res.data.data})
+             }
+            //this.setState({ [var_name]: res.data.data })
+        });
+    };
 
     locationEntered = (location) => {
         if(location.type === "city") {
@@ -25,6 +43,7 @@ export class locStats extends Component {
             this.setState({
                 location: location.name + ", " + location.city + ", " + location.administrative // Address, City, State
             })
+            this.getDataFromDbDate(location.query)
             // query the database for the address
         }
     }
@@ -68,7 +87,7 @@ export class locStats extends Component {
                     <div className="stats-container">
                         <h1 id="location">{this.state.location}</h1>
                         <MailCountChartContainer state={"week"}/>
-                        <AddressesTable />
+                        <AddressesTable data={this.state.data} />
                     </div>
                 </div>
             </div>

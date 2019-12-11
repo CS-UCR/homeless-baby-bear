@@ -15,7 +15,7 @@ export class addressesTable extends Component {
                         <th>Date sent</th>
                     </tr>
                 </thead>
-                <AddressRows state={this.props.state}/>
+                <AddressRows data={this.props.data}/>
             </table>
         )
     }

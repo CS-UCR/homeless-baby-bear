@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 
 export class addressRows extends Component {
+    constructor(props){
+        super(props);
+    }
     render() {
-        let rows = this.getRows().map(
+        let rows = this.props.data.map(
             (row) => 
             <tr>
-                <td>{row.mailID}</td>
+                <td>{row.id}</td>
                 <td>{row.address}</td>
                 <td>{row.date}</td>
             </tr>
