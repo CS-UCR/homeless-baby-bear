@@ -26,15 +26,20 @@ const useStyles = makeStyles(theme => ({
 
 function disableDays(date) {
   let today = new Date();
-  return date > new Date(today.getFullYear(), today.getMonth(), today.getDay()+2);
+  return date > new Date(today.getFullYear(), today.getMonth(), today.getDay());
+}
+
+function getCurrentDate(){
+  let today = new Date(today.getFullYear(), today.getMonth(), today.getDay());
+  return today;
 }
 
 export default function MaterialUIPickers(props) {
-    const classes = useStyles();
+  const classes = useStyles();
   // The first commit of Material-UI
   
   const [fromDate, setFromDate] = React.useState(
-    new Date("2019-12-01T00:00:00")
+    new Date("2019-11-01T00:00:00")
   );
   const [toDate, setToDate] = React.useState(
     new Date()
@@ -59,8 +64,15 @@ export default function MaterialUIPickers(props) {
     });
   };
 // ----------------------------------
+const selectionRange = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: 'selection',
+}
+  
 
   return (
+    
     <MuiPickersUtilsProvider utils={DateFnsUtils} value={{from : fromDate, to: toDate, location_type: location_type.type}}>
       <Grid container justify="space-around">
         <KeyboardDatePicker
@@ -75,7 +87,9 @@ export default function MaterialUIPickers(props) {
           KeyboardButtonProps={{
             "aria-label": "change date"
           }}
+          maxDate={new Date()}
         />
+
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -85,10 +99,12 @@ export default function MaterialUIPickers(props) {
           label="To Date"
           value={toDate}
           onChange={handleDateChange_to}
-          shouldDisableDate={disableDays} 
+          //shouldDisableDate={disableDays} 
           KeyboardButtonProps={{
             "aria-label": "change date"
           }}
+          minDate={fromDate}
+          maxDate={new Date()}
         />
         <FormControl className={classes.formControl}>
             <InputLabel id="location-select-label">Location Type</InputLabel>
