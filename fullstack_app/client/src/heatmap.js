@@ -105,7 +105,7 @@ class SimpleMap extends Component {
                         
                             onChange={
                                 ({ query, rawAnswer, suggestion, suggestionIndex }) => {
-                                    this.locationEntered(suggestion.type, suggestion.latlng);
+                                    this.locationEntered(suggestion.type, suggestion.latlng)}
                             }
                         />
                     </div>
