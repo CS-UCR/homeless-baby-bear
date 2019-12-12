@@ -134,6 +134,7 @@ class App extends Component {
         location_type: null,
         updating:false,
         updateCount:3,
+        start: false,
     };
     getDataFromDb = () => {
         fetch(process.env.REACT_APP_API+'/getData')
@@ -143,6 +144,9 @@ class App extends Component {
 
     getDataFromDbDate = (fromDate, toDate, location_type) => {
      // this.setState({data: []})
+      if(this.state.start === false){
+        this.setState({start:true})
+      }
       this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
         axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,
@@ -214,13 +218,13 @@ componentWillUnmount() {
       <div /*style={sectionStyle}*/>
         <Date func={this.getDataFromDbDate}/>
         <Container>
-          {this.state.data.length <= 0
+          {this.state.start?this.state.data.length <= 0
             ? <Typography variant="h4" align="center">
                 NO DB ENTRIES YET
               </Typography>
             : this.state.data.map((dat, index) => (
                 <AddressCard dat={dat} index={index} delete={this.deleteFromDB} updateAddress={this.updateDB} index={index} updateName={this.updateName}/>
-              ))}
+              )):<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
         </Container>
       </div>
     );
