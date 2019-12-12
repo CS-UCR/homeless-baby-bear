@@ -32,6 +32,9 @@ class SimpleMap extends Component {
             week_num: 0,
             month_num: 0,
             year_num: 0,
+            last_week: [],
+            last_month: [],
+            last_year: [],
             last_week_num: 0,
             last_month_num: 0,
             last_year_num: 0,
@@ -79,6 +82,7 @@ class SimpleMap extends Component {
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
             this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week, i)
+            this.getDataFromDbDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 4-7 + i),new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5-7 + i), this.state.last_week, i)
             if(this.state.getWeek !== false && i === 6)
                 this.setState({getWeek: true});
         }
@@ -106,8 +110,10 @@ class SimpleMap extends Component {
             dateLabels.push(dateString);
             if(this.state.getMonth === false && i < 6){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
+                this.getDataFromDbDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)-30),new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5-30), this.state.last_month, i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
+                this.getDataFromDbDate(new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)-30),new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5-30), this.state.last_month, i)
                 this.setState({getMonth: true})
             }
         }
@@ -130,8 +136,10 @@ class SimpleMap extends Component {
             dateLabels.push(dateString);
             if(this.state.getYear === false && i !== 11){
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1),this.state.year ,i)
+                this.getDataFromDbDate(new Date(today.getFullYear()-1, today.getMonth() - 11 + i),new Date(today.getFullYear()-1, today.getMonth() - 11 + i+1),this.state.last_year ,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1),this.state.year ,i)
+                this.getDataFromDbDate(new Date(today.getFullYear()-1, today.getMonth() - 11 + i),new Date(today.getFullYear()-1, today.getMonth() - 11 + i+1),this.state.last_year ,i)
                 this.setState({getYear: true})
             }
         }
@@ -216,6 +224,9 @@ class SimpleMap extends Component {
                 this.setState({month_num: this.state.month.reduce((a, b) => a + b, 0)})
                 this.setState({year_num: this.state.year.reduce((a, b) => a + b, 0)})
                 this.setState({lifetime_num: this.state.lifetime.reduce((a, b) => a + b, 0)})
+                this.setState({last_week_num: this.state.last_week.reduce((a, b) => a + b, 0)})
+                this.setState({last_month_num: this.state.last_month.reduce((a, b) => a + b, 0)})
+                this.setState({last_year_num: this.state.last_year.reduce((a, b) => a + b, 0)})
                 var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
                 var mapper_city = this.state.allData.map(data => data.city)
                 var mapper_address = this.state.allData.map(data => data.address)
