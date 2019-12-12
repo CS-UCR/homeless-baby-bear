@@ -47,7 +47,7 @@ export class topFive extends Component {
 
     getTopFiveCities = () => {
         // search the database for the cities here
-        
+        localStorage.setItem('topCities', this.props.state.city_rank_lable[0])
         // placeholder
         return {
             value: this.props.state.city_rank_lable,
@@ -57,7 +57,7 @@ export class topFive extends Component {
 
     getTopFiveAddreses = () => {
         // search the database for the addresses here
-
+        
         // placeholder
         return {
             value: this.props.state.address_rank_lable,

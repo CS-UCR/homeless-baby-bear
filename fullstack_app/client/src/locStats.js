@@ -19,7 +19,8 @@ export class locStats extends Component {
             month:[],
             year:[],
             lifetime:[],
-            getlables: false
+            getlables: false,
+            getData:false,
         }
 
     }
@@ -207,7 +208,7 @@ export class locStats extends Component {
             }
        this.setState({lifetimelabels: dateLabels})
     }
-    //--------------------------------------------
+    
     locationEntered = (location) => {
         if(location.type === "city") {
             this.setState({
@@ -222,6 +223,19 @@ export class locStats extends Component {
             })
             this.getDataFromDbDate(location.query)
             // query the database for the address
+        }
+    }
+
+    runOnce=()=>{
+        if(this.state.getData === false)
+        {
+            console.log("runonece")
+            console.log(localStorage.getItem("topCities"))
+            this.setState({
+                location: localStorage.getItem("topCities") // Address, City, State
+            })
+            this.getDataFromDbDate(localStorage.getItem("topCities"))
+            this.setState({getData:true})
         }
     }
 
@@ -259,6 +273,7 @@ export class locStats extends Component {
                                     }
                                 }
                             />
+                            {this.runOnce()}
                         </div>
                     </div>
 
