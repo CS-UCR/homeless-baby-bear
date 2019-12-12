@@ -214,7 +214,10 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
 // this is our delete method
 // this method removes existing data in our database
 router.delete('/deleteData', (req, res) => {
-    const { id } = req.body;
+    const { id, picture} = req.body;
+    fs.unlink('../client/public/uploads/'+ picture, (err) => {
+        if (err) return res.send(err);
+    });
     new_Data.findByIdAndRemove(id, (err) => {
         if (err) return res.send(err);
         return res.json({ success: true });

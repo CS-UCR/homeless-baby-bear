@@ -76,7 +76,7 @@ function AddressCard(props){
         color="secondary"
         variant="contained"
         style={{margin: '2px', width: '25px'}}
-        onClick={()=>props.delete(props.dat._id,props.index)}
+        onClick={()=>props.delete(props.dat._id,props.index,props.dat.picture)}
       >
         DELETE
       </Button>
@@ -160,15 +160,18 @@ class App extends Component {
 
   // our delete method that uses our backend api
   // to remove existing database information
-  deleteFromDB = (idTodelete,index) => {
+  deleteFromDB = (idTodelete,index,picture) => {
 
     axios.delete(process.env.REACT_APP_API+'/deleteData', {
       data: {
         id: idTodelete,
+        picture: picture
       },
     }).then((res)=>{
-      this.setState({data:this.state.data.slice(0, index)})
-      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+        if(res.data.success) {
+            this.setState({data:this.state.data.slice(0, index)})
+            this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+        }
     })
   };
 
