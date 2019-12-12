@@ -10,7 +10,7 @@ export class addressRows extends Component {
             <tr>
                 <td>{row.id}</td>
                 <td>{row.address}</td>
-                <td>{row.date}</td>
+                <td>{row.date.slice(0,10)}</td>
             </tr>
         )
         return (

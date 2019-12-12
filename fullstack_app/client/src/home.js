@@ -12,51 +12,105 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 
-//import Background from './background3.png';
+function AddressCard(props){
+  const [address, setAddress] = React.useState(props.dat.address)
+  const [name, setName] = React.useState(props.dat.name)
+  return(<div align="center">
+  <Card 
+    style={{ 
+      padding: '2px', 
+      maxWidth: 700, 
+      minWidth: 700
+    }} 
+    >
+    <CardMedia 
+      style={{ 
+        width: 700,
+        height: 500
+      }}
+      image="../letter5.png">
+    <CardContent>
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+      </Typography>
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+      </Typography>
+    {/*<CardMedia paddingTop="56.25%" height="0" image="../center.jpg">*/}
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <img 
+          src={"/uploads" + props.dat.picture} 
+          alt = {props.dat.id} width = "280"
+        />
+      </Typography>
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        address: {props.dat.address}
+      </Typography> 
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <TextField
+        type="text"
+        style={{ width: '400px' }}
+        value = {address}
+        onChange={(e)=>setAddress(e.target.value)}
+      />
+      <Button 
+        color="primary"
+        variant="contained"
+        style={{margin: '2px', width: '25px'}}
+        onClick={()=>props.updateAddress(address,props.dat._id)}
+      >
+        UPDATE
+      </Button> 
+      <Button 
+        color="secondary"
+        variant="contained"
+        style={{margin: '2px', width: '25px'}}
+        onClick={()=>props.delete(props.dat._id)}
+      >
+        DELETE
+      </Button>
+      </Typography>
+      
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Name: <TextField type="text"
+        style={{ width: '200px' }}
 
-/*
-var sectionStyle = {
-  width: "100%",
-  height: "10000px",
-  position: "absolute",
-  backgroundImage: `url(${Background})` 
-};
-*/
-/*
-const useStyles = makeStyles(theme => ({
-  card: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
-*/
+        value = {name}
+        onChange={(e)=>setName(e.target.value)}
+        />
+        <Button 
+        color="primary"
+        variant="contained"
+        style={{margin: '2px', width: '25px'}}
+        onClick={()=>props.updateName(name, props.dat._id)}
+        >
+        
+        UPDATE
+      </Button> 
+      </Typography> 
+
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Accuracy: {props.dat.accuracy}
+      </Typography> 
+      <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Date: {props.dat.date.slice(0,10)}
+      </Typography> 
+      {/*</CardMedia>*/}
+    </CardContent>
+    </CardMedia>
+  </Card>
+</div>
+
+  );
+}
+
+
 class App extends Component {
     // initialize our state
     state = {
         data: [],
         id: 0,
         updateToApply: [],
-        name_var: [],
-        address_helper: [],
-        name_helper: [],
-        picture: null,
-        address: [],
         accuracy: null,
         date: null,
         intervalIsSet: false,
@@ -75,6 +129,7 @@ class App extends Component {
     };
 
     getDataFromDbDate = (fromDate, toDate, location_type) => {
+      this.state.data= []
       this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
         axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,
@@ -87,64 +142,38 @@ class App extends Component {
 
   // our delete method that uses our backend api
   // to remove existing database information
-  deleteFromDB = (idTodelete, index) => {
+  deleteFromDB = (idTodelete) => {
 
     axios.delete(process.env.REACT_APP_API+'/deleteData', {
       data: {
         id: idTodelete,
       },
     }).then((res)=>{
-      this.state.updateToApply.splice(index, 1)
-      this.state.name_var.splice(index, 1)
-      this.state.name_helper.splice(index, 1)
-      this.state.address_helper.splice(index, 1)
       this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
     })
   };
 
   // our update method that uses our backend api
   // to overwrite existing data base information
-  updateDB = (updateToApply, _id,index) => {
+  updateDB = (updateToApply, _id) => {
     axios.post(process.env.REACT_APP_API+'/updateAddress', {
         update: { _id: _id, address: updateToApply},
     }).then((res)=>{
-      this.state.address_helper[index] = "Update Success!"
+
       this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
     })
   };
-  updateName = (name_var, _id, index) => {
+  updateName = (name_var, _id) => {
     axios.post(process.env.REACT_APP_API+'/updateData', {
       id: _id,
       update: { name: name_var },
-}).then((res) => {
-  this.state.name_helper[index] = "Update Success!"
-});
-};
+  }).then((res) => {
+
+  });
+  };
   // here is our UI
   // it is easy to understand their functions when you
   // see them render into our screen
-  changeNameHelper = (index)=>{
-      
-      var name_helper =  this.state.name_helper;
-      name_helper[index] = ''
-      return name_helper
-  }
-  changeAddress = (value,index) =>{
-    var new__ = this.state.updateToApply
-    new__[index] = value
-    return new__
-  }
-
-  changeName = (value,index) =>{
-    var new__ = this.state.name_var
-    new__[index] = value
-    return new__
-  }
-  changeAddressHelper = (index)=>{
-    var address_helper =  this.state.address_helper;
-    address_helper[index] = ''
-    return address_helper
-}
 
   componentDidMount () {
     this.timerID = setInterval(
@@ -174,90 +203,7 @@ tick() {
                 NO DB ENTRIES YET
               </Typography>
             : data.map((dat, index) => (
-              <div align="center">
-                <Card 
-                  style={{ 
-                    padding: '2px', 
-                    maxWidth: 700, 
-                    minWidth: 700
-                  }} 
-                  key={data.picture}>
-                  <CardMedia 
-                    style={{ 
-                      width: 700,
-                      height: 500
-                    }}
-                    image="../letter5.png">
-                  <CardContent>
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      
-                    </Typography>
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      
-                    </Typography>
-                  {/*<CardMedia paddingTop="56.25%" height="0" image="../center.jpg">*/}
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <img 
-                        src={"/uploads" + dat.picture} 
-                        alt = {dat.id} width = "280"
-                      />
-                    </Typography>
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      address: {dat.address}
-                    </Typography> 
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <TextField
-                      type="text"
-                      style={{ width: '400px' }}
-                      defaultValue = {dat.address}
-                      helperText={this.state.address_helper[index]}
-                      onChange={(e) => this.setState({ updateToApply: this.changeAddress(e.target.value, index), address_helper: this.changeAddressHelper(index) })}
-                      placeholder={dat.address}
-                    />
-                    <Button 
-                      color="primary"
-                      variant="contained"
-                      style={{margin: '2px', width: '25px'}}
-                      onClick={() => this.updateDB(this.state.updateToApply, dat._id, index)}>
-                      UPDATE
-                    </Button> 
-                    <Button 
-                      color="secondary"
-                      variant="contained"
-                      style={{margin: '2px', width: '25px'}}
-                      onClick={() => this.deleteFromDB(dat._id,index)}>
-                      DELETE
-                    </Button>
-                    </Typography>
-                    
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      Name: <TextField type="text"
-                      style={{ width: '200px' }}
-                      defaultValue = {dat.name}
-                      helperText={this.state.name_helper[index]}
-                      onChange={(e) => this.setState({ name_var: this.changeName(e.target.value, index) , name_helper: this.changeNameHelper(index)})}
-                      />
-                      <Button 
-                      color="primary"
-                      variant="contained"
-                      style={{margin: '2px', width: '25px'}}
-                      
-                      onClick={() => this.updateName(this.state.name_var, dat._id, index)}>
-                      UPDATE
-                    </Button> 
-                    </Typography> 
-
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      Accuracy: {dat.accuracy}
-                    </Typography> 
-                    <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      Date: {dat.date}
-                    </Typography> 
-                    {/*</CardMedia>*/}
-                  </CardContent>
-                  </CardMedia>
-                </Card>
-              </div>
+                <AddressCard dat={dat} index={index} delete={this.deleteFromDB} updateAddress={this.updateDB} updateName={this.updateName}/>
               ))}
         </Container>
       </div>
