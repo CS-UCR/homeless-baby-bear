@@ -32,9 +32,6 @@ class SimpleMap extends Component {
             week_num: 0,
             month_num: 0,
             year_num: 0,
-            last_week: [],
-            last_month: [],
-            last_year: [],
             last_week_num: 0,
             last_month_num: 0,
             last_year_num: 0,
@@ -233,9 +230,10 @@ class SimpleMap extends Component {
                 this.setState({month_num: this.state.month.reduce((a, b) => a + b, 0)})
                 this.setState({year_num: this.state.year.reduce((a, b) => a + b, 0)})
                 this.setState({lifetime_num: this.state.lifetime.reduce((a, b) => a + b, 0)})
-                this.setState({last_week_num: this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth(), today.getDate() - 14),Date(today.getFullYear(), today.getMonth(), today.getDate() - 7),last_week_num)})
-                this.setState({last_month_num: this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth()-2, today.getDate()),Date(today.getFullYear(), today.getMonth()-1, today.getDate()),last_month_num)})
-                this.setState({last_year_num: this.getDataFromDbDate2(Date(today.getFullYear()-2, today.getMonth(), today.getDate()),Date(today.getFullYear()-1, today.getMonth(), today.getDate()),last_year_num)})
+                let today = new Date();
+                this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth(), today.getDate() - 14),Date(today.getFullYear(), today.getMonth(), today.getDate() - 7),last_week_num)
+                this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth()-2, today.getDate()),Date(today.getFullYear(), today.getMonth()-1, today.getDate()),last_month_num)
+                this.getDataFromDbDate2(Date(today.getFullYear()-2, today.getMonth(), today.getDate()),Date(today.getFullYear()-1, today.getMonth(), today.getDate()),last_year_num)
                 var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
                 var mapper_city = this.state.allData.map(data => data.city)
                 var mapper_address = this.state.allData.map(data => data.address)
