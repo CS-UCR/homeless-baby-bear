@@ -101,7 +101,7 @@ export class locStats extends Component {
             this.state.week[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,10) == dates[i-1] || this.state.data[j].date.slice(0,10) ==dates[i]){
+                    if(this.state.data[j].date.slice(0,10) === dates[i-1] || this.state.data[j].date.slice(0,10) === dates[i]){
                         // eslint-disable-next-line
                         this.state.week[i-1] +=1
                     }
@@ -271,7 +271,6 @@ export class locStats extends Component {
 
 
     render() {
-        const { classes } = this.props;
         return (
             <div>
                 <Helmet>
