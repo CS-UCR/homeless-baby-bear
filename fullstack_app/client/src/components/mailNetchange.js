@@ -51,7 +51,13 @@ export class Netchange extends Component {
                     </span>
                     <span className="net-change-value">
                         <span id="net-change-msg">
-                            <span id="net-value" className="positive">+{this.calculateNetChange().mailCount}</span> mail recieved vs. <span id="time-choice">{this.state.chart_choice}</span>
+                            <span id="net-value" className="positive"> 
+                                {this.calculateNetChange().mailCount}
+                            </span> 
+                            mail recieved vs. 
+                            <span id="time-choice">
+                                {this.state.chart_choice}
+                            </span>
                         </span>
                     </span>
             </div>
@@ -61,8 +67,23 @@ export class Netchange extends Component {
     // make queries here probably
     calculateNetChange = () => {
         return {
-            percentage: (parseInt((parseInt(this.props.state[this.state.chart_choice+"_num"]))*100/(parseInt(this.props.state["lifetime_num"]))))+"%",
-            mailCount: this.props.state[this.state.chart_choice+"_num"]
+            percentage: (
+                (this.props.state["last_" + this.state.chart_choice+ "_num"] !== 0 ? 
+                (((this.props.state[this.state.chart_choice + "_num"] >= this.props.state["last_" + this.state.chart_choice+ "_num"] ?
+                "+" + (parseInt(
+                    (parseInt(this.props.state[this.state.chart_choice + "_num"])) / 
+                    (parseInt(this.props.state["last_" + this.state.chart_choice+ "_num"])))) 
+                :
+                "-" + (parseInt(
+                    (parseInt(this.props.state["last_" + this.state.chart_choice+ "_num"])) /
+                    (parseInt(this.props.state[this.state.chart_choice + "_num"]))))
+                )*100)+"%") : "100%")),
+            mailCount: (
+                (this.props.state[this.state.chart_choice + "_num"] >= this.props.state["last_" + this.state.chart_choice+ "_num"] ? 
+                    "+" : "") +
+                (parseInt(this.props.state[this.state.chart_choice+"_num"]) - 
+                (parseInt(this.props.state["last_" + this.state.chart_choice+ "_num"]))
+            ))
         }
     }
 }
