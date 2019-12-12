@@ -11,10 +11,20 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
+import DoneIcon from '@material-ui/icons/Done';
+
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function AddressCard(props){
   const [address, setAddress] = React.useState(props.dat.address)
   const [name, setName] = React.useState(props.dat.name)
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+
+  const [addrLoading, setAddrLoading] = React.useState(false)
+
+  
+
   return(<div align="center">
   <Card 
     style={{ 
@@ -53,19 +63,20 @@ function AddressCard(props){
         value = {address}
         onChange={(e)=>setAddress(e.target.value)}
       />
+      {addrLoading?<CircularProgress style={{margin: '2px', width: '25px'}}/>:      
       <Button 
         color="primary"
         variant="contained"
         style={{margin: '2px', width: '25px'}}
-        onClick={()=>props.updateAddress(address,props.dat._id)}
+        onClick={()=>props.updateAddress(address,props.dat._id,setAddrLoading)}
       >
         UPDATE
-      </Button> 
+      </Button> }
       <Button 
         color="secondary"
         variant="contained"
         style={{margin: '2px', width: '25px'}}
-        onClick={()=>props.delete(props.dat._id)}
+        onClick={()=>props.delete(props.dat._id,props.index)}
       >
         DELETE
       </Button>
@@ -82,11 +93,12 @@ function AddressCard(props){
         color="primary"
         variant="contained"
         style={{margin: '2px', width: '25px'}}
-        onClick={()=>props.updateName(name, props.dat._id)}
+        onClick={()=>props.updateName(name, props.dat._id,setLoading,setSuccess)}
         >
         
         UPDATE
       </Button> 
+      {success?loading? <CircularProgress />:<DoneIcon  />:<div></div>}
       </Typography> 
 
       <Typography variant="h6" align="left"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -121,6 +133,8 @@ class App extends Component {
         fromDate: null,
         toDate: null,
         location_type: null,
+        updating:false,
+        updateCount:3,
     };
     getDataFromDb = () => {
         fetch('http://localhost:3001/api/getData')
@@ -129,7 +143,7 @@ class App extends Component {
     };
 
     getDataFromDbDate = (fromDate, toDate, location_type) => {
-      this.state.data= []
+     // this.setState({data: []})
       this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
         axios.post('http://localhost:3001/api/getData_bydate', {
             fromDate: fromDate,
@@ -142,68 +156,74 @@ class App extends Component {
 
   // our delete method that uses our backend api
   // to remove existing database information
-  deleteFromDB = (idTodelete) => {
+  deleteFromDB = (idTodelete,index) => {
 
     axios.delete('http://localhost:3001/api/deleteData', {
       data: {
         id: idTodelete,
       },
     }).then((res)=>{
+      this.setState({data:this.state.data.slice(0, index)})
       this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
     })
   };
 
   // our update method that uses our backend api
   // to overwrite existing data base information
-  updateDB = (updateToApply, _id) => {
+  updateDB = (updateToApply, _id,setLoading) => {
+    setLoading(true)
     axios.post('http://localhost:3001/api/updateAddress', {
         update: { _id: _id, address: updateToApply},
     }).then((res)=>{
-
+      this.setState({upadating:true})
       this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+      setLoading(false)
     })
   };
-  updateName = (name_var, _id) => {
+  updateName = (name_var, _id,setLoading,setSuccess) => {
+    setSuccess(true)
+    setLoading(true)
     axios.post('http://localhost:3001/api/updateData', {
       id: _id,
       update: { name: name_var },
   }).then((res) => {
-
+    setLoading(false)
   });
   };
   // here is our UI
   // it is easy to understand their functions when you
   // see them render into our screen
-
+/*
   componentDidMount () {
-    this.timerID = setInterval(
-        () => this.tick(),
-        500
-      );
+    if(this.state.updating){
+      this.timerID = setInterval(
+        ()=>this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type),
+          1000
+        );
+    }
 }
 componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-tick() {
-    this.setState({
-      name_helper : this.state.name_helper
-    });
-  }
+    if(this.state.updating && this.state.updateCount >0){
+      clearInterval(this.timerID); 
+      this.state.updateCount -=1
+    }else{
+      this.setState({upadating : false, updateC})
+    }
+  }*/
   
   
   render() {
-    
-    const { data } = this.state;
     return (
       <div /*style={sectionStyle}*/>
         <Date func={this.getDataFromDbDate}/>
         <Container>
-          {data.length <= 0
+          {this.state.data.length <= 0
             ? <Typography variant="h4" align="center">
                 NO DB ENTRIES YET
               </Typography>
-            : data.map((dat, index) => (
-                <AddressCard dat={dat} index={index} delete={this.deleteFromDB} updateAddress={this.updateDB} updateName={this.updateName}/>
+            : this.state.data.map((dat, index) => (
+                <AddressCard dat={dat} index={index} delete={this.deleteFromDB} updateAddress={this.updateDB} index={index} updateName={this.updateName}/>
               ))}
         </Container>
       </div>

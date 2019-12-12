@@ -269,6 +269,7 @@ class SimpleMap extends Component {
         });
       }
   render() {
+      
     return (
     <div>
         <Helmet>
