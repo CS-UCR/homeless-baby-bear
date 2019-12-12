@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "mime": "^2.4.4",
     "mongoose": "^5.7.10",
+    "mongoose-double": "0.0.1",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
     "path": "^0.12.7"

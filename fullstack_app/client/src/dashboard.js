@@ -235,7 +235,7 @@ class SimpleMap extends Component {
                 this.getDataFromDbDate2(new Date(today.getFullYear(), today.getMonth()-2, today.getDate()),new Date(today.getFullYear(), today.getMonth()-1, today.getDate()),"last_month_num")
                 this.getDataFromDbDate2(new Date(today.getFullYear()-2, today.getMonth(), today.getDate()),new Date(today.getFullYear()-1, today.getMonth(), today.getDate()),"last_year_num")
                 var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
-                var mapper_city = this.state.allData.map(data => data.city)
+                var mapper_city = this.state.allData.map(data => data.city+", "+data.state)
                 var mapper_address = this.state.allData.map(data => data.address)
                 var mapper_state = this.state.allData.map(data => data.state)
                 this.map_reduce(mapper_date, "date_rank_lable", "date_rank_data")
@@ -253,7 +253,7 @@ class SimpleMap extends Component {
         }
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 500);
     }
     componentWillUnmount() {

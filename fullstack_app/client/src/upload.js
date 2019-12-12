@@ -1,8 +1,6 @@
 // /client/App.js
 import React, { Component } from 'react';
 import axios from 'axios';
-
-import ScriptTag from 'react-script-tag';
 import Helmet from 'react-helmet';
 import Dropzone from 'react-dropzone'
 import IconButton from '@material-ui/core/IconButton';
@@ -108,15 +106,11 @@ class Upload extends Component {
     }
 
     componentDidMount() {
-        this.timerID = setInterval(
-          () => this.tick(),
-          1000
-        );
-      }
-    
-      componentWillUnmount() {
+        this.timerID = setInterval(() => this.tick(), 1000);
+    }
+    componentWillUnmount() {
         clearInterval(this.timerID);
-      }
+    }
     
       tick() {
         this.setState({
@@ -143,13 +137,13 @@ class Upload extends Component {
     <Failure back={this.back}/>:
 
     <div>
-        <div class="image-header">
+        <div className="image-header">
         <img id="logo" src="https://secureservercdn.net/45.40.150.81/enl.69a.myftpupload.com/wp-content/uploads/2017/12/A-Million-Thanks.png" alt="A million thanks logo"></img>
-        <div class="header-txt">
+        <div className="header-txt">
             Picture upload
         </div>
     </div>
-    <div class="main-container">
+    <div className="main-container">
     <fieldset>
         <legend>Upload here</legend>
     

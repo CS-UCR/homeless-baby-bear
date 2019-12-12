@@ -194,28 +194,7 @@ class App extends Component {
   }).then((res) => {
     setLoading(false)
   });
-  };
-  // here is our UI
-  // it is easy to understand their functions when you
-  // see them render into our screen
-/*
-  componentDidMount () {
-    if(this.state.updating){
-      this.timerID = setInterval(
-        ()=>this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type),
-          1000
-        );
-    }
-}
-componentWillUnmount() {
-    if(this.state.updating && this.state.updateCount >0){
-      clearInterval(this.timerID); 
-      this.state.updateCount -=1
-    }else{
-      this.setState({upadating : false, updateC})
-    }
-  }*/
-  
+};
   
   render() {
     return (
@@ -231,6 +210,7 @@ componentWillUnmount() {
               </Typography>
             : this.state.data.map((dat, index) => (
                 <AddressCard 
+                    key={index}
                     dat={dat} 
                     index={index} 
                     delete={this.deleteFromDB} 

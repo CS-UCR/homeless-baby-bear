@@ -23,8 +23,10 @@ function generateHeatMapData() {
     .then((data) => data.json())
     .then((res) => {
         for(let i = 0; i < res.data.length; ++i){
-            let latitude = parseFloat(res.data[i].lat);
-            let longitude = parseFloat(res.data[i].lng);
+            
+            let latitude = res.data[i].lat;
+            console.log(latitude)
+            let longitude = res.data[i].lng;
             heatmapData.push(
                 {
                     lat: latitude, lng: longitude
@@ -85,7 +87,7 @@ class SimpleMap extends Component {
                 <Helmet>
                     <meta charset="utf-8"></meta>
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
-                    <link rel="icon" href="%PUBLIC_URL%/favicon2.ico" />
+                    <link rel="icon" href="../public/favicon2.ico" />
                     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
                     <link rel="stylesheet" href="styles.css"></link>
                     <title>Mail Sender Heatmap</title>

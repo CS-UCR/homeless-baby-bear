@@ -1,7 +1,9 @@
 // /backend/data.js
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+require('mongoose-double')(mongoose);
 
+var SchemaTypes = mongoose.Schema.Types;
 // this will be our data base's data structure 
 const DataSchema = new Schema({
   id: Number,
@@ -34,10 +36,10 @@ const DataSchema = new Schema({
     default: Date.now
   },
   lat:{
-    type: String,
+    type: SchemaTypes.Double,
   },
   lng:{
-    type: String,
+    type: SchemaTypes.Double,
   }
 });
 

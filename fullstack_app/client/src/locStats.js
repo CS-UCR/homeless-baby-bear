@@ -4,6 +4,9 @@ import AlgoliaPlaces from 'algolia-places-react';
 import MailCountChartContainer from './components/locMailCountContainer';
 import AddressesTable from './components/addressesTable';
 import axios from 'axios'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import SearchBar from 'material-ui-search-bar'
 
 export class locStats extends Component {
     constructor(props){
@@ -21,15 +24,44 @@ export class locStats extends Component {
             lifetime:[],
             getlables: false,
             getData:false,
+            searchQuery:false,
+            query:""
         }
 
     }
 
 
 
-    getDataFromDbDate =  (query) => {
+    getDataFromDbDate =  (city,state) => {
+        axios.post(process.env.REACT_APP_API+'/searchcitystate', {
+            city: city,
+            state:state
+        }).then((res) => {
+             if(res.data.success)
+             {
+                 this.setState({data: res.data.data})
+                 this.getLabels()
+             }
+            //this.setState({ [var_name]: res.data.data })
+        });
+    };
+
+    search =  () => {
+        this.setState({location: this.state.query})
         axios.post(process.env.REACT_APP_API+'/search', {
-            query: query
+            query: this.state.query
+        }).then((res) => {
+             if(res.data.success)
+             {
+                 this.setState({data: res.data.data})
+                 this.getLabels()
+             }
+            //this.setState({ [var_name]: res.data.data })
+        });
+    };
+    searchByLatLong =  (lat, long) => {
+        axios.post(process.env.REACT_APP_API+'/searchlatlong', {
+            lat:lat,long:long
         }).then((res) => {
              if(res.data.success)
              {
@@ -69,7 +101,7 @@ export class locStats extends Component {
             this.state.week[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date <dates[i]){
+                    if(this.state.data[j].date.slice(0,10) == dates[i-1] || this.state.data[j].date.slice(0,10) ==dates[i]){
                         // eslint-disable-next-line
                         this.state.week[i-1] +=1
                     }
@@ -98,13 +130,14 @@ export class locStats extends Component {
             mm = String(date.getMonth() + 1).padStart(2, '0');
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
-            dates.push(yyyy+'-'+mm+'-'+dd)
             dateLabels.push(dateString);
+            dateString = yyyy + '-' + mm + '-' + dd;
+            dates.push(dateString)
             // eslint-disable-next-line
             this.state.month[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                    if(this.state.data[j].date.slice(0,10) > dates[i-1] && this.state.data[j].date.slice(0,10) <= dates[i]){
                         // eslint-disable-next-line
                         this.state.month[i-1] +=1
                     }
@@ -134,7 +167,7 @@ export class locStats extends Component {
             this.state.year[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                    if(this.state.data[j].date.slice(0,7) > dates[i-1] && this.state.data[j].date.slice(0,7) <= dates[i]){
                         // eslint-disable-next-line
                         this.state.year[i-1] +=1
                     }
@@ -196,7 +229,7 @@ export class locStats extends Component {
         // eslint-disable-next-line
         this.state.lifetime[ numLabels - 1]=0
             for(let j = 0; j < this.state.data.length; j++){
-                if(this.state.data[j].date >= dates[ numLabels - 1-1] && this.state.data[j].date < dates[ numLabels - 1]){
+                if(this.state.data[j].date.slice(0,10) > dates[ numLabels - 1-1] && this.state.data[j].date.slice(0,10) <= dates[ numLabels - 1]){
                     // eslint-disable-next-line
                     this.state.lifetime[ numLabels - 1] +=1
                 }
@@ -205,18 +238,20 @@ export class locStats extends Component {
     }
     
     locationEntered = (location) => {
+        console.log(location);
+        
         if(location.type === "city") {
             this.setState({
                 location: location.name + ", " + location.administrative // City, State
             })
-            this.getDataFromDbDate(location.query)
+            this.getDataFromDbDate(location.name, location.administrative)
             // query the database for the city
         }
         else if(location.type === "address") {
             this.setState({
                 location: location.name + ", " + location.city + ", " + location.administrative // Address, City, State
             })
-            this.getDataFromDbDate(location.query)
+            this.searchByLatLong(location.latlng.lat, location.latlng.lng)
             // query the database for the address
         }
     }
@@ -227,13 +262,16 @@ export class locStats extends Component {
             this.setState({
                 location: localStorage.getItem("topCities") // Address, City, State
             })
-            this.getDataFromDbDate(localStorage.getItem("topCities"))
+            let arr = localStorage.getItem("topCities").split(", ")
+            this.getDataFromDbDate(arr[0],arr[1])
             this.setState({getData:true})
         }
     }
+    
 
 
     render() {
+        const { classes } = this.props;
         return (
             <div>
                 <Helmet>
@@ -244,32 +282,59 @@ export class locStats extends Component {
                 <link rel="stylesheet" href="styles_loc_stats.css"/>
                 <title>Location Stats</title>
                 </Helmet>
-                <div classNameName="main-container">
+                <div className="main-container">
                     <div className="search-container">
                         <div id="search-form">
-                            <AlgoliaPlaces
-                                placeholder='Write an address or city here'
-                            
-                                options={{
-                                    appId: 'plYR0C6D25C3',
-                                    apiKey: 'cb7d79d87daed4f68068500409865fa1',
-                                    language: 'en'
-                                    // Other options from https://community.algolia.com/places/documentation.html#options
+                            {this.state.searchQuery?
+                              <SearchBar
+                              value={this.state.query}
+                              onChange={(newValue) => this.setState({query:newValue })}
+                              onRequestSearch={() => this.search()}
+                              onCancelSearch={() => this.setState({query:"" })}
+                              fullWidth
+                              style={{
+                                  margin: '0 auto',
                                 }}
-                            
-                                onChange={
-                                    ({ query, rawAnswer, suggestion, suggestionIndex }) => {
-                                        this.locationEntered(suggestion);
-                                        // this is the object that is returned when the user enters a location
-                                        // use it for the query of the database if needed
-                                    }
+                              />
+                            :
+                            <AlgoliaPlaces
+                            placeholder='Write an address or city here'
+                        
+                            options={{
+                                appId: 'plYR0C6D25C3',
+                                apiKey: 'cb7d79d87daed4f68068500409865fa1',
+                                language: 'en',
+                                countries: ['us']
+                                // Other options from https://community.algolia.com/places/documentation.html#options
+                            }}
+                        
+                            onChange={
+                                ({ query, rawAnswer, suggestion, suggestionIndex }) => {
+                                    this.locationEntered(suggestion);
+                                    // this is the object that is returned when the user enters a location
+                                    // use it for the query of the database if needed
                                 }
-                            />
+                            }
+                        />
+                            
+                        }
                             {this.runOnce()}
                         </div>
                     </div>
 
-                    <div className="stats-container">
+                    <div className="stats-container">                              
+                    <FormControlLabel
+                            control={
+                            <Switch
+                                checked={this.state.searchQuery}
+                                onChange={()=>this.setState({searchQuery: !this.state.searchQuery})}
+                                value={this.state.searchQuery}
+                                color="primary"
+                            />
+                            }
+                            label="Search by Query"
+                        />
+                        
                         <h1 id="location">{this.state.location}</h1>
                         <MailCountChartContainer data={this.state.data} state={this.state}/>
                         <AddressesTable data={this.state.data} />
