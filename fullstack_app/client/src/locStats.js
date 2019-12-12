@@ -30,7 +30,7 @@ export class locStats extends Component {
     getDataFromDbDate =  (query) => {
         console.log(query)
 
-        axios.post('http://localhost:3001/api/search', {
+        axios.post(process.env.REACT_APP_API+'/search', {
             query: query
         }).then((res) => {
             console.log(res.data)

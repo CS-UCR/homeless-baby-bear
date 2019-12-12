@@ -97,7 +97,7 @@ class Upload extends Component {
                         'content-type': 'multipart/form-data'
                     }
                 };
-                axios.post("http://localhost:3001/api/upload",formData,config)
+                axios.post(process.env.REACT_APP_API+'/upload',formData,config)
                     .then((response) => {
                         this.state.file =[]
                         this.state.flag = 0

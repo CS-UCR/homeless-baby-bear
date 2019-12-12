@@ -25,7 +25,7 @@ let heatMapData = {
 function generateHeatMapData() {
     let heatmapData = [];
     
-    fetch('http://localhost:3001/api/getData')
+    fetch(process.env.REACT_APP_API+'/getData')
     .then((data) => data.json())
     .then((res) => {
         for(let i = 0; i < res.data.length; ++i){

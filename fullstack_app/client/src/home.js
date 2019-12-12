@@ -69,14 +69,14 @@ class App extends Component {
         location_type: null,
     };
     getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getData')
+        fetch(process.env.REACT_APP_API+'/getData')
         .then((data) => data.json())
         .then((res) => this.setState({ data: res.data }));
     };
 
     getDataFromDbDate = (fromDate, toDate, location_type) => {
       this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
-        axios.post('http://localhost:3001/api/getData_bydate', {
+        axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
             location_type: location_type
@@ -89,7 +89,7 @@ class App extends Component {
   // to remove existing database information
   deleteFromDB = (idTodelete, index) => {
 
-    axios.delete('http://localhost:3001/api/deleteData', {
+    axios.delete(process.env.REACT_APP_API+'/deleteData', {
       data: {
         id: idTodelete,
       },
@@ -105,7 +105,7 @@ class App extends Component {
   // our update method that uses our backend api
   // to overwrite existing data base information
   updateDB = (updateToApply, _id,index) => {
-    axios.post('http://localhost:3001/api/updateAddress', {
+    axios.post(process.env.REACT_APP_API+'/updateAddress', {
         update: { _id: _id, address: updateToApply},
     }).then((res)=>{
       this.state.address_helper[index] = "Update Success!"
@@ -113,7 +113,7 @@ class App extends Component {
     })
   };
   updateName = (name_var, _id, index) => {
-    axios.post('http://localhost:3001/api/updateData', {
+    axios.post(process.env.REACT_APP_API+'/updateData', {
       id: _id,
       update: { name: name_var },
 }).then((res) => {

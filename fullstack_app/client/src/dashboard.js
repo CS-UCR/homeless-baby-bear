@@ -53,7 +53,7 @@ class SimpleMap extends Component {
 
     getDataFromDbDate =  (fromDate, toDate, var_name, i) => {
 
-        axios.post('http://localhost:3001/api/getData_bydate', {
+        axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
             location_type: "ALL"
