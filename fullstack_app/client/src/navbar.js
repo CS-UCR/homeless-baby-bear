@@ -18,8 +18,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import RoomIcon from '@material-ui/icons/Room';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-import TodayIcon from '@material-ui/icons/Today';
 import StorageIcon from '@material-ui/icons/Storage';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 

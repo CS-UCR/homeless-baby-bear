@@ -8,7 +8,6 @@ import MailCountChart from './components/mailCountContainer';
 import StatePieChart from './chartsjs/statePieChart';
 import TopFive from './components/topFive';
 import StateMailCountTable from './components/stateMailCountTable';
-import { element, number } from 'prop-types';
 
 
 class SimpleMap extends Component {
@@ -61,7 +60,7 @@ class SimpleMap extends Component {
            // console.log(var_name)
              var_name[i] = res.data.data.length;
              if(var_name === this.state.lifetime){
-                this.state.allData = this.state.allData.concat(res.data.data)
+                this.setState({allData: this.state.allData.concat(res.data.data)});
              }
             //this.setState({ [var_name]: res.data.data })
         });
@@ -92,11 +91,10 @@ class SimpleMap extends Component {
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
-                this.state.getWeek = true
+                this.setState({getWeek: true})
             }
         }
-        
-        this.state.weeklabels = dateLabels
+        this.setState({weeklabels: dateLabels})
         //return dateLabels;
     }
 
@@ -122,10 +120,10 @@ class SimpleMap extends Component {
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30 + (5 * i)+5),this.state.month,i)
-                this.state.getMonth = true
+                this.setState({getMonth: true})
             }
         }
-        this.state.monthlabels = dateLabels;
+        this.setState({monthlabels: dateLabels});
     }
 
     getLastYearLabels = () => {
@@ -146,12 +144,10 @@ class SimpleMap extends Component {
                 this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth() - 11 + i+1),this.state.year ,i)
             }else{
                 this.getDataFromDbDate(date,new Date(today.getFullYear(),today.getMonth() - 11 + i+1),this.state.year ,i)
-                this.state.getYear = true
+                this.setState({getYear: true})
             }
         }
-       // this.state.year = datedata
-        this.state.yearlabels =  dateLabels;
-       
+        this.setState({yearlabels: dateLabels})
     }
 
     getCGLabels = (startDate, endDate) => {
@@ -185,7 +181,7 @@ class SimpleMap extends Component {
                 this.getDataFromDbDate(date,new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 1 + (Math.ceil(dayDifference / numLabels - 1) * (i+1))), this.state.lifetime ,i)
             }else{
                 this.getDataFromDbDate(date, new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()),this.state.lifetime ,i)
-                this.state.getLifetime = true
+                this.setState({getLifetime: true})
             }
         }
     
@@ -197,10 +193,7 @@ class SimpleMap extends Component {
         dateString = mm + '/' + dd + '/' + yyyy;
         dateLabels.push(dateString);
         this.getDataFromDbDate(date, new Date(),this.state.lifetime ,numLabels - 1)
-        
-        //this.state.lifetime = datedata
-       this.state.lifetimelabels = dateLabels
-
+        this.setState({lifetimelabels: dateLabels})
     }
 
     map_reduce=(mapper, labels, datas)=>{
@@ -209,7 +202,7 @@ class SimpleMap extends Component {
         var number_array = []
         var array = [{label: mapper[0], data: 1}]
         for(let i = 1; i < mapper.length; i++){
-            if(mapper[i] != mapper[i-1])
+            if(mapper[i] !== mapper[i-1])
             {  
                 array.push({label: mapper[i], data: 1})
             }else{
@@ -221,7 +214,7 @@ class SimpleMap extends Component {
             name_array.push(array[i].label)
             number_array.push(array[i].data)
         }
-        if(labels == "state_rank_lable")
+        if(labels === "state_rank_lable")
         {
             this.setState({states_array: array})
         }
@@ -229,11 +222,11 @@ class SimpleMap extends Component {
     }
     setValue=()=>{
         if(this.state.getdata_num === true){
-            if(this.state.date_rank_lable.length == 0 || this.state.date_rank_lable[0] == undefined){
-                this.state.month_num = this.state.month.reduce((a, b) => a + b, 0)
-                this.state.week_num = this.state.week.reduce((a, b) => a + b, 0)
-                this.state.year_num = this.state.year.reduce((a, b) => a + b, 0)
-                this.state.lifetime_num = this.state.lifetime.reduce((a, b) => a + b, 0)
+            if(this.state.date_rank_lable.length === 0 || this.state.date_rank_lable[0] === undefined){
+                this.setState({month_num: this.state.month.reduce((a, b) => a + b, 0)})
+                this.setState({week_num: this.state.week.reduce((a, b) => a + b, 0)})
+                this.setState({year_num: this.state.year.reduce((a, b) => a + b, 0)})
+                this.setState({lifetime_num: this.state.lifetime.reduce((a, b) => a + b, 0)})
                 var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
                 var mapper_city = this.state.allData.map(data => data.city)
                 var mapper_address = this.state.allData.map(data => data.address)

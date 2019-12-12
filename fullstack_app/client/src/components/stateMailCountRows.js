@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 
 export class stateMailCountRows extends Component {
-    constructor(props){
-        super(props);
-    }
     render() {
         let rows = this.props.state.states_array.map(
             (row) => 

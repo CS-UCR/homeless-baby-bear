@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext } from 'react';
+import React, { Component} from 'react';
 import axios from 'axios';
 import Date from './date';
 import Button from '@material-ui/core/Button';
@@ -7,10 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 
 function AddressCard(props){
   const [address, setAddress] = React.useState(props.dat.address)
@@ -129,7 +127,7 @@ class App extends Component {
     };
 
     getDataFromDbDate = (fromDate, toDate, location_type) => {
-      this.state.data= []
+      this.setState({data: []})
       this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
         axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,

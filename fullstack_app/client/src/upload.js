@@ -4,10 +4,7 @@ import axios from 'axios';
 
 import ScriptTag from 'react-script-tag';
 import Helmet from 'react-helmet';
-import Dropzone,{useDropzone} from 'react-dropzone'
-import { timingSafeEqual } from 'crypto';
-
-import { makeStyles } from '@material-ui/core/styles';
+import Dropzone from 'react-dropzone'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
@@ -33,10 +30,12 @@ function Failure(props){
         <div class="main-container failure-bg">
         <div class="status-container">
             <div class="status-txt-container">
-                <span class="symbol failure-symbol">&#128683;</span>
+                <span role="img" aria-label="img" class="symbol failure-symbol">&#128683;</span>
                 <h1 class="status-title">Failure</h1>
                 <p class="status-msg">Something wrong when upload.</p>
-                <button class="button" onClick={()=>props.back()} class=" button go-back">Upload more pictures</button>
+                <button onClick={()=>props.back()} class=" button go-back">
+                    Upload more pictures
+                </button>
             </div>
         </div>
     </div>
@@ -75,21 +74,18 @@ class Upload extends Component {
         this.state.file.splice(index,1)
     }
     clear=()=>{
-        this.state.file =[]
+        this.setState({file: []})
     }
     back= ()=>{
-        this.state.flag= 2
+        this.setState({flag: 2})
     }
     onFormSubmit(e){
         e.preventDefault();
         const formData = new FormData();
         if(this.state.file.length !== 0){
-            console.log("file not null")
-            console.log(this.state.file)
-            this.state.last = this.state.file.length
+            this.setState({last: this.state.file.length})
             var index = 0;
             for(index = 0; index< this.state.file.length;index++){
-                console.log(this.state.file[index])
                 formData.append('myImage',this.state.file[index]);   
             }
                 const config = {
@@ -99,19 +95,15 @@ class Upload extends Component {
                 };
                 axios.post(process.env.REACT_APP_API+'/upload',formData,config)
                     .then((response) => {
-                        this.state.file =[]
-                        this.state.flag = 0
+                        this.setState({file: []})
+                        this.setState({flag: 0})
                     }).catch((error) => {
-                        this.state.flag = 1
+                        this.setState({flag: 1})
                 });
         }else{
-            console.log("file is null")
         }
     }
     handleChange(e) {
-        console.log("has select file")
-        console.log("file is")
-        console.log(e.target.files)
         this.setState({file: e.target.files});
     }
 
@@ -164,7 +156,7 @@ class Upload extends Component {
     
         <div>
 
-            <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles =>{if(this.state.file.length== 0){this.state.file= acceptedFiles}else{console.log(this.state.file);this.state.file =this.state.file.concat(acceptedFiles)}}}>
+            <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles =>{if(this.state.file.length === 0){this.setState({file: acceptedFiles})}else{console.log(this.state.file); this.setState({file: this.state.file.concat(acceptedFiles)})}}}>
             {({getRootProps, getInputProps}) => (
                 <section>
                 <div {...getRootProps()}>
