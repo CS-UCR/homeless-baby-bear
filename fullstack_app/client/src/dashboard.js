@@ -231,9 +231,9 @@ class SimpleMap extends Component {
                 this.setState({year_num: this.state.year.reduce((a, b) => a + b, 0)})
                 this.setState({lifetime_num: this.state.lifetime.reduce((a, b) => a + b, 0)})
                 let today = new Date();
-                this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth(), today.getDate() - 14),Date(today.getFullYear(), today.getMonth(), today.getDate() - 7),last_week_num)
-                this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth()-2, today.getDate()),Date(today.getFullYear(), today.getMonth()-1, today.getDate()),last_month_num)
-                this.getDataFromDbDate2(Date(today.getFullYear()-2, today.getMonth(), today.getDate()),Date(today.getFullYear()-1, today.getMonth(), today.getDate()),last_year_num)
+                this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth(), today.getDate() - 14),Date(today.getFullYear(), today.getMonth(), today.getDate() - 7),this.state.last_week_num)
+                this.getDataFromDbDate2(Date(today.getFullYear(), today.getMonth()-2, today.getDate()),Date(today.getFullYear(), today.getMonth()-1, today.getDate()),this.state.last_month_num)
+                this.getDataFromDbDate2(Date(today.getFullYear()-2, today.getMonth(), today.getDate()),Date(today.getFullYear()-1, today.getMonth(), today.getDate()),this.state.last_year_num)
                 var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
                 var mapper_city = this.state.allData.map(data => data.city)
                 var mapper_address = this.state.allData.map(data => data.address)
