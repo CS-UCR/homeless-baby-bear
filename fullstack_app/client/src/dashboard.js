@@ -29,10 +29,12 @@ class SimpleMap extends Component {
             month: [],
             year: [],
             lifetime: [], 
-            // state not needed for now
             week_num: 0,
             month_num: 0,
             year_num: 0,
+            last_week_num: 0,
+            last_month_num: 0,
+            last_year_num: 0,
             getdata_num: false,
             lifetime_num: 0,
             date_rank_lable: [],
@@ -44,32 +46,22 @@ class SimpleMap extends Component {
             state_rank_lable: [],
             state_rank_data: [],
             states_array: []
-
-    
         }
-
     }
 
     getDataFromDbDate =  (fromDate, toDate, var_name, i) => {
-
         axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
             location_type: "ALL"
         }).then((res) => {
-           // console.log(var_name)
-             var_name[i] = res.data.data.length;
-             if(var_name === this.state.lifetime){
+            var_name[i] = res.data.data.length;
+            if(var_name === this.state.lifetime)
                 this.setState({allData: this.state.allData.concat(res.data.data)});
-             }
-            //this.setState({ [var_name]: res.data.data })
         });
     };
 
-
-
     // ---Label functions for mail count chart
-
     getLastWeekLabels (){
         let dateLabels = [];
         let today = new Date();
@@ -86,13 +78,9 @@ class SimpleMap extends Component {
             yyyy = date.getFullYear();
             dateString = mm + '/' + dd + '/' + yyyy;
             dateLabels.push(dateString);
-            if(this.state.getWeek === false && i !== 6){
-                
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
-            }else{
-                this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week,i)
-                this.setState({getWeek: true})
-            }
+            this.getDataFromDbDate(date,new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5 + i), this.state.week, i)
+            if(this.state.getWeek !== false && i === 6)
+                this.setState({getWeek: true});
         }
         this.setState({weeklabels: dateLabels})
         //return dateLabels;
@@ -220,11 +208,12 @@ class SimpleMap extends Component {
         }
         this.setState({[labels]: name_array, [datas]: number_array})
     }
+
     setValue=()=>{
         if(this.state.getdata_num === true){
             if(this.state.date_rank_lable.length === 0 || this.state.date_rank_lable[0] === undefined){
-                this.setState({month_num: this.state.month.reduce((a, b) => a + b, 0)})
                 this.setState({week_num: this.state.week.reduce((a, b) => a + b, 0)})
+                this.setState({month_num: this.state.month.reduce((a, b) => a + b, 0)})
                 this.setState({year_num: this.state.year.reduce((a, b) => a + b, 0)})
                 this.setState({lifetime_num: this.state.lifetime.reduce((a, b) => a + b, 0)})
                 var mapper_date = this.state.allData.map(data => data.date.substring(0,10))
@@ -247,55 +236,50 @@ class SimpleMap extends Component {
     }
 
     componentDidMount () {
-        this.timerID = setInterval(
-            () => this.tick(),
-            500
-          );
+        this.timerID = setInterval(() => this.tick(), 500);
     }
     componentWillUnmount() {
         clearInterval(this.timerID);
-      }
+    }
     tick() {
         this.setValue()
-        this.setState({
-          date: new Date()
-        });
-      }
-  render() {
-      
-    return (
-    <div>
-        <Helmet>
-            <meta charset="utf-8"></meta>
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
-            <link rel="shortcut icon" href="../favicon.ico"></link>
-            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
-            <link rel="stylesheet" href="styles_dashboard.css"></link>
-            <title>National Dashboard</title>
-        </Helmet>
-        <div className="grid-container">
-            <main className="main">
-                <MailCountChart state={this.state}/>
+        this.setState({date: new Date()});
+    }
 
-                <div className="main-overview">
-                    <TopFive description="Cities" state={this.state} />
-                    <TopFive description="Addresses" state={this.state}/>
-                    <TopFive description="Dates" state={this.state}/>
-                </div>
+    render() {
+        return (
+        <div>
+            <Helmet>
+                <meta charset="utf-8"></meta>
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
+                <link rel="shortcut icon" href="../favicon.ico"></link>
+                <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
+                <link rel="stylesheet" href="styles_dashboard.css"></link>
+                <title>National Dashboard</title>
+            </Helmet>
+            <div className="grid-container">
+                <main className="main">
+                    <MailCountChart state={this.state}/>
 
-                <div className="main-cards">
-                    <StatePieChart state={this.state}/>
-                    <MailNetchange state={this.state}/>
-                </div>
+                    <div className="main-overview">
+                        <TopFive description="Cities" state={this.state} />
+                        <TopFive description="Addresses" state={this.state}/>
+                        <TopFive description="Dates" state={this.state}/>
+                    </div>
 
-                <StateMailCountTable state={this.state}/>
+                    <div className="main-cards">
+                        <StatePieChart state={this.state}/>
+                        <MailNetchange state={this.state}/>
+                    </div>
 
-            </main>
-        </div>  
-    </div>
+                    <StateMailCountTable state={this.state}/>
 
-    );
-  }
+                </main>
+            </div>  
+        </div>
+
+        );
+    }
 }
 
 export default SimpleMap;
