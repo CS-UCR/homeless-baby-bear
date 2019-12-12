@@ -9,7 +9,6 @@ import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import DoneIcon from '@material-ui/icons/Done';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -223,8 +222,13 @@ componentWillUnmount() {
                 NO DB ENTRIES YET
               </Typography>
             : this.state.data.map((dat, index) => (
-                <AddressCard dat={dat} index={index} delete={this.deleteFromDB} updateAddress={this.updateDB} index={index} updateName={this.updateName}/>
-              )):<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
+                <AddressCard 
+                    dat={dat} 
+                    index={index} 
+                    delete={this.deleteFromDB} 
+                    updateAddress={this.updateDB}
+                    updateName={this.updateName}/>
+                )):<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
         </Container>
       </div>
     );
