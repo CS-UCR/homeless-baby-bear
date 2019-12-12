@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 export class stateMailCountRows extends Component {
     render() {
         let rows = this.props.state.states_array.map(
-            (row) => 
-            <tr>
+            (row, index) => 
+            <tr key={index}>
                 <td>{row.label}</td>
                 <td>{row.data}</td>
             </tr>
