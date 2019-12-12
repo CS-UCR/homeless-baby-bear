@@ -57,7 +57,7 @@ export class Chart extends Component{
             },
             title: {
                 display: true,
-                text: "Total mail sent this past " + this.props.chartTimeframe + ". Total: " +this.props.state[this.props.chartTimeframe+"_num"],
+                text: "Total mail sent this past " + this.props.chartTimeframe + ". Total: " +this.props.state[this.props.chartTimeframe].reduce((a, b) => a + b, 0),
                 fontSize: 18
             },
             scales: {
