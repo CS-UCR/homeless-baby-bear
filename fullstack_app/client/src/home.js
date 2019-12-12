@@ -9,8 +9,9 @@ import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import DoneIcon from '@material-ui/icons/Done';
+
+import Helmet from 'react-helmet';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -216,6 +217,9 @@ componentWillUnmount() {
   render() {
     return (
       <div /*style={sectionStyle}*/>
+        <Helmet>
+        <title>Changing Data</title>
+        </Helmet>
         <Date func={this.getDataFromDbDate}/>
         <Container>
           {this.state.start?this.state.data.length <= 0

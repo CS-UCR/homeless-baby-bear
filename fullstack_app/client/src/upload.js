@@ -130,7 +130,6 @@ class Upload extends Component {
         <meta charset="UTF-8"></meta>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"></meta>
-    <link rel="shortcut icon" href="favicon.ico"></link>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
     <link rel="stylesheet" href="styles_upload.css"></link>
     <link rel="stylesheet" href="upload_style.css"></link>
@@ -182,7 +181,6 @@ class Upload extends Component {
     
     </div>
     }
-        <ScriptTag isHydrating={true} type="text/javascript" src="front-end.js" />
         </div>
     );
   }

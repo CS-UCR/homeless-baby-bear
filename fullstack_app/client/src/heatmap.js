@@ -86,7 +86,7 @@ class SimpleMap extends Component {
                 <Helmet>
                     <meta charset="utf-8"></meta>
                     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
-                    <link rel="shortcut icon" href="favicon.ico"></link>
+                    <link rel="icon" href="%PUBLIC_URL%/favicon2.ico" />
                     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
                     <link rel="stylesheet" href="styles.css"></link>
                     <title>Mail Sender Heatmap</title>
