@@ -24,15 +24,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function disableDays(date) {
-  let today = new Date();
-  return date > new Date(today.getFullYear(), today.getMonth(), today.getDay());
-}
-
-function getCurrentDate(){
-  let today = new Date(today.getFullYear(), today.getMonth(), today.getDay());
-  return today;
-}
 
 export default function MaterialUIPickers(props) {
   const classes = useStyles();
@@ -64,11 +55,6 @@ export default function MaterialUIPickers(props) {
     });
   };
 // ----------------------------------
-const selectionRange = {
-  startDate: new Date(),
-  endDate: new Date(),
-  key: 'selection',
-}
   
 
   return (

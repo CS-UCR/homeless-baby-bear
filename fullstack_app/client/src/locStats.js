@@ -28,16 +28,11 @@ export class locStats extends Component {
 
 
     getDataFromDbDate =  (query) => {
-        console.log(query)
-
         axios.post(process.env.REACT_APP_API+'/search', {
             query: query
         }).then((res) => {
-            console.log(res.data)
-           // console.log(var_name)
              if(res.data.success)
              {
-                 console.log(res.data.data.length)
                  this.setState({data: res.data.data})
                  this.getLabels()
              }
@@ -229,8 +224,6 @@ export class locStats extends Component {
     runOnce=()=>{
         if(this.state.getData === false)
         {
-            console.log("runonece")
-            console.log(localStorage.getItem("topCities"))
             this.setState({
                 location: localStorage.getItem("topCities") // Address, City, State
             })
@@ -267,7 +260,6 @@ export class locStats extends Component {
                                 onChange={
                                     ({ query, rawAnswer, suggestion, suggestionIndex }) => {
                                         this.locationEntered(suggestion);
-                                        console.log(suggestion); 
                                         // this is the object that is returned when the user enters a location
                                         // use it for the query of the database if needed
                                     }

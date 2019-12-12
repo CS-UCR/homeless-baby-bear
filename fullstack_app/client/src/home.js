@@ -227,8 +227,13 @@ componentWillUnmount() {
                 NO DB ENTRIES YET
               </Typography>
             : this.state.data.map((dat, index) => (
-                <AddressCard dat={dat} index={index} delete={this.deleteFromDB} updateAddress={this.updateDB} index={index} updateName={this.updateName}/>
-              )):<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
+                <AddressCard 
+                    dat={dat} 
+                    index={index} 
+                    delete={this.deleteFromDB} 
+                    updateAddress={this.updateDB}
+                    updateName={this.updateName}/>
+                )):<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
         </Container>
       </div>
     );

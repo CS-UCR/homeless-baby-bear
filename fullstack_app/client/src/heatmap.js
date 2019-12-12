@@ -31,7 +31,6 @@ function generateHeatMapData() {
                 }
             );
         }
-        console.log(heatmapData)
     }
     );
     return heatmapData;
@@ -106,8 +105,7 @@ class SimpleMap extends Component {
                         
                             onChange={
                                 ({ query, rawAnswer, suggestion, suggestionIndex }) => {
-                                    this.locationEntered(suggestion.type, suggestion.latlng);
-                                    console.log('Fired when suggestion selected in the dropdown or hint was validated.')}
+                                    this.locationEntered(suggestion.type, suggestion.latlng)}
                             }
                         />
                     </div>
