@@ -43,7 +43,7 @@ class SimpleMap extends Component {
             address_rank_data: [],
             state_rank_lable: [],
             state_rank_data: [],
-            states_array: []
+            states_array: [],
 
     
         }
@@ -262,15 +262,13 @@ class SimpleMap extends Component {
         });
       }
   render() {
-      
+
     return (
     <div>
         <Helmet>
             <meta charset="utf-8"></meta>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
             <link rel="shortcut icon" href="../favicon.ico"></link>
-            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet"></link>
-            <link rel="stylesheet" href="styles_dashboard.css"></link>
             <title>National Dashboard</title>
         </Helmet>
         <div className="grid-container">
