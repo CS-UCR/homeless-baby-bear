@@ -67,7 +67,6 @@ class SimpleMap extends Component {
             toDate: toDate,
             location_type: "ALL"
         }).then((res) => {
-            console.log(res.data.data.length)
             this.setState({[var_name]: res.data.data.length})
         });
     };

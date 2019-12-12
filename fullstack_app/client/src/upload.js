@@ -156,7 +156,7 @@ class Upload extends Component {
     
         <div>
 
-            <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles =>{if(this.state.file.length === 0){this.setState({file: acceptedFiles})}else{console.log(this.state.file); this.setState({file: this.state.file.concat(acceptedFiles)})}}}>
+            <Dropzone multiple={true} accept="image/png, image/jpg,image/jpeg" onDrop={acceptedFiles =>{if(this.state.file.length === 0){this.setState({file: acceptedFiles})}else{this.setState({file: this.state.file.concat(acceptedFiles)})}}}>
             {({getRootProps, getInputProps}) => (
                 <section>
                 <div {...getRootProps()}>

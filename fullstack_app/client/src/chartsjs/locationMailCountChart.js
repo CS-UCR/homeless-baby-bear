@@ -17,7 +17,6 @@ export class Chart extends Component{
         let chart = null;
 
         if(this.props.chartTimeframe === "week") {
-            console.log("in week")
             chart = <Bar 
                 data={this.getLastWeekData}
                 options={this.getOptions()} />
@@ -83,9 +82,6 @@ export class Chart extends Component{
     }
 
     getLastWeekData = () => {
-        console.log("week")
-        console.log(this.props.state.week)
-        console.log(this.props.state.weeklabels)
         // we must query the database for 'data' in the datasets object
         return {
             labels: this.props.state.weeklabels,

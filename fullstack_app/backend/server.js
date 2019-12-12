@@ -84,7 +84,6 @@ router.post('/getData_bydate', async (req, res) => {
 // this method overwrites existing data in our database
 router.post('/updateAddress', (req, res) => {
     const {_id, address} = req.body.update;
-    console.log(address)
     googleMapsClient.geocode({address: address}, function(err, res) {
         if (!err) {
             var formatted_address = "";
@@ -128,9 +127,7 @@ router.post('/updateData', (req, res) => {
 });
 
 router.post('/upload',upload.any(), async (req,res)=>{
-    console.log("in post");
     try{
-        console.log("in try");
         let total= req.files.length;
 
             for (i = 0, len = req.files.length; i < len; i++) {
@@ -140,10 +137,7 @@ router.post('/upload',upload.any(), async (req,res)=>{
         return res.json({ success: true});
         
     }catch(err){
-        console.log("in err")
         return res.json({ success: false, error: err });
-        console.log("err"+err);
-        console.log("err"+err);
         res.json({message:err});
         res.redirect("/upload");
     }
@@ -162,7 +156,6 @@ const image_to_text = async function(file){
     const filePath = path.join(__dirname,'../client/public/uploads/'+file);
     const [result] = await client.documentTextDetection(filePath);
     const fullTextAnnotation = result.fullTextAnnotation;
-    console.log(fullTextAnnotation.text)
     //--------------clean data--------------------
     var spawn = require("child_process").spawn;
     var process = spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
@@ -171,40 +164,24 @@ const image_to_text = async function(file){
 }
 
 const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
-    console.log("first step")
-    console.log(cleaned_address)
     googleMapsClient.geocode({address: cleaned_address}, function(err, res) {
         if (!err) {
             var name = ""
-            console.log("flag 1")
             if (cleaned_address.includes("Box")) {
-                console.log("flag 2")
                 name = cleaned_address.split("P.O.")[0]
             } else {
-                console.log("flag 3")
                 var word_list = cleaned_address.split(" ")
-                console.log("flag 4")
-                console.log(word_list)
                 for (let i = 0; i < word_list.length; i++) {
-                    console.log("flag 5")
-                    console.log(word_list[i])
-                    console.log(parseInt(word_list[i]))
-                    console.log(isNaN(parseInt(word_list[i])))
                     if (!isNaN(parseInt(word_list[i]))) {
-                        console.log("flag 5.1")
                         name = cleaned_address.split(" " + word_list[i])[0]
                         break
                     }
-                    console.log("flag 5.2")
                 }
             }
-            console.log('name')
-            console.log(name)
             var formatted_address = "";
             address_components = res.json.results[0]["address_components"]
             let city = ""
             let state = ""
-            console.log("second step")
             for(let i= 0; i < address_components.length; i ++)
             {
                 if( address_components[i]["types"][0] =='administrative_area_level_1')
@@ -213,28 +190,21 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
                     city = address_components[i]["long_name"]
             }
             var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
-            console.log("??? step")
             if (accuracy == "ROOFTOP"){
                 formatted_address = res.json.results[0]["formatted_address"];
                 const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, name: name,
                     address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                console.log("last step")
-                console.log(doc)
                 doc.save();
             }else if (cleaned_address.includes("Box")){
                 const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: "P.O. Box", lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                    console.log("last step")
-                    console.log(box)
                     box.save();
             }else{
                 const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                console.log("last step")
-                console.log(raw)
                 raw.save();
             }
         }
@@ -245,7 +215,6 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
 // this method removes existing data in our database
 router.delete('/deleteData', (req, res) => {
     const { id } = req.body;
-    console.log(id)
     new_Data.findByIdAndRemove(id, (err) => {
         if (err) return res.send(err);
         return res.json({ success: true });
