@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import {Pie} from 'react-chartjs-2';
-// import Chart from "react-apexcharts";
-import TopFive from "../components/topFive";
 
 class PieChart extends Component {
 

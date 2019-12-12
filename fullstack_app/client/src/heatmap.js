@@ -1,18 +1,12 @@
 // /client/App.js
 import React, { Component } from 'react';
-import axios from 'axios';
 
 // Need to remove this later?
-import ScriptTag from 'react-script-tag';
 import Helmet from 'react-helmet';
 import GoogleMapReact from 'google-map-react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { mergeClasses } from '@material-ui/styles';
 import AlgoliaPlaces from 'algolia-places-react';
-
-/* global google */
 
 let heatMapData = {
     positions: generateHeatMapData(),
@@ -25,7 +19,7 @@ let heatMapData = {
 function generateHeatMapData() {
     let heatmapData = [];
     
-    fetch('http://localhost:3001/api/getData')
+    fetch(process.env.REACT_APP_API+'/getData')
     .then((data) => data.json())
     .then((res) => {
         for(let i = 0; i < res.data.length; ++i){
@@ -40,28 +34,7 @@ function generateHeatMapData() {
         console.log(heatmapData)
     }
     );
-    
     return heatmapData;
-    
-    /*
-    for(let i = 0; i < 500; ++i) {
-        let latitude = getRandomLatOrLong(30, 50, 3);
-        let longitude = getRandomLatOrLong(-123, -70, 3);
-    
-        heatmapData.push(
-            {
-                lat: latitude, lng: longitude
-            }
-        );
-    }*/
-}
-    
-function getRandomLatOrLong(from, to, fixed) {
-    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
-}
-    
-function getWeight() {
-    return Math.floor((Math.random() * 10) + 1);
 }
 
 const useStyles = makeStyles(theme => ({

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import AlgoliaPlaces from 'algolia-places-react';
-import {Bar, Line} from 'react-chartjs-2';
 import MailCountChartContainer from './components/locMailCountContainer';
 import AddressesTable from './components/addressesTable';
 import axios from 'axios'
@@ -30,7 +29,7 @@ export class locStats extends Component {
     getDataFromDbDate =  (query) => {
         console.log(query)
 
-        axios.post('http://localhost:3001/api/search', {
+        axios.post(process.env.REACT_APP_API+'/search', {
             query: query
         }).then((res) => {
             console.log(res.data)
@@ -70,10 +69,12 @@ export class locStats extends Component {
             dateLabels.push(dateString);
             dateString =  yyyy+ '-' + mm + '-' + dd;
             dates.push(dateString)
+            // eslint-disable-next-line
             this.state.week[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
                     if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date <dates[i]){
+                        // eslint-disable-next-line
                         this.state.week[i-1] +=1
                     }
                 }
@@ -103,11 +104,12 @@ export class locStats extends Component {
             dateString = mm + '/' + dd + '/' + yyyy;
             dates.push(yyyy+'-'+mm+'-'+dd)
             dateLabels.push(dateString);
-
+            // eslint-disable-next-line
             this.state.month[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
                     if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                        // eslint-disable-next-line
                         this.state.month[i-1] +=1
                     }
                 }
@@ -132,19 +134,18 @@ export class locStats extends Component {
             dateString = mm + '/' + yyyy;
             dateLabels.push(dateString);
             dates.push(yyyy+'-'+mm)
-
+            // eslint-disable-next-line
             this.state.year[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
                     if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                        // eslint-disable-next-line
                         this.state.year[i-1] +=1
                     }
                 }
             }
         }
-       // this.state.year = datedata
-        this.state.yearlabels =  dateLabels;
-       
+        this.setState({yearlabels: dateLabels})
     }
 
     getCGLabels = (startDate, endDate) => {
@@ -176,11 +177,12 @@ export class locStats extends Component {
             dateString = mm + '/' + dd + '/' + yyyy;
             dates.push(yyyy+'-'+mm+'-'+dd)
             dateLabels.push(dateString);
-
+            // eslint-disable-next-line
             this.state.lifetime[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
                     if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                        // eslint-disable-next-line
                         this.state.lifetime[i-1] +=1
                     }
                 }
@@ -195,17 +197,15 @@ export class locStats extends Component {
         dateString = mm + '/' + dd + '/' + yyyy;
         dates.push(yyyy+'-'+mm+'-'+dd)
         dateLabels.push(dateString);
-
+        // eslint-disable-next-line
         this.state.lifetime[ numLabels - 1]=0
             for(let j = 0; j < this.state.data.length; j++){
                 if(this.state.data[j].date >= dates[ numLabels - 1-1] && this.state.data[j].date < dates[ numLabels - 1]){
+                    // eslint-disable-next-line
                     this.state.lifetime[ numLabels - 1] +=1
                 }
             }
-        
-        //this.state.lifetime = datedata
-       this.state.lifetimelabels = dateLabels
-
+       this.setState({lifetimelabels: dateLabels})
     }
     //--------------------------------------------
     locationEntered = (location) => {

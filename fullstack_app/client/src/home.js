@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext } from 'react';
+import React, { Component} from 'react';
 import axios from 'axios';
 import Date from './date';
 import Button from '@material-ui/core/Button';
@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -137,7 +136,7 @@ class App extends Component {
         updateCount:3,
     };
     getDataFromDb = () => {
-        fetch('http://localhost:3001/api/getData')
+        fetch(process.env.REACT_APP_API+'/getData')
         .then((data) => data.json())
         .then((res) => this.setState({ data: res.data }));
     };
@@ -145,7 +144,7 @@ class App extends Component {
     getDataFromDbDate = (fromDate, toDate, location_type) => {
      // this.setState({data: []})
       this.setState({fromDate: fromDate, toDate: toDate, location_type: location_type})
-        axios.post('http://localhost:3001/api/getData_bydate', {
+        axios.post(process.env.REACT_APP_API+'/getData_bydate', {
             fromDate: fromDate,
             toDate: toDate,
             location_type: location_type
@@ -158,7 +157,7 @@ class App extends Component {
   // to remove existing database information
   deleteFromDB = (idTodelete,index) => {
 
-    axios.delete('http://localhost:3001/api/deleteData', {
+    axios.delete(process.env.REACT_APP_API+'/deleteData', {
       data: {
         id: idTodelete,
       },
@@ -171,8 +170,7 @@ class App extends Component {
   // our update method that uses our backend api
   // to overwrite existing data base information
   updateDB = (updateToApply, _id,setLoading) => {
-    setLoading(true)
-    axios.post('http://localhost:3001/api/updateAddress', {
+    axios.post(process.env.REACT_APP_API+'/updateAddress', {
         update: { _id: _id, address: updateToApply},
     }).then((res)=>{
       this.setState({upadating:true})
@@ -182,9 +180,7 @@ class App extends Component {
     })
   };
   updateName = (name_var, _id,setLoading,setSuccess) => {
-    setSuccess(true)
-    setLoading(true)
-    axios.post('http://localhost:3001/api/updateData', {
+    axios.post(process.env.REACT_APP_API+'/updateData', {
       id: _id,
       update: { name: name_var },
   }).then((res) => {

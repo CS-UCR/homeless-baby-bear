@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import AddressRows from './addressRows';
 
 export class addressesTable extends Component {
-    constructor(props){
-        super(props);
-    }
     render() {
         return (
             <table className="table">
