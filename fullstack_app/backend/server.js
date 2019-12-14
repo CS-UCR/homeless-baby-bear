@@ -30,11 +30,11 @@ const today= new Date()
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 //------------------------------------------------
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+    destination: async function (req, file, cb) {
         cb(null, '../client/public/uploads/')
     },
-    filename: function (req, file, cb) {
-        crypto.pseudoRandomBytes(16, function (err, raw) {
+    filename: async function (req, file, cb) {
+        crypto.pseudoRandomBytes(16, async function (err, raw) {
         cb(null, raw.toString('hex') + Date.now() + '.' + mime.getExtension(file.mimetype));
         });
     }
@@ -109,7 +109,6 @@ router.post('/updateAddress', (req, res) => {
                 update = {city: city, state: state, address: formatted_address, accuracy: accuracy, 
                     lat: res.json.results[0]["geometry"]["location"].lat, lng: res.json.results[0]["geometry"]["location"].lng};
             }else if (address.includes("Box")){
-                var word_list = address.split(", ")
                 update = {city: city, state: state, address: address.replace(/\n/g, ''), accuracy: "P.O. Box", 
                     lat: res.json.results[0]["geometry"]["location"].lat, lng: res.json.results[0]["geometry"]["location"].lng};
             }else{
@@ -138,21 +137,22 @@ async function asyncForEach(array, callback) {
 var spawn = require("child_process").spawn;
 router.post('/upload',upload.any(), async (req,res)=>{
     try{
-        /*
+        
         let terms = Math.floor(req.files.length/40)+1;
         let files = []
         for(let i = 0; i < terms; i++){
             files.push(req.files.slice(i*40,(i+1)*40))
         }
-        const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
+       // const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
         
         await asyncForEach(files, async (item)=>{
-            await asyncForEach(item, async (file)=>{
+            await asyncForEach(item, async (file,index)=>{
                 await image_to_text(file["filename"]);
                 console.log(file["filename"])
+                console.log(index)
             })
-        })*/
-        await image_to_text(req.files[0]["filename"]);
+        })
+        //await image_to_text(req.files[0]["filename"]);
         console.log("success")
         return res.json({ success: true});
     }catch(err){
@@ -163,7 +163,7 @@ router.post('/upload',upload.any(), async (req,res)=>{
 const image_to_text = async function(file){
     // generate next avaible id
     let idToBeAdded = 0;
-    await new_Data.find((err, data) => {
+    new_Data.find(async (err, data) => {
         let currentIds = data.map((data) => data.id);
         while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
@@ -176,9 +176,9 @@ const image_to_text = async function(file){
     //--------------clean data--------------------
     console.log("before python")
     var process = await spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
-    var goodaddress =fullTextAnnotation.text
+    //var goodaddress =fullTextAnnotation.text
     await process.stdout.on('data',async function(data){console.log("after python"); await geocodingAndSave(idToBeAdded, data.toString(), file); });
-    await process.on('close', async (code)=>{
+    await process.on('exit', async (code)=>{
         return;
     })
 }

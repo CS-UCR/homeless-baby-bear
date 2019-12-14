@@ -79,7 +79,7 @@ class Upload extends Component {
         this.setState({file: []})
     }
     back= ()=>{
-        this.setState({flag: 2})
+        this.setState({flag: 2, submitting:false})
     }
     async submit(){
         const formData = new FormData();
@@ -128,9 +128,9 @@ class Upload extends Component {
 
             try {
                 await axios.post(process.env.REACT_APP_API+'/upload',formData,config)
-                    .then((response) => {
+                .then((response) => {
 
-                    }).catch((error) => {
+                }).catch((error) => {
             });
             }catch(error){
             }
@@ -138,20 +138,20 @@ class Upload extends Component {
 
     async onFormSubmit(e){
         e.preventDefault();
-        this.setState({submiting:true})
-        //setTimeout(this.submit(),60000);
-            //})
+        this.setState({submitting:true})
+        await this.submit()
+        /*
         try{
             for(let i = 0; i < this.state.file.length; i ++){
                 await this.submitone(this.state.file[i])
                 this.setState({success: i+1,last: i})
                 
             }
-            this.setState({flag: 0,submiting:false})
+            this.setState({submiting:false,submiting:false})
         }catch(error){
-            this.setState({flag: 1,submiting:false})
+            this.setState({submiting:false,flag: 1})
         }
-
+        */
         
     }
     handleChange(e) {
