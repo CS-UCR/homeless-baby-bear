@@ -13,6 +13,45 @@ Using the below code to download the code to local.
 git clone https://github.com/CS-UCR/homeless-baby-bear.git
 ```
 
+## Download the Credentials
+Before we set up the environment, you should download the credentials from both *Google Cloud Platform* and *MongoDB Atlas*.
+
+1. *Google Cloud Platform*:
+
+We are using GCP to manage our Google Text Detection (Handwriting) API and Google Geocoding API utilities.
+
+Create a project and adding a payment method to create a credential. https://cloud.google.com/
+
+Text Detection API is free for first 1000 requests. Then it will charge $1.5 per month within 5 million requests.
+![google handwriting api fee](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/google_handwriting_api_fee.png?raw=true)
+
+See more details: https://cloud.google.com/vision/pricing
+
+Geocoding API is $0.005 per request ($5 for 1000 requests). However, google gives everyone up $200 credits each month. In other words, first 40,000 requests are free each month.
+![google geocoding api](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/geocoding_api_fee.png?raw=true)
+
+See more details: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
+
+2. *MongoDB Atlas*.
+
+We are using MongoDB Atlas as our database. 
+
+https://www.mongodb.com/cloud/atlas
+
+They provide 500MB free storage and do not require a credit card. 
+
+Create a Clusters (sandbox) and click the "Connect" button and choose "Connect your application". 
+
+Then, choose node.js as your driver with 3.0 or later version. 
+
+An application code will show on the bottom with the format:
+```
+mongodb+srv://<username>:<password>@cluster*-*****.mongodb.net/test?retryWrites=true&w=majority
+```
+Copy it and replace the username and password, and it will be your credential.
+  
+Note: Don't forget add your IP address to the left side Security/Network Access, or you will see the error when connecting.
+
 ## Setting up the environment
 If you haven't download npm & node.js, go to the link below and follow the instruction download and install the npm and nodejs 
 ```
