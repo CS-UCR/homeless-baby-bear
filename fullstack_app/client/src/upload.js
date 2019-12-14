@@ -118,16 +118,16 @@ class Upload extends Component {
         }
     }
     async submitone(one){
-        const formData = new FormData();
+            const formData = new FormData();
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             };
-                formData.append('myImage',one);   
-            //new Promise(async function(accept,reject) {
+            formData.append('myImage',one);   
+
             try {
-                await axios.post(process.env.REACT_APP_API+'/upload',formData,config,{timeout: 80000})
+                await axios.post(process.env.REACT_APP_API+'/upload',formData,config)
                     .then((response) => {
 
                     }).catch((error) => {
@@ -141,11 +141,11 @@ class Upload extends Component {
         this.setState({submiting:true})
         //setTimeout(this.submit(),60000);
             //})
-
         try{
             for(let i = 0; i < this.state.file.length; i ++){
                 await this.submitone(this.state.file[i])
-                this.setState({success: i+1})
+                this.setState({success: i+1,last: i})
+                
             }
             this.setState({flag: 0,submiting:false})
         }catch(error){

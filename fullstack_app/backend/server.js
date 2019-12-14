@@ -135,8 +135,10 @@ async function asyncForEach(array, callback) {
       await callback(array[index], index, array);
     }
   }
+var spawn = require("child_process").spawn;
 router.post('/upload',upload.any(), async (req,res)=>{
     try{
+        /*
         let terms = Math.floor(req.files.length/40)+1;
         let files = []
         for(let i = 0; i < terms; i++){
@@ -149,7 +151,8 @@ router.post('/upload',upload.any(), async (req,res)=>{
                 await image_to_text(file["filename"]);
                 console.log(file["filename"])
             })
-        })
+        })*/
+        await image_to_text(req.files[0]["filename"]);
         console.log("success")
         return res.json({ success: true});
     }catch(err){
@@ -171,14 +174,17 @@ const image_to_text = async function(file){
     const [result] = await client.documentTextDetection(filePath);
     const fullTextAnnotation = result.fullTextAnnotation;
     //--------------clean data--------------------
-    var spawn = require("child_process").spawn;
+    console.log("before python")
     var process = await spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
     var goodaddress =fullTextAnnotation.text
-    process.stdout.on('data',async function(data){await geocodingAndSave(idToBeAdded, data.toString(), file)});
+    await process.stdout.on('data',async function(data){console.log("after python"); await geocodingAndSave(idToBeAdded, data.toString(), file); });
+    await process.on('close', async (code)=>{
+        return;
+    })
 }
 
 const geocodingAndSave = async function(idToBeAdded, cleaned_address, file) {
-    await googleMapsClient.geocode({address: cleaned_address}, function(err, res) {
+    await googleMapsClient.geocode({address: cleaned_address}, async function(err, res) {
         if (!err) {
             var name = ""
             if (cleaned_address.includes("Box")) {
@@ -204,23 +210,29 @@ const geocodingAndSave = async function(idToBeAdded, cleaned_address, file) {
                     city = address_components[i]["long_name"]
             }
             var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
-            if (accuracy == "ROOFTOP"){
+            console.log(city+" "+state)
+            console.log("inside geocoding");
+            if (accuracy === "ROOFTOP"){
                 formatted_address = res.json.results[0]["formatted_address"];
                 const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, name: name,
                     address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                    doc.save();
+                    await doc.save();
+                    console.log("save success");
             }else if (cleaned_address.includes("Box")){
                 const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: "P.O. Box", lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                    box.save();
+                    await box.save();
+                    console.log("save success");
             }else{
                 const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                    raw.save();
+                    await raw.save();
+                    console.log("save success");
             }
+            return;
         }
     });
 }
