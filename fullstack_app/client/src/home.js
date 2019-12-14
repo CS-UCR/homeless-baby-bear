@@ -142,7 +142,7 @@ class App extends Component {
         updating:false,
         updateCount:3,
         start: false,
-        csvReady:false,
+        loading:false,
     };
     }
     getDataFromDb = () => {
@@ -151,8 +151,10 @@ class App extends Component {
         .then((res) => this.setState({ data: res.data }));
     };
 
-    getDataFromDbDate = (fromDate, toDate, location_type) => {
-      this.setState({data: []})
+    getDataFromDbDate = (fromDate, toDate, location_type,clearall) => {
+      this.setState({loading:true})
+      if(clearall)
+        this.setState({data: []})
       if(this.state.start === false){
         this.setState({start:true})
       }
@@ -162,7 +164,7 @@ class App extends Component {
             toDate: toDate,
             location_type: location_type
         }).then((res) => {
-            this.setState({ data: res.data.data, csvReady:false })
+            this.setState({ data: res.data.data,loading:false})
         });
     };
 
@@ -178,7 +180,7 @@ class App extends Component {
     }).then((res)=>{
         if(res.data.success) {
             this.setState({data:this.state.data.slice(0, index)})
-            this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+            this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type,false)
         }
     })
   };
@@ -213,8 +215,8 @@ class App extends Component {
         update: { _id: _id, address: updateToApply},
     }).then((res)=>{
       this.setState({upadating:true})
-      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
-      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type)
+      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type,false)
+      this.getDataFromDbDate(this.state.fromDate, this.state.toDate, this.state.location_type,false)
       setLoading(false)
     })
   };
@@ -237,9 +239,16 @@ class App extends Component {
         <Dates func={this.getDataFromDbDate}/>
         <Container>
           {this.state.start?this.state.data.length <= 0
-            ? <Typography variant="h4" align="center">
-                NO DB ENTRIES YET
+            ? <div align="center">{this.state.loading?
+              <div>
+              <CircularProgress />
+              <Typography variant="h5" align="center">
+                Please Wait for Loading
               </Typography>
+              </div>
+            :<Typography variant="h4" align="center">
+                NO DB ENTRIES YET
+              </Typography>}</div>
             : 
             <div>
               <div align="center">
