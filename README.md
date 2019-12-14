@@ -12,6 +12,10 @@ git clone https://github.com/CS-UCR/homeless-baby-bear.git
 ```
 
 ## Setting up the environment
+If you haven't download npm & nodejs, go to the link below and follow the instruction download and install the npm and nodejs 
+```
+https://nodejs.org/en/
+```
 To run the Web Interface, you should doing npm install in three locations:
 ```
 cd fullstack_app
@@ -38,11 +42,60 @@ npm install
 ```
 
 
-
+##
 Then, let's go back to the nodejs file and run the program on localhost:3000
 ```
 cd ..
 ```
 ```
 npm start
+```
+## Biographies
+### Google Cloud Vision API 
+```
+https://cloud.google.com/vision/docs/handwriting#vision-document-text-detection-nodejs
+```
+### Microsoft Azure API
+```
+https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/concept-recognizing-text
+```
+### Amazon Textract
+```
+https://aws.amazon.com/textract/?trk=ps_a131L000005ur2VQAQ&trkCampaign=pac-MLAI-2019-webpage-product-putAIwork-textractPDP&sc_channel=ps&sc_campaign=pac-MLAI-2019-AIservices-PutAIwork-textarct-extractquickly&sc_outcome=AIML_Digital_Marketing&sc_geo=NAMER&sc_country=US&sc_publisher=Google&sc_mediumPAC-AIML-P%7CPS-GO%7CNon-Brand%7CAll%7CPA%7CMachine%20Learning%7CTextract%7CUS%7CEN%7CText%7Cxx&s_kwcid=AL!4422!3!378937603673!b!!g!!%2Bocr&ef_id=CjwKCAjw8NfrBRA7EiwAfiVJpS2D3flFADlgzmMHZ-Ak4_7vqNh2Fg4sJXRKgiRg30xejU0Bv9J7LhoC6t4QAvD_BwE:G:s
+```
+### MongoDB:
+```
+https://docs.mongodb.com/manual/
+```
+### Google Geocoding API: 
+```
+https://developers.google.com/maps/documentation/geocoding/start
+```
+### UPS Address Validation Street Level API: 
+```
+https://www.ups.com/us/en/services/technology-integration/address-validation-street-level.page
+```
+### Drag n drop frontend code snippet:
+```
+https://codepen.io/Ushinro/pen/NPQzOx
+```
+### Chartjs for the charts used in the stats web user interface:
+```
+https://www.chartjs.org/docs/latest/
+```
+### National stats dashboard inspiration:
+```
+https://demo.dashboardpack.com/architectui-react-free/#/dashboards/basic
+```
+### Tutorial used to build dashboard:
+```
+https://medium.com/better-programming/build-a-responsive-modern-dashboard-layout-with-css-grid-and-flexbox-bd343776a97e
+```
+### Material UI for frontend components like the navbar:
+```
+https://material-ui.com/
+```
+### Google Maps Javascript API for heatmap:
+```
+https://developers.google.com/maps/documentation/javascript/get-api-key
 ```
