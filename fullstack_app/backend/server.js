@@ -130,25 +130,37 @@ router.post('/updateData', (req, res) => {
         return res.json({ success: true });	
     });	
 });
-
+async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array);
+    }
+  }
 router.post('/upload',upload.any(), async (req,res)=>{
     try{
-
-        req.files.forEach( async (item)=>{
-            await image_to_text(item["filename"]);
+        let terms = Math.floor(req.files.length/40)+1;
+        let files = []
+        for(let i = 0; i < terms; i++){
+            files.push(req.files.slice(i*40,(i+1)*40))
+        }
+        const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
+        
+        await asyncForEach(files, async (item)=>{
+            await asyncForEach(item, async (file)=>{
+                await image_to_text(file["filename"]);
+                console.log(file["filename"])
+            })
         })
         console.log("success")
         return res.json({ success: true});
     }catch(err){
-        console.log("fail")
-        return res.json({ success: false, error: err });
+        return res.json({ success: false});
     }
 });
 
 const image_to_text = async function(file){
     // generate next avaible id
     let idToBeAdded = 0;
-    new_Data.find((err, data) => {
+    await new_Data.find((err, data) => {
         let currentIds = data.map((data) => data.id);
         while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
@@ -162,7 +174,7 @@ const image_to_text = async function(file){
     var spawn = require("child_process").spawn;
     var process = await spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
     var goodaddress =fullTextAnnotation.text
-    process.stdout.on('data',function(data){geocodingAndSave(idToBeAdded, data.toString(), file)});
+    process.stdout.on('data',async function(data){await geocodingAndSave(idToBeAdded, data.toString(), file)});
 }
 
 const geocodingAndSave = async function(idToBeAdded, cleaned_address, file) {

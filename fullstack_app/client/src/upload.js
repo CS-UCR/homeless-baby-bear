@@ -8,6 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
 
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CheckIcon from '@material-ui/icons/Check';
 function Success(props){
     return(
         <div class="main-container success-bg">
@@ -46,7 +48,7 @@ function ShowFiles(props){
             <div>
             {props.file.map((file,index)=>(
                     <div>
-                        <p>{file.name}<IconButton aria-label="delete" onClick={props.delete(index)}><DeleteIcon /></IconButton></p>
+                        <p>{file.name}{index<props.success?<CheckIcon color="secondary"/>:<IconButton aria-label="delete" onClick={props.delete(index)}><DeleteIcon /></IconButton>}</p>
                         <Divider variant="middle" />
                     </div>  
                 ))}</div>
@@ -64,6 +66,8 @@ class Upload extends Component {
             last: 0,
             date: new Date(),
             flag: 2,
+            submitting:false,
+            success:0,
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -77,57 +81,82 @@ class Upload extends Component {
     back= ()=>{
         this.setState({flag: 2})
     }
-    async onFormSubmit(e){
-        e.preventDefault();
+    async submit(){
         const formData = new FormData();
         if(this.state.file.length !== 0){
             this.setState({last: this.state.file.length})
             var index = 0;
-            for(index = 0; index< this.state.file.length;index++){
-                formData.append('myImage',this.state.file[index]);   
-            }
             const config = {
                 headers: {
                     'content-type': 'multipart/form-data'
                 }
             };
+            for(index = 0; index< this.state.file.length;index++){
+                formData.append('myImage',this.state.file[index]);   
+            }
             //new Promise(async function(accept,reject) {
             try {
-                await axios.post(process.env.REACT_APP_API+'/upload',formData,config)
+                await axios.post(process.env.REACT_APP_API+'/upload',formData,config,{timeout: 80000})
                     .then((response) => {
                         
                         this.setState({file: []})
                         if(response.data.success)
-                            this.setState({flag: 0})
+                            this.setState({flag: 0,submiting:false})
                         else{
-                            this.setState({flag: 1})
+                            this.setState({flag: 1,submiting:false})
                         }
 
                     }).catch((error) => {
+                        this.setState({submiting:false})
                         this.setState({flag: 1})
-            });}catch(error){
+            });
+            }catch(error){
+                this.setState({submiting:false})
                     console.log("fail")
                     this.setState({flag: 1})
             }
-            //})
         }
+    }
+    async submitone(one){
+        const formData = new FormData();
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+                formData.append('myImage',one);   
+            //new Promise(async function(accept,reject) {
+            try {
+                await axios.post(process.env.REACT_APP_API+'/upload',formData,config,{timeout: 80000})
+                    .then((response) => {
+
+                    }).catch((error) => {
+            });
+            }catch(error){
+            }
+    }
+
+    async onFormSubmit(e){
+        e.preventDefault();
+        this.setState({submiting:true})
+        //setTimeout(this.submit(),60000);
+            //})
+
+        try{
+            for(let i = 0; i < this.state.file.length; i ++){
+                await this.submitone(this.state.file[i])
+                this.setState({success: i+1})
+            }
+            this.setState({flag: 0,submiting:false})
+        }catch(error){
+            this.setState({flag: 1,submiting:false})
+        }
+
+        
     }
     handleChange(e) {
         this.setState({file: e.target.files});
     }
-
-    componentDidMount() {
-        this.timerID = setInterval(() => this.tick(), 1000);
-    }
-    componentWillUnmount() {
-        clearInterval(this.timerID);
-    }
-    
-      tick() {
-        this.setState({
-          date: new Date()
-        });
-      }
   render() {
     return (
     <div>
@@ -176,13 +205,18 @@ class Upload extends Component {
     </fieldset>
 
         </div>
-        <ShowFiles file={this.state.file} date={this.state.date} delete={()=>this.deletFile}/>
+        <ShowFiles submitting={this.state.submitting} success={this.state.success} file={this.state.file} date={this.state.date} delete={()=>this.deletFile}/>
+        {this.state.submitting?
+        <CircularProgress />
+        :        
+        <div>
         <Button variant="contained" onClick={this.onFormSubmit} style={{margin: '10px'}}color="primary">
             Submit
-        </Button>
+        </Button>        
         <Button variant="contained" onClick={this.clear} style={{margin: '10px'}} color="secondary">
             Reset
         </Button>
+        </div>}
     
     </div>
     }
