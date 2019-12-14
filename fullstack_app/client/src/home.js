@@ -144,7 +144,7 @@ class App extends Component {
     };
 
     getDataFromDbDate = (fromDate, toDate, location_type) => {
-     // this.setState({data: []})
+      this.setState({data: []})
       if(this.state.start === false){
         this.setState({start:true})
       }

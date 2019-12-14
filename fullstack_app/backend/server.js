@@ -179,12 +179,13 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
                 }
             }
             var formatted_address = "";
+            console.log(res.json.results[0]["address_components"])
             address_components = res.json.results[0]["address_components"]
             let city = ""
             let state = ""
             for(let i= 0; i < address_components.length; i ++)
             {
-                if( address_components[i]["types"].indexOf('political')>-1&& address_components[i]["short_name"].length== 2 )
+                if( address_components[i]["types"][0] =='administrative_area_level_1')
                     state = address_components[i]["long_name"]
                 if(address_components[i]["types"][0] ==  'locality')
                     city = address_components[i]["long_name"]
