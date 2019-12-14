@@ -25,7 +25,21 @@ const googleMapsClient = require('@google/maps').createClient({
     key: 'AIzaSyAWwGyXySCICwS8tp-Ap4OWhj7wTPVRJ0g'
 });
 //--------------------------------------------
-
+const today= new Date()
+//--------------csv Writer--------------------
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const csvWriter = createCsvWriter({
+path: '../client/public/downloads/out'+today.getFullYear()+String(today.getMonth() + 1).padStart(2, '0')+String(today.getDate()).padStart(2, '0')+".csv",
+header: [
+    {id: 'city', title: 'City'},
+    {id: 'state', title: 'State'},
+    {id: 'name', title: 'Name'},
+    {id: 'address', title: 'Address'},
+    {id: 'date', title: 'Date'},
+    {id: 'accuracy', title: 'Accuracy'},
+]
+});
+//------------------------------------------------
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, '../client/public/uploads/')
@@ -92,10 +106,12 @@ router.post('/updateAddress', (req, res) => {
             let state = ""
             for(let i= 0; i < address_components.length; i ++)
             {
-                if( address_components[i]["types"][0] =='administrative_area_level_1')
-                state = address_components[i]["long_name"]
-                if(address_components[i]["types"][0] ==  'locality')
-                city = address_components[i]["long_name"]
+                if( address_components[i]["types"][0] ==='administrative_area_level_1'){
+                    state = address_components[i]["long_name"]
+                }
+                if(address_components[i]["types"][0] ===  'locality'){
+                    city = address_components[i]["long_name"]
+                }
             }
             var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
             var update = {}
@@ -285,6 +301,26 @@ router.post("/searchcitystate", async (request, response) => {
     var data = await new_Data.find({ "city":  city, "state":state}).exec();
     if (data === []) return response.json({ success: false});
     return response.json({ success: true, data: data });
+});
+
+router.post("/writetocsv", async (request, response) => {
+    const { data} = request.body;
+    const directory = '../client/public/downloads/';
+    fs.readdir(directory, (err, files) => {
+        if (err) return res.send(err);
+        for (const file of files) {
+          fs.unlink(path.join(directory, file), err => {
+            if (err) throw err;
+          });
+        }
+
+        csvWriter
+        .writeRecords(data)
+        .then(()=> {
+            console.log('The CSV file was written successfully')
+            return response.json({ success: true});
+        });
+      });
 });
 
 // append /api for our http requests

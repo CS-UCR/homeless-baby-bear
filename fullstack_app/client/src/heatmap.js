@@ -25,7 +25,6 @@ function generateHeatMapData() {
         for(let i = 0; i < res.data.length; ++i){
             
             let latitude = res.data[i].lat;
-            console.log(latitude)
             let longitude = res.data[i].lng;
             heatmapData.push(
                 {
