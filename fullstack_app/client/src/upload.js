@@ -77,7 +77,7 @@ class Upload extends Component {
     back= ()=>{
         this.setState({flag: 2})
     }
-    onFormSubmit(e){
+    async onFormSubmit(e){
         e.preventDefault();
         const formData = new FormData();
         if(this.state.file.length !== 0){
@@ -86,19 +86,30 @@ class Upload extends Component {
             for(index = 0; index< this.state.file.length;index++){
                 formData.append('myImage',this.state.file[index]);   
             }
-                const config = {
-                    headers: {
-                        'content-type': 'multipart/form-data'
-                    }
-                };
-                axios.post(process.env.REACT_APP_API+'/upload',formData,config)
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+            //new Promise(async function(accept,reject) {
+            try {
+                await axios.post(process.env.REACT_APP_API+'/upload',formData,config)
                     .then((response) => {
+                        
                         this.setState({file: []})
-                        this.setState({flag: 0})
+                        if(response.data.success)
+                            this.setState({flag: 0})
+                        else{
+                            this.setState({flag: 1})
+                        }
+
                     }).catch((error) => {
                         this.setState({flag: 1})
-                });
-        }else{
+            });}catch(error){
+                    console.log("fail")
+                    this.setState({flag: 1})
+            }
+            //})
         }
     }
     handleChange(e) {

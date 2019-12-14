@@ -22,7 +22,7 @@ const path = require('path');
 //----------------------------------------
 //-------------google map geocoidng api-------
 const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyAWwGyXySCICwS8tp-Ap4OWhj7wTPVRJ0g'
+    key: 'AIzaSyCqCF3XrF6Byy__hv3jKmOmipPHLYyP0MM'
 });
 //--------------------------------------------
 const today= new Date()
@@ -133,18 +133,15 @@ router.post('/updateData', (req, res) => {
 
 router.post('/upload',upload.any(), async (req,res)=>{
     try{
-        let total= req.files.length;
 
-            for (i = 0, len = req.files.length; i < len; i++) {
-                image_to_text(req.files[i]["filename"]);
-            }
-
+        req.files.forEach( async (item)=>{
+            await image_to_text(item["filename"]);
+        })
+        console.log("success")
         return res.json({ success: true});
-        
     }catch(err){
+        console.log("fail")
         return res.json({ success: false, error: err });
-        res.json({message:err});
-        res.redirect("/upload");
     }
 });
 
@@ -163,13 +160,13 @@ const image_to_text = async function(file){
     const fullTextAnnotation = result.fullTextAnnotation;
     //--------------clean data--------------------
     var spawn = require("child_process").spawn;
-    var process = spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
+    var process = await spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
     var goodaddress =fullTextAnnotation.text
     process.stdout.on('data',function(data){geocodingAndSave(idToBeAdded, data.toString(), file)});
 }
 
-const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
-    googleMapsClient.geocode({address: cleaned_address}, function(err, res) {
+const geocodingAndSave = async function(idToBeAdded, cleaned_address, file) {
+    await googleMapsClient.geocode({address: cleaned_address}, function(err, res) {
         if (!err) {
             var name = ""
             if (cleaned_address.includes("Box")) {
@@ -184,7 +181,6 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
                 }
             }
             var formatted_address = "";
-            console.log(res.json.results[0]["address_components"])
             address_components = res.json.results[0]["address_components"]
             let city = ""
             let state = ""
@@ -201,7 +197,7 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
                 const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, name: name,
                     address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                doc.save();
+                    doc.save();
             }else if (cleaned_address.includes("Box")){
                 const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: "P.O. Box", lat: res.json.results[0]["geometry"]["location"].lat, 
@@ -211,7 +207,7 @@ const geocodingAndSave = function(idToBeAdded, cleaned_address, file) {
                 const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
-                raw.save();
+                    raw.save();
             }
         }
     });
