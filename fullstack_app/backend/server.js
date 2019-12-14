@@ -28,17 +28,6 @@ const googleMapsClient = require('@google/maps').createClient({
 const today= new Date()
 //--------------csv Writer--------------------
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
-const csvWriter = createCsvWriter({
-path: '../client/public/downloads/out'+today.getFullYear()+String(today.getMonth() + 1).padStart(2, '0')+String(today.getDate()).padStart(2, '0')+".csv",
-header: [
-    {id: 'city', title: 'City'},
-    {id: 'state', title: 'State'},
-    {id: 'name', title: 'Name'},
-    {id: 'address', title: 'Address'},
-    {id: 'date', title: 'Date'},
-    {id: 'accuracy', title: 'Accuracy'},
-]
-});
 //------------------------------------------------
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -313,7 +302,17 @@ router.post("/writetocsv", async (request, response) => {
             if (err) throw err;
           });
         }
-
+        const csvWriter = createCsvWriter({
+            path: '../client/public/downloads/out'+today.getFullYear()+String(today.getMonth() + 1).padStart(2, '0')+String(today.getDate()).padStart(2, '0')+".csv",
+            header: [
+                {id: 'city', title: 'City'},
+                {id: 'state', title: 'State'},
+                {id: 'name', title: 'Name'},
+                {id: 'address', title: 'Address'},
+                {id: 'date', title: 'Date'},
+                {id: 'accuracy', title: 'Accuracy'},
+            ]
+            });
         csvWriter
         .writeRecords(data)
         .then(()=> {
