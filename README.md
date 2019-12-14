@@ -16,7 +16,7 @@ If you haven't download npm & nodejs, go to the link below and follow the instru
 ```
 https://nodejs.org/en/
 ```
-To run the Web Interface, you should doing npm install in three locations:
+To run the Web Interface, you should do npm install in three locations:
 ```
 cd fullstack_app
 ```
