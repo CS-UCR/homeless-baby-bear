@@ -20,7 +20,6 @@ cd fullstack_app
 npm install
 ```
 
-![cd nodejs](https://user-images.githubusercontent.com/32404479/70489874-ba93bf80-1ab1-11ea-8423-5781f1794c3c.PNG)
 
 ```
 cd client
@@ -29,7 +28,7 @@ cd client
 npm install
 ```
 
-![cd client](https://user-images.githubusercontent.com/32404479/70489900-cf705300-1ab1-11ea-843d-01f5667d77a6.PNG)
+
 
 ```
 cd ../backend
@@ -38,7 +37,7 @@ cd ../backend
 npm install
 ```
 
-![cd backend](https://user-images.githubusercontent.com/32404479/70489921-e151f600-1ab1-11ea-8213-08ed35cf3e7a.PNG)
+
 
 Then, let's go back to the nodejs file and run the program on localhost:3000
 ```
