@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import axios from 'axios';
-import Date from './date';
+import Dates from './date';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -10,8 +10,12 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import DoneIcon from '@material-ui/icons/Done';
+import {Link } from "react-router-dom";
 
 import Helmet from 'react-helmet';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import Fab from '@material-ui/core/Fab';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -119,7 +123,9 @@ function AddressCard(props){
 
 class App extends Component {
     // initialize our state
-    state = {
+    constructor(props){
+      super(props)
+      this.state = {
         data: [],
         id: 0,
         updateToApply: [],
@@ -136,7 +142,9 @@ class App extends Component {
         updating:false,
         updateCount:3,
         start: false,
+        csvReady:false,
     };
+    }
     getDataFromDb = () => {
         fetch(process.env.REACT_APP_API+'/getData')
         .then((data) => data.json())
@@ -154,7 +162,7 @@ class App extends Component {
             toDate: toDate,
             location_type: location_type
         }).then((res) => {
-            this.setState({ data: res.data.data })
+            this.setState({ data: res.data.data, csvReady:false })
         });
     };
 
@@ -175,6 +183,29 @@ class App extends Component {
     })
   };
 
+  download = () =>{
+    var tomorrow = new Date()
+    var today = new Date(tomorrow.getFullYear(),tomorrow.getMonth(),tomorrow.getDate()).toJSON().slice(0,10).replace(/-/g,'');
+    console.log("in dowload function")
+    axios.post(process.env.REACT_APP_API+'/writetocsv', {
+      data: this.state.data
+  }).then((res)=>{
+      if(res.data.success){
+        console.log(res.data.success)
+        
+        const link = document.createElement('a');
+        link.href = "/downloads/out"+today+".csv";
+        link.setAttribute('download', "out"+today+".csv");
+        // 3. Append to html page
+        document.body.appendChild(link);
+        // 4. Force download
+        link.click();
+        // 5. Clean up and remove the link
+        link.parentNode.removeChild(link);
+      
+      }
+  })
+  }
   // our update method that uses our backend api
   // to overwrite existing data base information
   updateDB = (updateToApply, _id,setLoading) => {
@@ -197,26 +228,33 @@ class App extends Component {
 };
   
   render() {
+    
     return (
       <div /*style={sectionStyle}*/>
         <Helmet>
         <title>Changing Data</title>
         </Helmet>
-        <Date func={this.getDataFromDbDate}/>
+        <Dates func={this.getDataFromDbDate}/>
         <Container>
           {this.state.start?this.state.data.length <= 0
             ? <Typography variant="h4" align="center">
                 NO DB ENTRIES YET
               </Typography>
-            : this.state.data.map((dat, index) => (
-                <AddressCard 
-                    key={index}
-                    dat={dat} 
-                    index={index} 
-                    delete={this.deleteFromDB} 
-                    updateAddress={this.updateDB}
-                    updateName={this.updateName}/>
-                )):<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
+            : 
+            <div>
+              <div align="center">
+                <Fab variant="outlined" variant="extended" color="primary" onClick={()=>this.download()}><FileCopyIcon/>General CSV file</Fab>
+              </div>
+              {this.state.data.map((dat, index) => (
+                  <AddressCard 
+                      key={index}
+                      dat={dat} 
+                      index={index} 
+                      delete={this.deleteFromDB} 
+                      updateAddress={this.updateDB}
+                      updateName={this.updateName}/>
+                  ))}
+              </div>:<Typography variant="h5" align="center">Please select the time period and click search</Typography>}
         </Container>
       </div>
     );
