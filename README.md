@@ -22,6 +22,15 @@ We are using GCP to manage our Google Text Detection (Handwriting) API and Googl
 
 Create a project and adding a payment method to create a credential. https://cloud.google.com/
 
+Follow the instruction in this page below to create a google cloud platform account and getting an credential (server account key or GOOGLE_APPLICATION_CREDENTIALS(Make sure you have downloaded the api key)) for that:
+https://cloud.google.com/vision/docs/quickstart-client-libraries
+
+After you getting the API key above, let's get another API key which is for google map apis. Go and follow the instruction from the link below's under the **"Get the API key"** title and getting another API key for google MAP.
+https://developers.google.com/maps/documentation/geocoding/get-api-key
+
+After getting the credential, go back to the google cloud platform page's API page and enable Google Vision API, geocoding API, google Map API.
+
+
 Text Detection API is free for first 1000 requests. Then it will charge $1.5 per month within 5 million requests.
 ![google handwriting api fee](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/google_handwriting_api_fee.png?raw=true)
 
@@ -31,6 +40,7 @@ Geocoding API is $0.005 per request ($5 for 1000 requests). However, google give
 ![google geocoding api](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/geocoding_api_fee.png?raw=true)
 
 See more details: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
+
 
 2. *MongoDB Atlas*.
 
