@@ -8,8 +8,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Divider from '@material-ui/core/Divider';
 
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckIcon from '@material-ui/icons/Check';
+import CircularProgress from '@material-ui/core/CircularProgress';
 function Success(props){
     return(
         <div class="main-container success-bg">
@@ -18,7 +18,8 @@ function Success(props){
                 <span class="symbol success-symbol">&#10003;</span>
                 <h1 class="status-title">Success!</h1>
                 <p class="status-msg">{props.last} picture{props.last>1?"s":""} had successfully uploaded</p>
-                <button  onClick={()=>props.back()}  class=" button go-back">Upload more pictures</button>
+                {props.analyzing?<div> <CircularProgress  variant="static"  value={props.completed}/>Processing</div>:<div><p>Process Success</p><button  onClick={()=>props.back()}  class=" button go-back">Upload more pictures</button></div>}
+                
             </div>
         </div>
     </div>
@@ -68,6 +69,8 @@ class Upload extends Component {
             flag: 2,
             submitting:false,
             success:0,
+            analyzing:false,
+            completed: 0,
         };
         this.onFormSubmit = this.onFormSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -97,14 +100,31 @@ class Upload extends Component {
             //new Promise(async function(accept,reject) {
             try {
                 await axios.post(process.env.REACT_APP_API+'/upload',formData,config,{timeout: 80000})
-                    .then((response) => {
+                    .then(async (response) => {
                         
                         this.setState({file: []})
-                        if(response.data.success)
+                        if(response.data.success){
                             this.setState({flag: 0,submiting:false})
+                            /*
+                            this.setState({flag: 0,submiting:false, analyzing: true,completed: 0})
+                        
+                            const files = response.data.files
+                            for(let i = 0; i < files.length;i++){
+                                this.setState({completed: (i%files.length+1)*(Math.floor(100/files.length))})
+                                await this.submitone(files[i])
+                            }
+                            this.setState({completed: 100, analyzing: false})*/
+                        }
                         else{
                             this.setState({flag: 1,submiting:false})
                         }
+                
+                        /*
+                        await axios.post(process.env.REACT_APP_API+"/analyze",{files:response.data.files})
+                                .then((res)=>{
+                                    this.setState({analyzing: false})
+                                })
+                        */
 
                     }).catch((error) => {
                         this.setState({submiting:false})
@@ -112,12 +132,12 @@ class Upload extends Component {
             });
             }catch(error){
                 this.setState({submiting:false})
-                    console.log("fail")
                     this.setState({flag: 1})
             }
         }
     }
     async submitone(one){
+            /*
             const formData = new FormData();
             const config = {
                 headers: {
@@ -125,9 +145,9 @@ class Upload extends Component {
                 }
             };
             formData.append('myImage',one);   
-
+            */
             try {
-                await axios.post(process.env.REACT_APP_API+'/upload',formData,config)
+                await axios.post(process.env.REACT_APP_API+'/analyze',{files:one})
                 .then((response) => {
 
                 }).catch((error) => {
@@ -140,6 +160,7 @@ class Upload extends Component {
         e.preventDefault();
         this.setState({submitting:true})
         await this.submit()
+
         /*
         try{
             for(let i = 0; i < this.state.file.length; i ++){
@@ -172,7 +193,7 @@ class Upload extends Component {
     
     {this.state.flag === 0? 
     
-    <Success back={this.back} last={this.state.last}/> : this.state.flag === 1? 
+    <Success completed={this.state.completed} analyzing={this.state.analyzing} back={this.back} last={this.state.last}/> : this.state.flag === 1? 
     
     <Failure back={this.back}/>:
 

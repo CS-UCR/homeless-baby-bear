@@ -35,7 +35,8 @@ var storage = multer.diskStorage({
     },
     filename: async function (req, file, cb) {
         crypto.pseudoRandomBytes(16, async function (err, raw) {
-        cb(null, raw.toString('hex') + Date.now() + '.' + mime.getExtension(file.mimetype));
+        //cb(null, raw.toString('hex') + Date.now() + '.' + mime.getExtension(file.mimetype));
+        cb(null, Date.now() + file.originalname)
         });
     }
 });
@@ -135,23 +136,60 @@ async function asyncForEach(array, callback) {
     }
   }
 var spawn = require("child_process").spawn;
-router.post('/upload',upload.any(), async (req,res)=>{
+//router.post('/upload',upload.array('myImage'), async (req,res)=>{
+router.post('/upload', async (req,res)=>{
+    console.log("in upload backend function")
+    var InUpload = multer({ storage : storage}).array('myImage');
+    InUpload(req,res,function(err) {
+        if(err) {
+            return res.json({success:false})
+        }
+
+        try{
+            
+            let terms = Math.floor(req.files.length/40)+1;
+            let files = []
+            for(let i = 0; i < terms; i++){
+                files.push(req.files.slice(i*40,(i+1)*40))
+            }
+        // const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
+            new Promise(async(resolve,reject)=>{
+                await asyncForEach(files, async (item)=>{
+                    await asyncForEach(item, async (file,index)=>{
+                        await image_to_text(file["filename"]);
+                        console.log(file["filename"])
+                        console.log(index)
+                    })
+                })
+            })
+            //await image_to_text(req.files[0]["filename"]);
+            console.log("success")
+            return res.json({ success: true});
+        }catch(err){
+            return res.json({ success: false});
+        }
+    });
+});
+
+router.post('/analyze',async (req,res)=>{
     try{
-        
-        let terms = Math.floor(req.files.length/40)+1;
+        console.log(req.body)
+        const reqFiles = req.body.files
+        await image_to_text(reqFiles)
+        /*
+        let terms = Math.floor(reqFiles.length/40)+1;
         let files = []
         for(let i = 0; i < terms; i++){
-            files.push(req.files.slice(i*40,(i+1)*40))
-        }
-       // const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
-        
-        await asyncForEach(files, async (item)=>{
-            await asyncForEach(item, async (file,index)=>{
-                await image_to_text(file["filename"]);
-                console.log(file["filename"])
-                console.log(index)
-            })
+            files.push(reqFiles.slice(i*40,(i+1)*40))
+        }*/
+        //new Promise(async(resolve,reject)=>{
+            /*
+        await asyncForEach(reqFiles, async (file,index)=>{
+            await image_to_text(file);
+            console.log(file)
+            console.log(index)
         })
+        //})*/
         //await image_to_text(req.files[0]["filename"]);
         console.log("success")
         return res.json({ success: true});
@@ -163,12 +201,13 @@ router.post('/upload',upload.any(), async (req,res)=>{
 const image_to_text = async function(file){
     // generate next avaible id
     let idToBeAdded = 0;
+    /*
     new_Data.find(async (err, data) => {
         let currentIds = data.map((data) => data.id);
         while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
         }
-    });
+    });*/
     // using google handwring api to capture words
     const filePath = path.join(__dirname,'../client/public/uploads/'+file);
     const [result] = await client.documentTextDetection(filePath);

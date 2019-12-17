@@ -8,34 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import AlgoliaPlaces from 'algolia-places-react';
 
-let heatMapData = {
-    positions: generateHeatMapData(),
-    options: {
-        radius: 10,
-        opacity: 0.6
-	}
-}
-
-function generateHeatMapData() {
-    let heatmapData = [];
-    
-    fetch(process.env.REACT_APP_API+'/getData')
-    .then((data) => data.json())
-    .then((res) => {
-        for(let i = 0; i < res.data.length; ++i){
-            
-            let latitude = res.data[i].lat;
-            let longitude = res.data[i].lng;
-            heatmapData.push(
-                {
-                    lat: latitude, lng: longitude
-                }
-            );
-        }
-    }
-    );
-    return heatmapData;
-}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -51,12 +23,44 @@ class SimpleMap extends Component {
                 lat: 39.5,
                 lng: -98.35
               },
-              zoom: 5
+            zoom: 5,
+            heatMapData:null,
+            generated: false,
         }
+        
 
+        this.generateHeatMapData = this.generateHeatMapData.bind(this)
     }
     classes = useStyles;
 
+    generateHeatMapData=()=> {
+        if(!this.state.generated){
+            let heatmapData = [];
+            
+            fetch(process.env.REACT_APP_API+'/getData')
+            .then((data) => data.json())
+            .then((res) => {
+                for(let i = 0; i < res.data.length; ++i){
+                    
+                    let latitude = res.data[i].lat;
+                    let longitude = res.data[i].lng;
+                    heatmapData.push(
+                        {
+                            lat: latitude, lng: longitude
+                        }
+                    );
+                }
+                this.setState({heatMapData:{
+                    positions: heatmapData,
+                    options: {
+                        radius: 10,
+                        opacity: 0.6
+                    }
+                }, generated:true});
+            }
+            );
+        }   
+    }
     // zoom in on that location
     locationEntered = (locationType, coordinates) => {
         if(locationType === "city") {
@@ -77,6 +81,10 @@ class SimpleMap extends Component {
                 }
             })
         }
+    }
+    componentDidMount() {
+        if(!this.state.generated)
+            this.generateHeatMapData()
     }
 
     render() {
@@ -114,15 +122,15 @@ class SimpleMap extends Component {
 
                 {/* Heat map code */}
                 <div style={{ height: '100vh', width: '100%' }}>
-                    <GoogleMapReact
+                   {this.state.generated? <GoogleMapReact
                         bootstrapURLKeys={{ key: "AIzaSyArXSxgGfYKbh_pMB5rTXgQ3dqmX7gGADE"}}
                         center={this.state.center}
                         zoom={this.state.zoom}
                         heatmapLibrary={true} 
-                        heatmap={heatMapData}
+                        heatmap={this.state.heatMapData}
                         options={{mapTypeId: 'hybrid'}}
                         >
-                    </GoogleMapReact>
+                    </GoogleMapReact>:<h5></h5>}
                 </div>
                 </Paper>
             </div>
