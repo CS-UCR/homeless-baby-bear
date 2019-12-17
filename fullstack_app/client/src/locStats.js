@@ -101,7 +101,7 @@ export class locStats extends Component {
             this.state.week[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,10) === dates[i-1] || this.state.data[j].date.slice(0,10) === dates[i]){
+                    if(this.state.data[j].date.slice(0,10) === dates[i]){
                         // eslint-disable-next-line
                         this.state.week[i-1] +=1
                     }
@@ -110,7 +110,7 @@ export class locStats extends Component {
             
         }
         for(let j = 0; j < this.state.data.length; j++){
-            if(this.state.data[j].date.slice(0,10) >= dates[6]){
+            if(this.state.data[j].date.slice(0,10) >= today){
                 // eslint-disable-next-line
                 this.state.week[6] +=1
             }
@@ -152,7 +152,7 @@ export class locStats extends Component {
         }
 
         for(let j = 0; j < this.state.data.length; j++){
-            if(this.state.data[j].date.slice(0,10) > dates[6]){
+            if(this.state.data[j].date.slice(0,10) >= today){
                     // eslint-disable-next-line
                 this.state.month[6] +=1
             }
@@ -229,7 +229,7 @@ export class locStats extends Component {
             this.state.lifetime[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date >= dates[i-1] && this.state.data[j].date < dates[i]){
+                    if(this.state.data[j].date.slice(0,10) > dates[i-1] && this.state.data[j].date.slice(0,10) <= dates[i]){
                         // eslint-disable-next-line
                         this.state.lifetime[i-1] +=1
                     }
@@ -243,12 +243,18 @@ export class locStats extends Component {
         mm = String(date.getMonth() + 1).padStart(2, '0');
         yyyy = date.getFullYear();
         dateString = mm + '/' + dd + '/' + yyyy;
-        dates.push(yyyy+'-'+mm+'-'+dd)
+        dates.push(yyyy+'-'+mm)
         dateLabels.push(dateString);
+        for(let j = 0; j < this.state.data.length; j++){
+            if(this.state.data[j].date.slice(0,10) > dates[numLabels-2] && this.state.data[j].date.slice(0,10) < (new Date()).toString().slice(0,10)){
+                // eslint-disable-next-line
+                this.state.lifetime[numLabels-2] +=1
+            }
+        }
         // eslint-disable-next-line
         this.state.lifetime[ numLabels - 1]=0
             for(let j = 0; j < this.state.data.length; j++){
-                if(this.state.data[j].date.slice(0,10) > dates[ numLabels - 1]){
+                if(this.state.data[j].date.slice(0,10) === (new Date()).toString().slice(0,10)){
                     // eslint-disable-next-line
                     this.state.lifetime[ numLabels - 1] +=1
                 }

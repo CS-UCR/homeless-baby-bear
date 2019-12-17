@@ -22,7 +22,7 @@ const path = require('path');
 //----------------------------------------
 //-------------google map geocoidng api-------
 const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyCqCF3XrF6Byy__hv3jKmOmipPHLYyP0MM'
+    key: process.env.GOOGLE_MAP_CREDENTIALS
 });
 //--------------------------------------------
 const today= new Date()
@@ -46,7 +46,7 @@ const upload = multer({
 
 // this is our MongoDB database
 const dbRoute =
-    'mongodb+srv://cotest:copassword@cluster0-wxdkp.mongodb.net/test?retryWrites=true&w=majority';
+    process.env.DB_CONNECTION;
 
 // connects our back end code with the database
 mongoose.connect(dbRoute, { useNewUrlParser: true,  useUnifiedTopology: true  });
