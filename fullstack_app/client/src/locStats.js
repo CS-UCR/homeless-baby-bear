@@ -39,7 +39,14 @@ export class locStats extends Component {
         }).then((res) => {
              if(res.data.success)
              {
-                 this.setState({data: res.data.data})
+                 var data = res.data.data
+                 data.map((single)=>{
+                     let newdate =new Date(single.date)
+                     single.date=newdate.getFullYear()
+                     +"-"+String(newdate.getMonth() + 1).padStart(2, '0')
+                     +"-"+String(newdate.getDate()).padStart(2, '0');
+                 })
+                 this.setState({data: data})
                  this.getLabels()
              }
             //this.setState({ [var_name]: res.data.data })
@@ -99,18 +106,17 @@ export class locStats extends Component {
             dates.push(dateString)
             // eslint-disable-next-line
             this.state.week[i] = 0
-            if(i > 0){
-                for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,10) === dates[i]){
+            for(let j = 0; j < this.state.data.length; j++){
+                if(this.state.data[j].date.toString().slice(0,10) === dates[i]){
                         // eslint-disable-next-line
-                        this.state.week[i-1] +=1
-                    }
+                    this.state.week[i] +=1
                 }
             }
             
         }
         for(let j = 0; j < this.state.data.length; j++){
-            if(this.state.data[j].date.slice(0,10) >= today){
+            console.log(this.state.data[j])
+            if(this.state.data[j].date.toString().slice(0,10) >= today){
                 // eslint-disable-next-line
                 this.state.week[6] +=1
             }
@@ -143,7 +149,7 @@ export class locStats extends Component {
             this.state.month[i] = 0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,10) > dates[i-1] && this.state.data[j].date.slice(0,10) <= dates[i]){
+                    if(this.state.data[j].date.toString().slice(0,10) > dates[i-1] && this.state.data[j].date.toString().slice(0,10) <= dates[i]){
                         // eslint-disable-next-line
                         this.state.month[i-1] +=1
                     }
@@ -152,7 +158,7 @@ export class locStats extends Component {
         }
 
         for(let j = 0; j < this.state.data.length; j++){
-            if(this.state.data[j].date.slice(0,10) >= today){
+            if(this.state.data[j].date.toString().slice(0,10) >= today){
                     // eslint-disable-next-line
                 this.state.month[6] +=1
             }
@@ -180,7 +186,7 @@ export class locStats extends Component {
             this.state.year[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,7) === dates[i-1]){
+                    if(this.state.data[j].date.toString().slice(0,7) === dates[i-1]){
                         // eslint-disable-next-line
                         this.state.year[i-1] +=1
                     }
@@ -188,7 +194,7 @@ export class locStats extends Component {
             }
         }
         for(let j = 0; j < this.state.data.length; j++){
-            if(this.state.data[j].date.slice(0,7) === dates[11]){
+            if(this.state.data[j].date.toString().slice(0,7) === dates[11]){
                 // eslint-disable-next-line
                 this.state.year[11] +=1
             }
@@ -229,7 +235,7 @@ export class locStats extends Component {
             this.state.lifetime[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,10) > dates[i-1] && this.state.data[j].date.slice(0,10) <= dates[i]){
+                    if(this.state.data[j].date.toString().slice(0,10) > dates[i-1] && this.state.data[j].date.toString().slice(0,10) <= dates[i]){
                         // eslint-disable-next-line
                         this.state.lifetime[i-1] +=1
                     }
@@ -246,7 +252,7 @@ export class locStats extends Component {
         dates.push(yyyy+'-'+mm)
         dateLabels.push(dateString);
         for(let j = 0; j < this.state.data.length; j++){
-            if(this.state.data[j].date.slice(0,10) > dates[numLabels-2] && this.state.data[j].date.slice(0,10) < (new Date()).toString().slice(0,10)){
+            if(this.state.data[j].date.toString().slice(0,10) > dates[numLabels-2] && this.state.data[j].date.toString().slice(0,10) < (new Date()).toString().slice(0,10)){
                 // eslint-disable-next-line
                 this.state.lifetime[numLabels-2] +=1
             }
@@ -254,7 +260,7 @@ export class locStats extends Component {
         // eslint-disable-next-line
         this.state.lifetime[ numLabels - 1]=0
             for(let j = 0; j < this.state.data.length; j++){
-                if(this.state.data[j].date.slice(0,10) === (new Date()).toString().slice(0,10)){
+                if(this.state.data[j].date.toString().slice(0,10) === (new Date()).toString().slice(0,10)){
                     // eslint-disable-next-line
                     this.state.lifetime[ numLabels - 1] +=1
                 }

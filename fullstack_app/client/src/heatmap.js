@@ -123,7 +123,7 @@ class SimpleMap extends Component {
                 {/* Heat map code */}
                 <div style={{ height: '100vh', width: '100%' }}>
                    {this.state.generated? <GoogleMapReact
-                        bootstrapURLKeys={{ key: "AIzaSyArXSxgGfYKbh_pMB5rTXgQ3dqmX7gGADE"}}
+                        bootstrapURLKeys={{ key: "AIzaSyCqCF3XrF6Byy__hv3jKmOmipPHLYyP0MM"}}
                         center={this.state.center}
                         zoom={this.state.zoom}
                         heatmapLibrary={true} 
