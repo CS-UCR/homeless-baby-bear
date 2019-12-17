@@ -109,6 +109,12 @@ export class locStats extends Component {
             }
             
         }
+        for(let j = 0; j < this.state.data.length; j++){
+            if(this.state.data[j].date.slice(0,10) >= dates[6]){
+                // eslint-disable-next-line
+                this.state.week[6] +=1
+            }
+        }
         this.setState({ weeklabels:dateLabels})
         //return dateLabels;
     }
@@ -144,6 +150,13 @@ export class locStats extends Component {
                 }
             }
         }
+
+        for(let j = 0; j < this.state.data.length; j++){
+            if(this.state.data[j].date.slice(0,10) > dates[6]){
+                    // eslint-disable-next-line
+                this.state.month[6] +=1
+            }
+        }
         this.setState({ monthlabels:dateLabels})
     }
 
@@ -167,11 +180,17 @@ export class locStats extends Component {
             this.state.year[i]=0
             if(i > 0){
                 for(let j = 0; j < this.state.data.length; j++){
-                    if(this.state.data[j].date.slice(0,7) > dates[i-1] && this.state.data[j].date.slice(0,7) <= dates[i]){
+                    if(this.state.data[j].date.slice(0,7) === dates[i-1]){
                         // eslint-disable-next-line
                         this.state.year[i-1] +=1
                     }
                 }
+            }
+        }
+        for(let j = 0; j < this.state.data.length; j++){
+            if(this.state.data[j].date.slice(0,7) === dates[11]){
+                // eslint-disable-next-line
+                this.state.year[11] +=1
             }
         }
         this.setState({yearlabels: dateLabels})
@@ -229,7 +248,7 @@ export class locStats extends Component {
         // eslint-disable-next-line
         this.state.lifetime[ numLabels - 1]=0
             for(let j = 0; j < this.state.data.length; j++){
-                if(this.state.data[j].date.slice(0,10) > dates[ numLabels - 1-1] && this.state.data[j].date.slice(0,10) <= dates[ numLabels - 1]){
+                if(this.state.data[j].date.slice(0,10) > dates[ numLabels - 1]){
                     // eslint-disable-next-line
                     this.state.lifetime[ numLabels - 1] +=1
                 }

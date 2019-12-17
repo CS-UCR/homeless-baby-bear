@@ -18,8 +18,8 @@ function Success(props){
                 <span class="symbol success-symbol">&#10003;</span>
                 <h1 class="status-title">Success!</h1>
                 <p class="status-msg">{props.last} picture{props.last>1?"s":""} had successfully uploaded</p>
-                {props.analyzing?<div> <CircularProgress  variant="static"  value={props.completed}/>Processing</div>:<div><p>Process Success</p><button  onClick={()=>props.back()}  class=" button go-back">Upload more pictures</button></div>}
-                
+                {/*props.analyzing?<div> <CircularProgress  variant="static"  value={props.completed}/>Processing</div>:<div><p>Process Success</p><button  onClick={()=>props.back()}  class=" button go-back">Upload more pictures</button></div>*/}
+                <button  onClick={()=>props.back()}  class=" button go-back">Upload more pictures</button>
             </div>
         </div>
     </div>
