@@ -201,13 +201,13 @@ router.post('/analyze',async (req,res)=>{
 const image_to_text = async function(file){
     // generate next avaible id
     let idToBeAdded = 0;
-    /*
-    new_Data.find(async (err, data) => {
+    
+    await new_Data.find(async (err, data) => {
         let currentIds = data.map((data) => data.id);
         while (currentIds.includes(idToBeAdded)) {
         ++idToBeAdded;
         }
-    });*/
+    });
     // using google handwring api to capture words
     const filePath = path.join(__dirname,'../client/public/uploads/'+file);
     const [result] = await client.documentTextDetection(filePath);
