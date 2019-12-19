@@ -172,7 +172,7 @@ https://developers.google.com/maps/documentation/javascript/get-api-key
 ```
 ## Contributions:
 
-Jia Xie: Testing Google Picture Upload of backend. Picture Upload, Dashboard, Heatmap, and Location Stats intergration between front-end and backend. Tried Google Geocoding API and Google Cloud Vision API.
+Jia Xie: Google Picture Upload function of backend. Picture Upload, Dashboard, Heatmap, and Location Stats intergration between front-end and backend. Tried Google Geocoding API and Google Cloud Vision API.
 
 Xichao Wang: Database management and all the backend stuff except picture upload. Changing data intergration between front-end and backend. Tried UPS Address Validation Street Level API.
 
