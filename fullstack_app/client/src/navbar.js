@@ -137,7 +137,7 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
           {['Changing Data', 'Upload'].map((text, index) => (
-            <Link key={text} to={index % 2 === 0 ? "/data":  "/upload"}>
+            <Link key={text} to={index % 2 === 0 ? "/AMT/data":  "/AMT/upload"}>
               <ListItem button key={text}>
                 <ListItemIcon>{index % 2 === 0 ? <StorageIcon />:  <CloudUploadIcon/>}</ListItemIcon>
                 <ListItemText primary={text} />
@@ -149,7 +149,7 @@ export default function PersistentDrawerLeft() {
 
         <List>
           {['National stats dashboard'].map((text, index) => (
-             <Link key={text} to="/">
+             <Link key={text} to="/AMT/">
             <ListItem button key={text}>
               <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -160,7 +160,7 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
           {['National Heat Map'].map((text, index) => (
-            <Link key={text} to="/heatmap">
+            <Link key={text} to="/AMT/heatmap">
             <ListItem button key={text}>
               <ListItemIcon>{<RoomIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -171,7 +171,7 @@ export default function PersistentDrawerLeft() {
         <Divider />
         <List>
           {['Location Statistics'].map((text, index) => (
-            <Link key={text} to="/locationStats">
+            <Link key={text} to="/AMT/locationStats">
             <ListItem button key={text}>
               <ListItemIcon>{<RoomIcon />}</ListItemIcon>
               <ListItemText primary={text} />
