@@ -15,32 +15,32 @@ class App extends Component {
       <BrowserRouter>
         <div>
         <Navbar />
-          <Route exact={true} path='/AMT/data' render={() => (
+          <Route exact={true} path='/data' render={() => (
             <div className="App">
               <Home />
             </div>
           )}/>
-          <Route exact={true} path='/AMT/upload' render={() => (
+          <Route exact={true} path='/upload' render={() => (
             <div className="App">
               <Upload />
             </div>
           )}/>
-          <Route exact={true} path='/AMT/heatmap' render={() => (
+          <Route exact={true} path='/heatmap' render={() => (
             <div className="App">
               <Heapmap />
             </div>
           )}/>
-          <Route exact={true} path='/AMT/locationStats' render={() => (
+          <Route exact={true} path='/locationStats' render={() => (
             <div className="App">
               <LocationStats />
             </div>
           )}/>
-          <Route exact={true} path='/AMT/' render={() => (
+          <Route exact={true} path='/' render={() => (
             <div className="App">
               <Dashboard />
             </div>
           )}/>
-          <Route exact={true} path='/AMT/date' render={() => (
+          <Route exact={true} path='/date' render={() => (
             <div className="App">
               <Date />
             </div>
