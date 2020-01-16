@@ -40,7 +40,7 @@ export class locStats extends Component {
              if(res.data.success)
              {
                  var data = res.data.data
-                 data.map((single)=>{
+                 data.forEach((single)=>{
                      let newdate =new Date(single.date)
                      single.date=newdate.getFullYear()
                      +"-"+String(newdate.getMonth() + 1).padStart(2, '0')

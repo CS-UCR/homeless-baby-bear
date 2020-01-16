@@ -138,7 +138,6 @@ async function asyncForEach(array, callback) {
 var spawn = require("child_process").spawn;
 //router.post('/upload',upload.array('myImage'), async (req,res)=>{
 router.post('/upload', async (req,res)=>{
-    console.log("in upload backend function")
     var InUpload = multer({ storage : storage}).array('myImage');
     InUpload(req,res,function(err) {
         if(err) {
@@ -152,18 +151,13 @@ router.post('/upload', async (req,res)=>{
             for(let i = 0; i < terms; i++){
                 files.push(req.files.slice(i*40,(i+1)*40))
             }
-        // const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
             new Promise(async(resolve,reject)=>{
                 await asyncForEach(files, async (item)=>{
                     await asyncForEach(item, async (file,index)=>{
                         await image_to_text(file["filename"]);
-                        console.log(file["filename"])
-                        console.log(index)
                     })
                 })
             })
-            //await image_to_text(req.files[0]["filename"]);
-            console.log("success")
             return res.json({ success: true});
         }catch(err){
             return res.json({ success: false});
@@ -173,25 +167,8 @@ router.post('/upload', async (req,res)=>{
 
 router.post('/analyze',async (req,res)=>{
     try{
-        console.log(req.body)
         const reqFiles = req.body.files
         await image_to_text(reqFiles)
-        /*
-        let terms = Math.floor(reqFiles.length/40)+1;
-        let files = []
-        for(let i = 0; i < terms; i++){
-            files.push(reqFiles.slice(i*40,(i+1)*40))
-        }*/
-        //new Promise(async(resolve,reject)=>{
-            /*
-        await asyncForEach(reqFiles, async (file,index)=>{
-            await image_to_text(file);
-            console.log(file)
-            console.log(index)
-        })
-        //})*/
-        //await image_to_text(req.files[0]["filename"]);
-        console.log("success")
         return res.json({ success: true});
     }catch(err){
         return res.json({ success: false});
@@ -213,10 +190,9 @@ const image_to_text = async function(file){
     const [result] = await client.documentTextDetection(filePath);
     const fullTextAnnotation = result.fullTextAnnotation;
     //--------------clean data--------------------
-    console.log("before python")
     var process = await spawn('python',["./cleandata-fornodejs.py", fullTextAnnotation.text]);
     //var goodaddress =fullTextAnnotation.text
-    await process.stdout.on('data',async function(data){console.log("after python"); await geocodingAndSave(idToBeAdded, data.toString(), file); });
+    await process.stdout.on('data',async function(data){await geocodingAndSave(idToBeAdded, data.toString(), file); });
     await process.on('exit', async (code)=>{
         return;
     })
@@ -249,27 +225,22 @@ const geocodingAndSave = async function(idToBeAdded, cleaned_address, file) {
                     city = address_components[i]["long_name"]
             }
             var accuracy = res.json.results[0]["geometry"]["location_type"];//is "ROOFTOP" or not
-            console.log(city+" "+state)
-            console.log("inside geocoding");
             if (accuracy === "ROOFTOP"){
                 formatted_address = res.json.results[0]["formatted_address"];
                 const doc = new new_Data({id: idToBeAdded, city: city, state: state,picture: '/'+ file, name: name,
                     address: formatted_address, accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
                     await doc.save();
-                    console.log("save success");
             }else if (cleaned_address.includes("Box")){
                 const box = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: "P.O. Box", lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
                     await box.save();
-                    console.log("save success");
             }else{
                 const raw = new new_Data({id: idToBeAdded, city: city, state: state, picture: '/'+ file, name: name,
                     address: cleaned_address.replace(/\n/g, ''), accuracy: accuracy, lat: res.json.results[0]["geometry"]["location"].lat, 
                     lng: res.json.results[0]["geometry"]["location"].lng});
                     await raw.save();
-                    console.log("save success");
             }
             return;
         }
@@ -375,7 +346,6 @@ router.post("/writetocsv", async (request, response) => {
         csvWriter
         .writeRecords(data)
         .then(()=> {
-            console.log('The CSV file was written successfully')
             return response.json({ success: true});
         });
       });

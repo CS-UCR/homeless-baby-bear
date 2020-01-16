@@ -5,18 +5,13 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import DoneIcon from '@material-ui/icons/Done';
-import {Link } from "react-router-dom";
-
 import Helmet from 'react-helmet';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import GetAppIcon from '@material-ui/icons/GetApp';
 import Fab from '@material-ui/core/Fab';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 function AddressCard(props){
@@ -252,7 +247,7 @@ class App extends Component {
             : 
             <div>
               <div align="center">
-                <Fab variant="outlined" variant="extended" color="primary" onClick={()=>this.download()}><FileCopyIcon/>General CSV file</Fab>
+                <Fab variant="outlined" color="primary" onClick={()=>this.download()}><FileCopyIcon/>General CSV file</Fab>
               </div>
               {this.state.data.map((dat, index) => (
                   <AddressCard 

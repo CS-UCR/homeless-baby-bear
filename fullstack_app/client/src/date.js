@@ -44,9 +44,6 @@ export default function MaterialUIPickers(props) {
     setToDate(date);
   };
 
-  const handleSubmit = ()=>{
-    
-  }
 // ----------Native Select-----------
   const [location_type, setloccationType] = React.useState({
     type: 'ALL',
