@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const new_Data = require('./data');
 
-const API_PORT = 3001;
+const API_PORT = 4001;
 const app = express();
 app.use(cors());
 const router = express.Router();
@@ -352,7 +352,7 @@ router.post("/writetocsv", async (request, response) => {
 });
 
 // append /api for our http requests
-app.use('/api', router);
+app.use('/apis', router);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
