@@ -128,7 +128,7 @@ class SimpleMap extends Component {
             {this.state.generated ? (
               <GoogleMapReact
                 bootstrapURLKeys={{
-                  key: "AIzaSyCqCF3XrF6Byy__hv3jKmOmipPHLYyP0MM"
+                  key: process.env.GOOGLE_MAP_CREDENTIALS
                 }}
                 center={this.state.center}
                 zoom={this.state.zoom}
