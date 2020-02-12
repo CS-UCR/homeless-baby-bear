@@ -22,14 +22,15 @@ We are using GCP to manage our Google Text Detection (Handwriting) API and Googl
 
 Create a project and adding a payment method to create a credential. https://cloud.google.com/
 
-Follow the instruction in this page below to create a google cloud platform account and getting an credential (server account key or GOOGLE_APPLICATION_CREDENTIALS(Make sure you have downloaded the api key)) for that:
+Follow the instruction in this page below to create a google cloud platform account and getting an credential (server account key (Make sure you have downloaded the api key)) for that:
 https://cloud.google.com/vision/docs/quickstart-client-libraries
 
 After you getting the API key above, let's get another API key which is for google map apis. Go and follow the instruction from the link below's under the **"Get the API key"** title and getting another API key for google MAP.
 https://developers.google.com/maps/documentation/geocoding/get-api-key
 
-After getting the credential, go back to the google cloud platform page's API page and enable Google Vision API, geocoding API, google Map API.
+After getting the credential, go back to the google cloud platform page's API page and enable Google Vision API, geocoding API.
 
+<img src="https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/Google_active_API_1.png" width="350"> <img src="https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/Google_active_API_2.png" width="300">
 
 Text Detection API is free for first 1000 requests. Then it will charge $1.5 per month within 5 million requests.
 ![google handwriting api fee](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/google_handwriting_api_fee.png?raw=true)
@@ -60,7 +61,9 @@ mongodb+srv://<username>:<password>@cluster*-*****.mongodb.net/test?retryWrites=
 ```
 Copy it and replace the username and password, and it will be your credential.
   
-Note: Don't forget add your IP address to the left side Security/Network Access, or you will see the error when connecting.
+Note: Don't forget add your IP address to the left side Security/Network Access, or you will see the error when connecting database.
+
+Once you get three credentials, put your GCP API key and database key on backend/.env file and copy your GCP server account content to backend/google_credential.json file.
 
 ## Setting up the environment
 If you haven't download npm & node.js, go to the link below and follow the instruction download and install the npm and nodejs 
@@ -91,7 +94,7 @@ cd ../backend
 npm install
 ```
 
-##Then, let's go back to the root file (homeless-baby-bear/fullstack_app) to run the program on port 3000 and RESTful APIs on port 3001.
+##Then, let's go back to the root file (homeless-baby-bear/fullstack_app) to run the program on port 3000 and RESTful APIs on port 4001.
 
 ```
 cd ..
