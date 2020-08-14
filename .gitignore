@@ -1,6 +1,13 @@
+# unwanted files
 .DS_Store
-fullstack_app/.DS_Store
-fullstack_app/backend/node_modules/
-fullstack_app/client/node_modules/
-fullstack_app/node_modules/
-frontend/.DS_Store
+client/.DS_Store
+server/.DS_Store
+
+# node dependencies
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# dotenv and credential file
+server/.env
+server/google_credential.json
