@@ -30,15 +30,15 @@ https://developers.google.com/maps/documentation/geocoding/get-api-key
 
 After getting the credential, go back to the google cloud platform page's API page and enable Google Vision API, geocoding API.
 
-<img src="https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/Google_active_API_1.png" width="350"> <img src="https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/Google_active_API_2.png" width="300">
+<img src="https://github.com/CS-UCR/homeless-baby-bear/blob/master/github_pics/Google_active_API_1.png" width="350"> <img src="https://github.com/CS-UCR/homeless-baby-bear/blob/master/github_pics/Google_active_API_2.png" width="300">
 
 Text Detection API is free for first 1000 requests. Then it will charge $1.5 per month within 5 million requests.
-![google handwriting api fee](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/google_handwriting_api_fee.png?raw=true)
+![google handwriting api fee](https://github.com/CS-UCR/homeless-baby-bear/blob/master/github_pics/google_handwriting_api_fee.png?raw=true)
 
 See more details: https://cloud.google.com/vision/pricing
 
 Geocoding API is $0.005 per request ($5 for 1000 requests). However, google gives everyone up $200 credits each month. In other words, first 40,000 requests are free each month.
-![google geocoding api](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/geocoding_api_fee.png?raw=true)
+![google geocoding api](https://github.com/CS-UCR/homeless-baby-bear/blob/master/github_pics/geocoding_api_fee.png?raw=true)
 
 See more details: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
 
@@ -72,21 +72,18 @@ https://nodejs.org/en/
 ```
 To run the Web Interface, you should download the dependencies by doing “*npm install*” in three locations:
 
-1. homeless-baby-bear/fullstack_app
-```
-cd fullstack_app
-```
+1. homeless-baby-bear
 ```
 npm install
 ```
-2. homeless-baby-bear/fullstack_app/client
+2. homeless-baby-bear/client
 ```
 cd client
 ```
 ```
 npm install
 ```
-2. homeless-baby-bear/fullstack_app/backend
+2. homeless-baby-bear/backend
 ```
 cd ../backend
 ```
@@ -94,7 +91,7 @@ cd ../backend
 npm install
 ```
 
-##Then, let's go back to the root file (homeless-baby-bear/fullstack_app) to run the program on port 3000 and RESTful APIs on port 4001.
+##Then, let's go back to the root folder (homeless-baby-bear) to run the program on port 3000 and RESTful APIs on port 4001.
 
 ```
 cd ..
@@ -104,17 +101,17 @@ npm start
 ```
 ## Short descriptions
 ### Dashboard
-![Dashboard](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/fullstack_app/github_pics/292831576301172_.pic_hd.jpg?token=AKNKPWFGNRBF35TJPHGCKHK57WY2E)
+![Dashboard](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/github_pics/292831576301172_.pic_hd.jpg?token=AKNKPWFGNRBF35TJPHGCKHK57WY2E)
 
 The dashboad shows the upload history and the statistics information.
 
 ### Upload
-![upload](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/fullstack_app/github_pics/292861576301178_.pic_hd.jpg?token=AKNKPWCXQKEELRLSGFPLQGS57WZA2)
+![upload](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/github_pics/292861576301178_.pic_hd.jpg?token=AKNKPWCXQKEELRLSGFPLQGS57WZA2)
 
 The upload page allow user to upload multiple pictures in one time.
 
 ### Changing data
-![Changing data](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/fullstack_app/github_pics/292821576301171_.pic_hd.jpg?token=AKNKPWBNW3FXDKEU37PPAIS57W4TY)
+![Changing data](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/github_pics/292821576301171_.pic_hd.jpg?token=AKNKPWBNW3FXDKEU37PPAIS57W4TY)
 
 The Changing data page allow user to view, delete, and correct the picture infomation from database.
 
@@ -123,12 +120,12 @@ The user can seach by date and the location type which returned by Google API. *
 In addition, it allows user to download the current page information in one click to a .csv file.
 
 ### Heatmap
-![Heatmap](https://github.com/CS-UCR/homeless-baby-bear/blob/master/fullstack_app/github_pics/292841576301176_.pic_hd.jpg?raw=true)
+![Heatmap](https://github.com/CS-UCR/homeless-baby-bear/blob/master/github_pics/292841576301176_.pic_hd.jpg?raw=true)
 
 Heatmap page shows the whole database address and convert to dots in one page.
 
 ### Location Statistics
-![Changing data](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/fullstack_app/github_pics/292851576301177_.pic_hd.jpg?token=AKNKPWFVXTQZ7P37LELKOIK57WZAM)
+![Changing data](https://raw.githubusercontent.com/CS-UCR/homeless-baby-bear/master/github_pics/292851576301177_.pic_hd.jpg?token=AKNKPWFVXTQZ7P37LELKOIK57WZAM)
 
 Location statistics page allows user to search the address information by city or query. Then, it will shows the address information on the bottom and the histogram.
 

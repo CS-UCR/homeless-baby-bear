@@ -1,0 +1,19 @@
+{
+  "name": "amt_web_application",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd server && npm start\" \"cd client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CS-UCR/homeless-baby-bear.git"
+  },
+  "author": "Jia Xie, Xichao Wang, Marcos Leandro, Marcos Leandro",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "concurrently": "^5.0.0"
+  }
+}
